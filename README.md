@@ -26,3 +26,9 @@ npm run build
 ```
 
 Pushes to `main` deploy automatically via GitHub Actions.
+
+## One-time setup (required before the site goes live)
+
+1. **Enable GitHub Pages** — open [Settings → Pages](https://github.com/hospitalistops-admin/Posteriograph/settings/pages), set **Source** to **GitHub Actions**, then re-run the latest workflow from [Actions](https://github.com/hospitalistops-admin/Posteriograph/actions) (or push any commit to `main`).
+2. **Connect Cursor to GitHub** — at [cursor.com/integrations](https://cursor.com/integrations), install the Cursor GitHub App on the `hospitalistops-admin` org with access to this repo.
+3. **Edit from the web** — open [cursor.com/agents](https://cursor.com/agents), select `hospitalistops-admin/Posteriograph`, and start an agent session.
