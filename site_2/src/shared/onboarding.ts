@@ -1,5 +1,7 @@
 import { INTRO_STORAGE_KEY } from "./intro_copy";
 
+export const TAP_HINT_STORAGE_KEY = "posteriograph.tapHintDismissed";
+
 export type OnboardingFlowState =
   | "welcome"
   | "intro-1"
@@ -46,6 +48,23 @@ export function nextIntroStep(flow: OnboardingFlowState): OnboardingFlowState {
       return "landing";
     default:
       return flow;
+  }
+}
+
+export function readTapHintDismissed(): boolean {
+  try {
+    return localStorage.getItem(TAP_HINT_STORAGE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function writeTapHintDismissed(dismissed: boolean) {
+  try {
+    if (dismissed) localStorage.setItem(TAP_HINT_STORAGE_KEY, "1");
+    else localStorage.removeItem(TAP_HINT_STORAGE_KEY);
+  } catch {
+    /* ignore */
   }
 }
 
