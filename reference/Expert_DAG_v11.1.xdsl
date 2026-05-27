@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- This network was created in GeNIe Academic, which can be used for educational and research purposes only -->
+<smile version="1.0" id="Network1" numsamples="10000" discsamples="10000">
+	<nodes>
+		<cpt id="d11">
+			<state id="Yes" />
+			<state id="NotKnown" />
+			<probabilities>0.3 0.7</probabilities>
+		</cpt>
+		<cpt id="d12">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>d11</parents>
+			<probabilities>0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d14">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d13">
+			<state id="UpperTract" />
+			<state id="LowerTract" />
+			<state id="Both" />
+			<state id="No" />
+			<parents>d11 d12 d14</parents>
+			<probabilities>0.15 0.85 0 0 0.15 0.85 0 0 0.15 0.85 0 0 0.15 0.85 0 0 0.15 0.85 0 0 0.15 0.85 0 0 0.15 0.85 0 0 0.15 0.85 0 0</probabilities>
+		</cpt>
+		<cpt id="d15">
+			<state id="UpperTract" />
+			<state id="LowerTract" />
+			<state id="Both" />
+			<state id="No" />
+			<parents>d13</parents>
+			<probabilities>0 0 0.65 0.35 0 0 0.6 0.4 0.25 0.25 0.25 0.25 0 0 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d16">
+			<state id="No" />
+			<state id="Mild" />
+			<state id="High" />
+			<parents>d15 d14</parents>
+			<probabilities>0.3333333333333333 0.3333333333333333 0.3333333333333334 0.3333333333333333 0.3333333333333333 0.3333333333333334 0.3333333333333333 0.3333333333333333 0.3333333333333334 0.3333333333333333 0.3333333333333333 0.3333333333333334 0.3333333333333333 0.3333333333333333 0.3333333333333334 0.3333333333333333 0.3333333333333333 0.3333333333333334 0.3333333333333333 0.3333333333333333 0.3333333333333334 0.3333333333333333 0.3333333333333333 0.3333333333333334</probabilities>
+		</cpt>
+		<cpt id="d17">
+			<state id="No" />
+			<state id="Mild" />
+			<state id="High" />
+			<parents>d15</parents>
+			<probabilities>0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0 0.3 0.7 0 0.35 0.65</probabilities>
+		</cpt>
+		<cpt id="d19">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>d15 d12</parents>
+			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d21">
+			<state id="Unknown" />
+			<state id="Normal" />
+			<state id="UpperTractAbnormal" />
+			<state id="LowerTractAbnormal" />
+			<state id="BothAbnormal" />
+			<parents>d15</parents>
+			<probabilities>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0</probabilities>
+		</cpt>
+		<cpt id="d18">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d1">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d20">
+			<state id="Normal" />
+			<state id="Abnormal" />
+			<state id="Unknown" />
+			<parents>d15</parents>
+			<probabilities>0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.2 0.8 0 0.5 0.5 0</probabilities>
+		</cpt>
+		<cpt id="d2">
+			<state id="High" />
+			<state id="Low" />
+			<state id="Neligible" />
+			<parents>d17 d19 d16 d18 d1 d20</parents>
+			<probabilities>0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0 0.95 0.05 0</probabilities>
+		</cpt>
+		<cpt id="d22">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d24">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>d12</parents>
+			<probabilities>0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d3">
+			<state id="CleanCatch" />
+			<state id="InOutCatheter" />
+			<state id="SupraPubicAspirate" />
+			<state id="NotRecorded" />
+			<state id="NotApplicable" />
+			<parents>d24</parents>
+			<probabilities>0.05 0.15 0.6 0.2 0 0.05 0.15 0.6 0.2 0</probabilities>
+		</cpt>
+		<cpt id="d4">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>d2 d22</parents>
+			<probabilities>1 0 1 0 0.95 0.05 0.95 0.05 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d25">
+			<state id="Short" />
+			<state id="Long" />
+			<state id="NotCollected" />
+			<parents>d3</parents>
+			<probabilities>0.4 0.6 0 0.6 0.4 0 0.7 0.3 0 0.5 0.5 0 0 0 1</probabilities>
+		</cpt>
+		<cpt id="d26">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d27">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>d25 d26 d24 d12 d3</parents>
+			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d28">
+			<state id="No" />
+			<state id="Low" />
+			<state id="High" />
+			<parents>d27 d12 d26</parents>
+			<probabilities>0 0.25 0.75 0 0.25 0.75 0 0.25 0.75 0 0.25 0.75 0 0.25 0.75 0 0.25 0.75 0 0.25 0.75 0 0.25 0.75</probabilities>
+		</cpt>
+		<cpt id="d29">
+			<state id="NotDetected" />
+			<state id="Low" />
+			<state id="High" />
+			<state id="NotCollected" />
+			<parents>d3 d25</parents>
+			<probabilities>0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0 0.8 0.15 0.05 0</probabilities>
+		</cpt>
+		<cpt id="d6">
+			<state id="Normal" />
+			<state id="Abnormal" />
+			<state id="Unknown" />
+			<parents>d15 d28 d4</parents>
+			<probabilities>0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.2 0.8 0 0.2 0.8 0 0.2 0.8 0 0.2 0.8 0 0.2 0.8 0 0.2 0.8 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0</probabilities>
+		</cpt>
+		<cpt id="d7">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>d4 d28 d11 d15</parents>
+			<probabilities>0.1 0.9 0.5 0.5 0.5 0.5 0.5 0.5 0.2857142857142858 0.7142857142857142 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d8">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>d7 d6 d29</parents>
+			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d5">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>d2 d22 d11</parents>
+			<probabilities>0.6 0.4 0.6 0.4 0.6 0.4 0.6 0.4 0.45 0.55 0.45 0.55 0.45 0.55 0.45 0.55 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d23">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>d5 d15 d11</parents>
+			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d9">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>d8 d2 d23 d20 d21</parents>
+			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="d10">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>d9 d5 d8</parents>
+			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="key1">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="key3">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="key4">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="key2">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.5.5408.0 ACADEMIC" name="Network1">
+			<submodel id="Copy_of_Submodel1">
+				<name>Copy of Submodel1</name>
+				<interior color="e2e2e2" />
+				<outline color="e2e2e2" width="2" />
+				<font color="e2e2e2" name="Arial" size="8" />
+				<position>347 23 632 143</position>
+			</submodel>
+			<submodel id="Submodel1">
+				<name>Submodel1</name>
+				<interior color="e2e2e2" />
+				<outline color="e2e2e2" width="2" />
+				<font color="e2e2e2" name="Arial" size="14" />
+				<position>78 4 340 190</position>
+			</submodel>
+			<node id="d15">
+				<name>UTI: organisms pathogenically invade urinary tract (d15)</name>
+				<interior color="f4f4f4" />
+				<outline color="000080" />
+				<font color="0000ff" name="Arial" size="14" />
+				<position>573 342 796 463</position>
+				<barchart width="157" height="100" />
+			</node>
+			<node id="d6">
+				<name>Microscopy result (d6)</name>
+				<interior color="a6dba0" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>615 882 754 954</position>
+				<barchart width="161" height="91" />
+			</node>
+			<node id="d2">
+				<name>Diagnose suspected UTI (d2)</name>
+				<interior color="cbc6e1" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>1154 604 1317 699</position>
+				<barchart width="183" height="72" />
+			</node>
+			<node id="d4">
+				<name>Send urine to lab (d4)</name>
+				<interior color="cbc6e1" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>1055 772 1192 850</position>
+				<barchart width="128" height="79" />
+			</node>
+			<node id="d3">
+				<name>Urine collection method (d3)</name>
+				<interior color="cbc6e1" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>28 574 191 661</position>
+				<barchart width="232" height="120" />
+			</node>
+			<node id="d25">
+				<name>Collection procedure factors (d25)</name>
+				<interior color="ffffbf" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>112 678 274 779</position>
+				<barchart width="176" height="110" />
+			</node>
+			<node id="d11">
+				<name>Current &amp; historic antibiotic use (d11)</name>
+				<interior color="a6dba0" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="14" />
+				<position>945 88 1149 179</position>
+				<barchart width="128" height="64" />
+			</node>
+			<node id="d17">
+				<name>UTI-localising signs &amp; symptoms (d17)</name>
+				<interior color="f4f4f4" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>838 486 1047 570</position>
+				<barchart width="120" height="104" />
+			</node>
+			<node id="d29">
+				<name>Epithelial cells in specimen (d29)</name>
+				<interior color="ffffbf" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>102 918 284 1009</position>
+				<barchart width="149" height="127" />
+			</node>
+			<node id="d7">
+				<name>Organism/s cultured from specimen (d7)</name>
+				<interior color="a6dba0" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>877 898 1066 990</position>
+				<barchart width="128" height="64" />
+			</node>
+			<node id="d5">
+				<name>Empirically prescribe antibiotics (d5)</name>
+				<interior color="cbc6e1" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>1505 768 1688 865</position>
+				<barchart width="155" height="82" />
+			</node>
+			<node id="d13">
+				<name>Organisms present in the urinary tract (d13)</name>
+				<interior color="a6dba0" />
+				<outline color="000080" />
+				<font color="0000ff" name="Arial" size="14" />
+				<position>576 219 787 317</position>
+				<barchart width="184" height="132" />
+			</node>
+			<node id="d27">
+				<name>Specimen contamination risk (d27)</name>
+				<interior color="ffffbf" />
+				<outline color="626262" />
+				<font color="0000ff" name="Arial" size="14" />
+				<position>275 727 457 819</position>
+				<barchart width="133" height="93" />
+			</node>
+			<node id="d21">
+				<name>Imaging result (d21)</name>
+				<interior color="f4f4f4" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>857 755 994 823</position>
+				<barchart width="128" height="79" />
+			</node>
+			<node id="d26">
+				<name>Lab processing factors (d26)</name>
+				<interior color="ffffbf" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>367 589 529 680</position>
+			</node>
+			<node id="d8">
+				<name>Lab report (d8)</name>
+				<interior color="cbc6e1" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="14" />
+				<position>903 1018 1039 1083</position>
+			</node>
+			<node id="d9">
+				<name>Update clinical diagnoses (d9)</name>
+				<interior color="cbc6e1" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>1152 1029 1318 1115</position>
+			</node>
+			<node id="d19">
+				<name>Dipstick results (d19)</name>
+				<interior color="a6dba0" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>845 585 993 656</position>
+			</node>
+			<node id="d10">
+				<name>Initiate, stop or change antibiotics (d10)</name>
+				<interior color="cbc6e1" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>1132 1134 1358 1221</position>
+			</node>
+			<node id="d24">
+				<name>Ability to obtain clean catch urine (d24)</name>
+				<interior color="ffffbf" />
+				<outline color="000080" />
+				<font color="0000ff" name="Arial" size="14" />
+				<position>66 432 262 525</position>
+			</node>
+			<node id="d22">
+				<name>Risk of developing complications (d22)</name>
+				<interior color="f4f4f4" />
+				<outline color="000080" />
+				<font color="0000ff" name="Arial" size="14" />
+				<position>1498 577 1695 676</position>
+			</node>
+			<node id="key1">
+				<name>Infection pathway</name>
+				<interior color="f4f4f4" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="14" />
+				<position>178 11 305 72</position>
+			</node>
+			<node id="key4">
+				<name>Management pathway</name>
+				<interior color="cbc6e1" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>142 119 321 179</position>
+			</node>
+			<node id="key2">
+				<name>Contamination pathway</name>
+				<interior color="ffffbf" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>82 57 261 122</position>
+			</node>
+			<node id="d20">
+				<name>Biomarkers (d20)</name>
+				<interior color="f4f4f4" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>849 670 1005 730</position>
+				<barchart width="161" height="91" />
+			</node>
+			<node id="d28">
+				<name>Presence of non-causative organisms in specimen (d28)</name>
+				<interior color="ffffbf" />
+				<outline color="6f6f6f" />
+				<font color="0000ff" name="Arial" size="14" />
+				<position>481 736 678 862</position>
+				<barchart width="158" height="135" />
+			</node>
+			<node id="d12">
+				<name>Organisms present on external genitalia (d12)</name>
+				<interior color="a6dba0" />
+				<outline color="000080" />
+				<font color="0000ff" name="Arial" size="14" />
+				<position>304 201 524 302</position>
+			</node>
+			<node id="d14">
+				<name>Organisms in bloodstream (d14)</name>
+				<interior color="f4f4f4" />
+				<outline color="000080" />
+				<font color="0000ff" name="Arial" size="14" />
+				<position>836 196 1032 280</position>
+			</node>
+			<node id="d16">
+				<name>Non-localising signs &amp; symptoms (d16)</name>
+				<interior color="f4f4f4" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>830 379 1038 461</position>
+				<barchart width="120" height="104" />
+			</node>
+			<node id="d18">
+				<name>Incompatible signs &amp; symptoms (d18)</name>
+				<interior color="f4f4f4" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="14" />
+				<position>1040 450 1244 529</position>
+			</node>
+			<node id="d1">
+				<name>Initial assessment (d1)</name>
+				<interior color="cbc6e1" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>1140 59 1331 138</position>
+			</node>
+			<textbox>
+				<caption>Blue text: latent variables</caption>
+				<font color="0000ff" name="Arial" size="16" />
+				<position>361 31 596 55</position>
+			</textbox>
+			<textbox>
+				<caption>Age, sex, circumcision, continence, diarrhoea</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>390 165 550 201</position>
+			</textbox>
+			<textbox>
+				<caption>Brown text: other background risk factors that may causally influence specific variables (listed to omit arcs for simplicity)</caption>
+				<font color="800000" name="Arial" size="13" />
+				<position>362 58 607 134</position>
+			</textbox>
+			<textbox>
+				<caption>Age, continence, sex, circumcision</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>66 396 214 432</position>
+			</textbox>
+			<textbox>
+				<caption>Age, sex</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>709 201 770 219</position>
+			</textbox>
+			<textbox>
+				<caption>Age, comorbidities, time to seeking and initiating treatment</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>1470 520 1606 574</position>
+			</textbox>
+			<textbox>
+				<caption>Age, comorbidities</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>950 359 1082 377</position>
+			</textbox>
+			<textbox>
+				<caption>Age, sex, circumcision, continence, diarrhoea, recurrent UTI, and other comorbidities</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>1298 12 1517 66</position>
+			</textbox>
+			<textbox>
+				<caption>Age</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>951 467 980 485</position>
+			</textbox>
+			<textbox>
+				<caption>Age, comorbidities</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>1104 429 1236 447</position>
+			</textbox>
+			<textbox>
+				<caption>Comorbidities</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>1027 67 1126 85</position>
+			</textbox>
+			<textbox>
+				<caption>Age, comorbidities</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>708 324 840 342</position>
+			</textbox>
+			<node id="d23">
+				<name>Patient progression (d23)</name>
+				<interior color="f4f4f4" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="14" />
+				<position>1515 947 1678 1038</position>
+			</node>
+			<textbox>
+				<caption>Age</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>158 565 187 583</position>
+			</textbox>
+			<textbox>
+				<caption>Comorbidities</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>926 736 1025 754</position>
+			</textbox>
+			<textbox>
+				<caption>Age</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>962 655 991 673</position>
+			</textbox>
+			<node id="key3">
+				<name>Overlap</name>
+				<interior color="a6dba0" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="14" />
+				<position>234 64 336 125</position>
+			</node>
+			<textbox>
+				<caption>Age</caption>
+				<font color="800000" name="Arial" size="12" />
+				<position>964 576 993 594</position>
+			</textbox>
+			<textbox>
+				<caption>The Expert DAG V11.1</caption>
+				<font color="000000" name="Arial" size="16" bold="true" />
+				<position>653 30 876 54</position>
+			</textbox>
+			<textbox>
+				<caption>Supplement prepared for Ramsay et al. (2022); reuse freely with acknowledgement.</caption>
+				<font color="000000" name="Arial" size="12" />
+				<position>659 62 861 116</position>
+			</textbox>
+			<arcformat parent="d13" child="d15" width="1" color="000080" />
+			<arcformat parent="d15" child="d17" width="1" color="000080" />
+			<arcformat parent="d15" child="d20" width="1" color="000080" />
+			<arcformat parent="d2" child="d4" width="1" color="000080" />
+			<arcformat parent="d3" child="d25" width="1" color="000080" />
+			<arcformat parent="d15" child="d6" width="1" color="000080" />
+			<arcformat parent="d4" child="d7" width="1" color="000080" />
+			<arcformat parent="d28" child="d7" width="1" color="000080" />
+			<arcformat parent="d11" child="d7" width="1" color="000080" />
+			<arcformat parent="d2" child="d5" width="1" color="000080" />
+		</genie>
+	</extensions>
+</smile>

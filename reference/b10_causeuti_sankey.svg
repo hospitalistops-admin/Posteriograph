@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="980" viewBox="0 0 1500 980" role="img" aria-labelledby="title desc">
+  <title id="title">Sankey flow into CauseUTI b10</title>
+  <desc id="desc">Baseline learnt Bayesian-network joint flows from direct parent states into the four Causative pathogen states.</desc>
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#2b251b" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="#f7f1e7"/>
+  <text x="64" y="58" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" fill="#172026">CauseUTI (b10) Sankey</text>
+  <text x="64" y="88" font-family="Inter, Arial, sans-serif" font-size="17" fill="#56636c">Edge width is P(parent state, CauseUTI state) at baseline in the learnt BN. Hover titles include conditional P(CauseUTI state | parent state).</text>
+  <text x="300" y="84" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800" fill="#5f451f">Direct parent states</text>
+  <text x="1215" y="84" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800" fill="#194d5a">b10 states</text>
+  <g fill="none" stroke-linecap="round">
+    <path d="M 322 124.56845532384848 C 750.64 124.56845532384848, 875.66 196.56845532384847, 1215 196.56845532384847" stroke="#18aebc" stroke-opacity="0.2" stroke-width="25.14"><title>Comorbidity: Reported -&gt; E. coli UTI: joint 20.7%, conditional 41.9%</title></path>
+    <path d="M 322 141.73035818196928 C 750.64 141.73035818196928, 875.66 462.1610127870979, 1215 462.1610127870979" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="9.19"><title>Comorbidity: Reported -&gt; Other GNR UTI: joint 7.6%, conditional 15.3%</title></path>
+    <path d="M 322 153.1254861729199 C 750.64 153.1254861729199, 875.66 566.102953581537, 1215 566.102953581537" stroke="#c98934" stroke-opacity="0.2" stroke-width="13.60"><title>Comorbidity: Reported -&gt; Gram-positive UTI: joint 11.2%, conditional 22.7%</title></path>
+    <path d="M 322 165.97378729385005 C 750.64 165.97378729385005, 875.66 709.9483343639315, 1215 709.9483343639315" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="12.09"><title>Comorbidity: Reported -&gt; No UTI: joint 10.0%, conditional 20.1%</title></path>
+    <path d="M 322 199.40870915953602 C 750.64 199.40870915953602, 875.66 220.52521184913104, 1215 220.52521184913104" stroke="#18aebc" stroke-opacity="0.2" stroke-width="22.78"><title>Comorbidity: Unknown -&gt; E. coli UTI: joint 18.8%, conditional 37.2%</title></path>
+    <path d="M 322 212.97693361390108 C 750.64 212.97693361390108, 875.66 468.93438357430125, 1215 468.93438357430125" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="4.36"><title>Comorbidity: Unknown -&gt; Other GNR UTI: joint 3.6%, conditional 7.1%</title></path>
+    <path d="M 322 219.4152204676359 C 750.64 219.4152204676359, 875.66 577.1629976390192, 1215 577.1629976390192" stroke="#c98934" stroke-opacity="0.2" stroke-width="8.52"><title>Comorbidity: Unknown -&gt; Gram-positive UTI: joint 7.0%, conditional 13.9%</title></path>
+    <path d="M 322 236.43679203421985 C 750.64 236.43679203421985, 875.66 728.7581629939635, 1215 728.7581629939635" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="25.53"><title>Comorbidity: Unknown -&gt; No UTI: joint 21.1%, conditional 41.7%</title></path>
+    <path d="M 322 269.75020360685903 C 750.64 269.75020360685903, 875.66 236.46371665742413, 1215 236.46371665742413" stroke="#18aebc" stroke-opacity="0.2" stroke-width="9.10"><title>Age: &lt;6 mo -&gt; E. coli UTI: joint 7.5%, conditional 41.7%</title></path>
+    <path d="M 322 275.4002274709829 C 750.64 275.4002274709829, 875.66 472.2141270844971, 1215 472.2141270844971" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="2.20"><title>Age: &lt;6 mo -&gt; Other GNR UTI: joint 1.8%, conditional 10.1%</title></path>
+    <path d="M 322 278.1728060409551 C 750.64 278.1728060409551, 875.66 583.0941195525302, 1215 583.0941195525302" stroke="#c98934" stroke-opacity="0.2" stroke-width="3.35"><title>Age: &lt;6 mo -&gt; Gram-positive UTI: joint 2.8%, conditional 15.3%</title></path>
+    <path d="M 322 283.44727161070705 C 750.64 283.44727161070705, 875.66 745.1230782167883, 1215 745.1230782167883" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="7.20"><title>Age: &lt;6 mo -&gt; No UTI: joint 5.9%, conditional 33.0%</title></path>
+    <path d="M 322 309.6055984882773 C 750.64 309.6055984882773, 875.66 247.5705398848087, 1215 247.5705398848087" stroke="#18aebc" stroke-opacity="0.2" stroke-width="13.11"><title>Age: 6 mo-2 yr -&gt; E. coli UTI: joint 10.8%, conditional 45.7%</title></path>
+    <path d="M 322 317.59950374122957 C 750.64 317.59950374122957, 875.66 474.7512329741887, 1215 474.7512329741887" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="2.87"><title>Age: 6 mo-2 yr -&gt; Other GNR UTI: joint 2.4%, conditional 10.0%</title></path>
+    <path d="M 322 320.59683620290457 C 750.64 320.59683620290457, 875.66 586.3269246944858, 1215 586.3269246944858" stroke="#c98934" stroke-opacity="0.2" stroke-width="3.12"><title>Age: 6 mo-2 yr -&gt; Gram-positive UTI: joint 2.6%, conditional 10.9%</title></path>
+    <path d="M 322 326.96279621909076 C 750.64 326.96279621909076, 875.66 753.5306986607709, 1215 753.5306986607709" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="9.61"><title>Age: 6 mo-2 yr -&gt; No UTI: joint 7.9%, conditional 33.5%</title></path>
+    <path d="M 322 352.84987167559063 C 750.64 352.84987167559063, 875.66 259.20832177489626, 1215 259.20832177489626" stroke="#18aebc" stroke-opacity="0.2" stroke-width="10.16"><title>Age: 2-5 yr -&gt; E. coli UTI: joint 8.4%, conditional 37.2%</title></path>
+    <path d="M 322 359.5649631756775 C 750.64 359.5649631756775, 875.66 477.8224478371404, 1215 477.8224478371404" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="3.27"><title>Age: 2-5 yr -&gt; Other GNR UTI: joint 2.7%, conditional 12.0%</title></path>
+    <path d="M 322 364.46068368467223 C 750.64 364.46068368467223, 875.66 591.1487628022039, 1215 591.1487628022039" stroke="#c98934" stroke-opacity="0.2" stroke-width="6.52"><title>Age: 2-5 yr -&gt; Gram-positive UTI: joint 5.4%, conditional 23.9%</title></path>
+    <path d="M 322 371.41837956549506 C 750.64 371.41837956549506, 875.66 762.0325164500618, 1215 762.0325164500618" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="7.39"><title>Age: 2-5 yr -&gt; No UTI: joint 6.1%, conditional 27.0%</title></path>
+    <path d="M 322 398.8830551961841 C 750.64 398.8830551961841, 875.66 272.0582550727942, 1215 272.0582550727942" stroke="#18aebc" stroke-opacity="0.2" stroke-width="15.54"><title>Age: &gt;5 yr -&gt; E. coli UTI: joint 12.8%, conditional 35.9%</title></path>
+    <path d="M 322 409.2541618915069 C 750.64 409.2541618915069, 875.66 482.0587127346521, 1215 482.0587127346521" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="5.20"><title>Age: &gt;5 yr -&gt; Other GNR UTI: joint 4.3%, conditional 12.0%</title></path>
+    <path d="M 322 416.4219451955504 C 750.64 416.4219451955504, 875.66 598.9760017177304, 1215 598.9760017177304" stroke="#c98934" stroke-opacity="0.2" stroke-width="9.13"><title>Age: &gt;5 yr -&gt; Gram-positive UTI: joint 7.5%, conditional 21.1%</title></path>
+    <path d="M 322 427.69369641630357 C 750.64 427.69369641630357, 875.66 772.4347246361114, 1215 772.4347246361114" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="13.41"><title>Age: &gt;5 yr -&gt; No UTI: joint 11.1%, conditional 31.0%</title></path>
+    <path d="M 322 474.3566152392989 C 750.64 474.3566152392989, 875.66 303.78364134042914, 1215 303.78364134042914" stroke="#18aebc" stroke-opacity="0.2" stroke-width="47.91"><title>E. coli colonization: High -&gt; E. coli UTI: joint 39.5%, conditional 55.3%</title></path>
+    <path d="M 322 502.2540512148618 C 750.64 502.2540512148618, 875.66 488.6018691379029, 1215 488.6018691379029" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="7.88"><title>E. coli colonization: High -&gt; Other GNR UTI: joint 6.5%, conditional 9.1%</title></path>
+    <path d="M 322 512.427040914235 C 750.64 512.427040914235, 875.66 609.7736183178963, 1215 609.7736183178963" stroke="#c98934" stroke-opacity="0.2" stroke-width="12.46"><title>E. coli colonization: High -&gt; Gram-positive UTI: joint 10.3%, conditional 14.4%</title></path>
+    <path d="M 322 527.8486805439236 C 750.64 527.8486805439236, 875.66 788.3304988863873, 1215 788.3304988863873" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="18.38"><title>E. coli colonization: High -&gt; No UTI: joint 15.2%, conditional 21.2%</title></path>
+    <path d="M 322 555.8707012614423 C 750.64 555.8707012614423, 875.66 495.3752399251062, 1215 495.3752399251062" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="5.67"><title>E. coli colonization: Low -&gt; Other GNR UTI: joint 4.7%, conditional 16.4%</title></path>
+    <path d="M 322 563.5311264067545 C 750.64 563.5311264067545, 875.66 620.8336623753784, 1215 620.8336623753784" stroke="#c98934" stroke-opacity="0.2" stroke-width="9.66"><title>E. coli colonization: Low -&gt; Gram-positive UTI: joint 8.0%, conditional 27.9%</title></path>
+    <path d="M 322 577.97935946458 C 750.64 577.97935946458, 875.66 807.1403275164193, 1215 807.1403275164193" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="19.24"><title>E. coli colonization: Low -&gt; No UTI: joint 15.9%, conditional 55.7%</title></path>
+    <path d="M 322 608.019326511291 C 750.64 608.019326511291, 875.66 332.159583091019, 1215 332.159583091019" stroke="#18aebc" stroke-opacity="0.2" stroke-width="8.84"><title>Other GNR colonization: High -&gt; E. coli UTI: joint 7.3%, conditional 23.8%</title></path>
+    <path d="M 322 619.2119206580879 C 750.64 619.2119206580879, 875.66 504.9810576115515, 1215 504.9810576115515" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="13.55"><title>Other GNR colonization: High -&gt; Other GNR UTI: joint 11.2%, conditional 36.4%</title></path>
+    <path d="M 322 628.0375605905926 C 750.64 628.0375605905926, 875.66 627.71390976675, 1215 627.71390976675" stroke="#c98934" stroke-opacity="0.2" stroke-width="4.10"><title>Other GNR colonization: High -&gt; Gram-positive UTI: joint 3.4%, conditional 11.0%</title></path>
+    <path d="M 322 635.4305380936996 C 750.64 635.4305380936996, 875.66 822.1012906859801, 1215 822.1012906859801" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="10.68"><title>Other GNR colonization: High -&gt; No UTI: joint 8.8%, conditional 28.7%</title></path>
+    <path d="M 322 676.3085733137993 C 750.64 676.3085733137993, 875.66 356.11633961630156, 1215 356.11633961630156" stroke="#18aebc" stroke-opacity="0.2" stroke-width="39.07"><title>Other GNR colonization: Low -&gt; E. coli UTI: joint 32.2%, conditional 46.5%</title></path>
+    <path d="M 322 704.8536750882743 C 750.64 704.8536750882743, 875.66 638.7739538242321, 1215 638.7739538242321" stroke="#c98934" stroke-opacity="0.2" stroke-width="18.02"><title>Other GNR colonization: Low -&gt; Gram-positive UTI: joint 14.9%, conditional 21.4%</title></path>
+    <path d="M 322 727.3305702726814 C 750.64 727.3305702726814, 875.66 840.9111193160121, 1215 840.9111193160121" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="26.94"><title>Other GNR colonization: Low -&gt; No UTI: joint 22.2%, conditional 32.1%</title></path>
+    <path d="M 322 764.4634718200678 C 750.64 764.4634718200678, 875.66 383.3172414503611, 1215 383.3172414503611" stroke="#18aebc" stroke-opacity="0.2" stroke-width="15.33"><title>Gram-positive colonization: High -&gt; E. coli UTI: joint 12.6%, conditional 28.1%</title></path>
+    <path d="M 322 774.6748631445688 C 750.64 774.6748631445688, 875.66 514.3022447514905, 1215 514.3022447514905" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="5.10"><title>Gram-positive colonization: High -&gt; Other GNR UTI: joint 4.2%, conditional 9.4%</title></path>
+    <path d="M 322 788.2827008431817 C 750.64 788.2827008431817, 875.66 658.8415437788954, 1215 658.8415437788954" stroke="#c98934" stroke-opacity="0.2" stroke-width="22.12"><title>Gram-positive colonization: High -&gt; Gram-positive UTI: joint 18.3%, conditional 40.6%</title></path>
+    <path d="M 322 805.3014618983457 C 750.64 805.3014618983457, 875.66 860.3391856009199, 1215 860.3391856009199" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="11.92"><title>Gram-positive colonization: High -&gt; No UTI: joint 9.8%, conditional 21.9%</title></path>
+    <path d="M 322 843.5535894645442 C 750.64 843.5535894645442, 875.66 407.2739979756436, 1215 407.2739979756436" stroke="#18aebc" stroke-opacity="0.2" stroke-width="32.59"><title>Gram-positive colonization: Low -&gt; E. coli UTI: joint 26.9%, conditional 48.8%</title></path>
+    <path d="M 322 864.072325452529 C 750.64 864.072325452529, 875.66 521.0756155386939, 1215 521.0756155386939" stroke="#3a47bc" stroke-opacity="0.2" stroke-width="8.45"><title>Gram-positive colonization: Low -&gt; Other GNR UTI: joint 7.0%, conditional 12.7%</title></path>
+    <path d="M 322 881.1487625043475 C 750.64 881.1487625043475, 875.66 879.1490142309519, 1215 879.1490142309519" stroke="#4d88b8" stroke-opacity="0.2" stroke-width="25.70"><title>Gram-positive colonization: Low -&gt; No UTI: joint 21.2%, conditional 38.5%</title></path>
+  </g>
+  <g filter="url(#softShadow)">
+    
+    <g>
+      <rect x="300" y="112" width="22" height="60.020407958101956" rx="6" fill="#81613a"/>
+      <text x="290" y="140.01020397905097" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Comorbidity: Reported</text>
+      <text x="290" y="157.01020397905097" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">49.5%</text>
+    </g>
+    <g>
+      <rect x="300" y="188.02040795810194" width="22" height="61.17959204189804" rx="6" fill="#81613a"/>
+      <text x="290" y="216.61020397905097" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Comorbidity: Unknown</text>
+      <text x="290" y="233.61020397905097" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">50.5%</text>
+    </g>
+    <g>
+      <rect x="300" y="265.2" width="22" height="21.84897886775172" rx="6" fill="#81613a"/>
+      <text x="290" y="274.12448943387585" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Age: &lt;6 mo</text>
+      <text x="290" y="291.12448943387585" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">18.0%</text>
+    </g>
+    <g>
+      <rect x="300" y="303.0489788677517" width="22" height="28.71973053827692" rx="6" fill="#81613a"/>
+      <text x="290" y="315.4088441368902" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Age: 6 mo-2 yr</text>
+      <text x="290" y="332.4088441368902" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">23.7%</text>
+    </g>
+    <g>
+      <rect x="300" y="347.7687094060286" width="22" height="27.345574761819485" rx="6" fill="#81613a"/>
+      <text x="290" y="359.4414967869384" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Age: 2-5 yr</text>
+      <text x="290" y="376.4414967869384" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">22.6%</text>
+    </g>
+    <g>
+      <rect x="300" y="391.1142841678481" width="22" height="43.28571583215189" rx="6" fill="#81613a"/>
+      <text x="290" y="410.75714208392407" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Age: &gt;5 yr</text>
+      <text x="290" y="427.75714208392407" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">35.7%</text>
+    </g>
+    <g>
+      <rect x="300" y="450.4" width="22" height="86.63815121050303" rx="6" fill="#81613a"/>
+      <text x="290" y="491.7190756052515" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">E. coli colonization: High</text>
+      <text x="290" y="508.7190756052515" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">71.5%</text>
+    </g>
+    <g>
+      <rect x="300" y="553.038151210503" width="22" height="34.56184878949698" rx="6" fill="#81613a"/>
+      <text x="290" y="568.3190756052514" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">E. coli colonization: Low</text>
+      <text x="290" y="585.3190756052514" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">28.5%</text>
+    </g>
+    <g>
+      <rect x="300" y="603.5999999999999" width="22" height="37.17114329980794" rx="6" fill="#81613a"/>
+      <text x="290" y="620.1855716499039" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Other GNR colonization: High</text>
+      <text x="290" y="637.1855716499039" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">30.7%</text>
+    </g>
+    <g>
+      <rect x="300" y="656.7711432998078" width="22" height="84.02885670019205" rx="6" fill="#81613a"/>
+      <text x="290" y="696.7855716499039" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Other GNR colonization: Low</text>
+      <text x="290" y="713.7855716499039" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">69.3%</text>
+    </g>
+    <g>
+      <rect x="300" y="756.7999999999998" width="22" height="54.46030475932968" rx="6" fill="#81613a"/>
+      <text x="290" y="782.0301523796646" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Gram-positive colonization: High</text>
+      <text x="290" y="799.0301523796646" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">44.9%</text>
+    </g>
+    <g>
+      <rect x="300" y="827.2603047593295" width="22" height="66.73969524067033" rx="6" fill="#81613a"/>
+      <text x="290" y="858.6301523796647" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#24323a">Gram-positive colonization: Low</text>
+      <text x="290" y="875.6301523796647" text-anchor="end" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#68737b">55.1%</text>
+    </g>
+    
+    <g>
+      <rect x="1215" y="184" width="22" height="239.56756525282557" rx="6" fill="#18aebc"/>
+      <text x="1249" y="299.7837826264128" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#172026">E. coli UTI</text>
+      <text x="1249" y="322.7837826264128" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#56636c">baseline 39.5%</text>
+    </g>
+    <g>
+      <rect x="1215" y="457.5675652528256" width="22" height="67.73370787203318" rx="6" fill="#3a47bc"/>
+      <text x="1249" y="487.4344191888422" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#172026">Other GNR UTI</text>
+      <text x="1249" y="510.4344191888422" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#56636c">baseline 11.2%</text>
+    </g>
+    <g>
+      <rect x="1215" y="559.3012731248588" width="22" height="110.6004405748208" rx="6" fill="#c98934"/>
+      <text x="1249" y="610.6014934122692" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#172026">Gram-positive UTI</text>
+      <text x="1249" y="633.6014934122692" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#56636c">baseline 18.3%</text>
+    </g>
+    <g>
+      <rect x="1215" y="703.9017136996796" width="22" height="188.0982863003204" rx="6" fill="#4d88b8"/>
+      <text x="1249" y="793.9508568498397" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#172026">No UTI</text>
+      <text x="1249" y="816.9508568498397" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#56636c">baseline 31.0%</text>
+    </g>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" font-size="14" fill="#33424c">
+    <rect x="64" y="918" width="1370" height="34" rx="8" fill="#fffaf2" stroke="#ded2be"/>
+    <text x="82" y="940">Note: each parent is summarized separately, so total incoming target flow equals five parent summaries, not a single patient-level probability mass.</text>
+  </g>
+</svg>

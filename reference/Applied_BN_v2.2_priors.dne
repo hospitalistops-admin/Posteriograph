@@ -1,0 +1,2494 @@
+// ~->[DNET-1]->~
+
+// File created by someone at MonashU using Netica 6.07 on Mar 31, 2022 at 02:02:02 UTC.
+
+bnet Network1 {
+AutoCompile = TRUE;
+autoupdate = TRUE;
+title = "Network1";
+whenchanged = 1648692108;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	NodeMaxNumEntries = 50;
+	nodefont = font {shape= "Arial"; size= 9;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	ShowLinkStrengths = 1;
+	windowposn = (26, 26, 1002, 374);
+	resolution = 72;
+	magnification = 0.707107;
+	drawingbounds = (2548, 1234);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	NodeSet Node {BuiltIn = 1; Color = 0x00e1e1e1;};
+	NodeSet Nature {BuiltIn = 1; Color = 0x00f8eed2;};
+	NodeSet Deterministic {BuiltIn = 1; Color = 0x00d3caa6;};
+	NodeSet Finding {BuiltIn = 1; Color = 0x00c8c8c8;};
+	NodeSet Constant {BuiltIn = 1; Color = 0x00ffffff;};
+	NodeSet ConstantValue {BuiltIn = 1; Color = 0x00ffffb4;};
+	NodeSet Utility {BuiltIn = 1; Color = 0x00ffbdbd;};
+	NodeSet Decision {BuiltIn = 1; Color = 0x00dee8ff;};
+	NodeSet Documentation {BuiltIn = 1; Color = 0x00f0fafa;};
+	NodeSet Title {BuiltIn = 1; Color = 0x00ffffff;};
+	NodeSet Backgrounds {Color = 0x00bfd2ec;};
+	NodeSet Managements {Color = 0x00cbc6e1;};
+	NodeSet Labs {Color = 0x00ffce9d;};
+	NodeSet Manage {Color = 0x00cbc6e1;};
+	NodeSet Infect {Color = 0x00f4f4f4;};
+	NodeSet Overlap {Color = 0x00a6db9f;};
+	NodeSet Contam {Color = 0x00ffffbf;};
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		};
+	};
+
+node AgeGroup {
+	discrete = TRUE;
+	states = (LessThan6Mon, Btw6MonAnd2Yr, Btw2And5Yr, Above5Yr);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// LessThan6Mon Btw6MonAnd2Yr Btw2And5Yr  Above5Yr     
+		  (0.25,        0.25,        0.25,        0.25);
+	title = "Age (b1)";
+	whenchanged = 1648684323;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (1344, 42);
+		height = 16;
+		};
+	};
+
+node PrevUriKidProbs {
+	discrete = TRUE;
+	states = (Reported, Unknown);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (AgeGroup);
+	probs = 
+		// Reported     Unknown       // AgeGroup      
+		  (0.5,         0.5,          // LessThan6Mon  
+		   0.5,         0.5,          // Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Btw2And5Yr    
+		   0.5,         0.5);         // Above5Yr      ;
+	title = "Comorbidity (b3)";
+	comment = "This includes:\nUrProbSurv1\nPrevSurgED\nUrKidComorbED\nPrevUTIDiagED";
+	whenchanged = 1648684595;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (744, 54);
+		height = 5;
+		};
+	};
+
+node OnAbxEDGroup3 {
+	discrete = TRUE;
+	states = (No, Narrow, Broader);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (AgeGroup, PrevUriKidProbs);
+	probs = 
+		// No           Narrow       Broader       // AgeGroup      PrevUriKidProbs 
+		  (0.3333333,   0.3333333,   0.3333333,    // LessThan6Mon  Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // LessThan6Mon  Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // Btw6MonAnd2Yr Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // Btw6MonAnd2Yr Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // Btw2And5Yr    Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // Btw2And5Yr    Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // Above5Yr      Reported        
+		   0.3333333,   0.3333333,   0.3333333);   // Above5Yr      Unknown         ;
+	numcases = 10;
+	title = "On abx in ED (b6)";
+	whenchanged = 1648687178;
+	belief = (0.3333333, 0.3333333, 0.3333333);
+	visual V1 {
+		center = (1770, 138);
+		height = 34;
+		link 2 {
+			path = ((829, 60), (1697, 132));
+			};
+		};
+	};
+
+node diarrhea {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (AgeGroup);
+	probs = 
+		// Yes          No            // AgeGroup      
+		  (0.5,         0.5,          // LessThan6Mon  
+		   0.5,         0.5,          // Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Btw2And5Yr    
+		   0.5,         0.5);         // Above5Yr      ;
+	numcases = 10;
+	title = "Diarrhoea (b4)";
+	whenchanged = 1648681638;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (390, 96);
+		height = 6;
+		};
+	};
+
+node Sex {
+	discrete = TRUE;
+	states = (Female, Male);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (AgeGroup);
+	probs = 
+		// Female       Male          // AgeGroup      
+		  (0.5,         0.5,          // LessThan6Mon  
+		   0.5,         0.5,          // Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Btw2And5Yr    
+		   0.5,         0.5);         // Above5Yr      ;
+	numcases = 10;
+	title = "Sex (b2)";
+	whenchanged = 1648677309;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (216, 150);
+		height = 1;
+		};
+	};
+
+node EcoliPresence {
+	discrete = TRUE;
+	states = (High, Low);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (OnAbxEDGroup3, diarrhea, Sex, AgeGroup, PrevUriKidProbs);
+	probs = 
+		// High         Low           // OnAbxEDGroup3 diarrhea Sex    AgeGroup      PrevUriKidProbs 
+		  (0.8992,      0.1008,       // No            Yes      Female LessThan6Mon  Reported        
+		   0.8581,      0.1419,       // No            Yes      Female LessThan6Mon  Unknown         
+		   0.8754125,   0.1245875,    // No            Yes      Female Btw6MonAnd2Yr Reported        
+		   0.8302,      0.1698,       // No            Yes      Female Btw6MonAnd2Yr Unknown         
+		   0.8468,      0.1532,       // No            Yes      Female Btw2And5Yr    Reported        
+		   0.7976,      0.2024,       // No            Yes      Female Btw2And5Yr    Unknown         
+		   0.8104,      0.1896,       // No            Yes      Female Above5Yr      Reported        
+		   0.7579,      0.2421,       // No            Yes      Female Above5Yr      Unknown         
+		   0.8669,      0.1331,       // No            Yes      Male   LessThan6Mon  Reported        
+		   0.8204,      0.1796,       // No            Yes      Male   LessThan6Mon  Unknown         
+		   0.8398,      0.1602,       // No            Yes      Male   Btw6MonAnd2Yr Reported        
+		   0.789821,    0.210179,     // No            Yes      Male   Btw6MonAnd2Yr Unknown         
+		   0.8079,      0.1921,       // No            Yes      Male   Btw2And5Yr    Reported        
+		   0.7551,      0.2449,       // No            Yes      Male   Btw2And5Yr    Unknown         
+		   0.7686231,   0.2313769,    // No            Yes      Male   Above5Yr      Reported        
+		   0.7138,      0.2862,       // No            Yes      Male   Above5Yr      Unknown         
+		   0.8278,      0.1722,       // No            No       Female LessThan6Mon  Reported        
+		   0.7767,      0.2233,       // No            No       Female LessThan6Mon  Unknown         
+		   0.7976,      0.2024,       // No            No       Female Btw6MonAnd2Yr Reported        
+		   0.7442,      0.2558,       // No            No       Female Btw6MonAnd2Yr Unknown         
+		   0.7633,      0.2367,       // No            No       Female Btw2And5Yr    Reported        
+		   0.7083,      0.2917,       // No            No       Female Btw2And5Yr    Unknown         
+		   0.7221277,   0.2778722,    // No            No       Female Above5Yr      Reported        
+		   0.6666,      0.3334,       // No            No       Female Above5Yr      Unknown         
+		   0.7872,      0.2128,       // No            No       Male   LessThan6Mon  Reported        
+		   0.7332,      0.2668,       // No            No       Male   LessThan6Mon  Unknown         
+		   0.7551,      0.2449,       // No            No       Male   Btw6MonAnd2Yr Reported        
+		   0.6999,      0.3001,       // No            No       Male   Btw6MonAnd2Yr Unknown         
+		   0.7194,      0.2806,       // No            No       Male   Btw2And5Yr    Reported        
+		   0.6638,      0.3362,       // No            No       Male   Btw2And5Yr    Unknown         
+		   0.6776,      0.3224,       // No            No       Male   Above5Yr      Reported        
+		   0.6228,      0.3772,       // No            No       Male   Above5Yr      Unknown         
+		   0.8468,      0.1532,       // Narrow        Yes      Female LessThan6Mon  Reported        
+		   0.7976,      0.2024,       // Narrow        Yes      Female LessThan6Mon  Unknown         
+		   0.8179,      0.1821,       // Narrow        Yes      Female Btw6MonAnd2Yr Reported        
+		   0.766,       0.234,        // Narrow        Yes      Female Btw6MonAnd2Yr Unknown         
+		   0.7846,      0.2154,       // Narrow        Yes      Female Btw2And5Yr    Reported        
+		   0.7305,      0.2695,       // Narrow        Yes      Female Btw2And5Yr    Unknown         
+		   0.7442,      0.2558,       // Narrow        Yes      Female Above5Yr      Reported        
+		   0.6888,      0.3112,       // Narrow        Yes      Female Above5Yr      Unknown         
+		   0.8079,      0.1921,       // Narrow        Yes      Male   LessThan6Mon  Reported        
+		   0.7551,      0.2449,       // Narrow        Yes      Male   LessThan6Mon  Unknown         
+		   0.7767,      0.2233,       // Narrow        Yes      Male   Btw6MonAnd2Yr Reported        
+		   0.7221277,   0.2778722,    // Narrow        Yes      Male   Btw6MonAnd2Yr Unknown         
+		   0.7415,      0.2585,       // Narrow        Yes      Male   Btw2And5Yr    Reported        
+		   0.686,       0.314,        // Narrow        Yes      Male   Btw2And5Yr    Unknown         
+		   0.6999,      0.3001,       // Narrow        Yes      Male   Above5Yr      Reported        
+		   0.6445,      0.3555,       // Narrow        Yes      Male   Above5Yr      Unknown         
+		   0.7633,      0.2367,       // Narrow        No       Female LessThan6Mon  Reported        
+		   0.7083,      0.2917,       // Narrow        No       Female LessThan6Mon  Unknown         
+		   0.7305,      0.2695,       // Narrow        No       Female Btw6MonAnd2Yr Reported        
+		   0.6749,      0.3251,       // Narrow        No       Female Btw6MonAnd2Yr Unknown         
+		   0.6943,      0.3057,       // Narrow        No       Female Btw2And5Yr    Reported        
+		   0.6391,      0.3609,       // Narrow        No       Female Btw2And5Yr    Unknown         
+		   0.6528,      0.3472,       // Narrow        No       Female Above5Yr      Reported        
+		   0.599,       0.401,        // Narrow        No       Female Above5Yr      Unknown         
+		   0.7194,      0.2806,       // Narrow        No       Male   LessThan6Mon  Reported        
+		   0.6638,      0.3362,       // Narrow        No       Male   LessThan6Mon  Unknown         
+		   0.686,       0.314,        // Narrow        No       Male   Btw6MonAnd2Yr Reported        
+		   0.6309,      0.3691,       // Narrow        No       Male   Btw6MonAnd2Yr Unknown         
+		   0.65,        0.35,         // Narrow        No       Male   Btw2And5Yr    Reported        
+		   0.5964,      0.4036,       // Narrow        No       Male   Btw2And5Yr    Unknown         
+		   0.6095,      0.3905,       // Narrow        No       Male   Above5Yr      Reported        
+		   0.5586,      0.4414,       // Narrow        No       Male   Above5Yr      Unknown         
+		   0.835,       0.165,        // Broader       Yes      Female LessThan6Mon  Reported        
+		   0.7846,      0.2154,       // Broader       Yes      Female LessThan6Mon  Unknown         
+		   0.8053,      0.1947,       // Broader       Yes      Female Btw6MonAnd2Yr Reported        
+		   0.7524,      0.2476,       // Broader       Yes      Female Btw6MonAnd2Yr Unknown         
+		   0.7713,      0.2287,       // Broader       Yes      Female Btw2And5Yr    Reported        
+		   0.7166,      0.2834,       // Broader       Yes      Female Btw2And5Yr    Unknown         
+		   0.7305,      0.2695,       // Broader       Yes      Female Above5Yr      Reported        
+		   0.6749,      0.3251,       // Broader       Yes      Female Above5Yr      Unknown         
+		   0.7951,      0.2049,       // Broader       Yes      Male   LessThan6Mon  Reported        
+		   0.7415,      0.2585,       // Broader       Yes      Male   LessThan6Mon  Unknown         
+		   0.7633,      0.2367,       // Broader       Yes      Male   Btw6MonAnd2Yr Reported        
+		   0.7083,      0.2917,       // Broader       Yes      Male   Btw6MonAnd2Yr Unknown         
+		   0.7277,      0.2723,       // Broader       Yes      Male   Btw2And5Yr    Reported        
+		   0.6721,      0.3279,       // Broader       Yes      Male   Btw2And5Yr    Unknown         
+		   0.686,       0.314,        // Broader       Yes      Male   Above5Yr      Reported        
+		   0.6309,      0.3691,       // Broader       Yes      Male   Above5Yr      Unknown         
+		   0.7497,      0.2503,       // Broader       No       Female LessThan6Mon  Reported        
+		   0.6943,      0.3057,       // Broader       No       Female LessThan6Mon  Unknown         
+		   0.7166,      0.2834,       // Broader       No       Female Btw6MonAnd2Yr Reported        
+		   0.661,       0.339,        // Broader       No       Female Btw6MonAnd2Yr Unknown         
+		   0.6804,      0.3196,       // Broader       No       Female Btw2And5Yr    Reported        
+		   0.6255,      0.3745,       // Broader       No       Female Btw2And5Yr    Unknown         
+		   0.6391,      0.3609,       // Broader       No       Female Above5Yr      Reported        
+		   0.5861,      0.4139,       // Broader       No       Female Above5Yr      Unknown         
+		   0.7055,      0.2945,       // Broader       No       Male   LessThan6Mon  Reported        
+		   0.65,        0.35,         // Broader       No       Male   LessThan6Mon  Unknown         
+		   0.6721,      0.3279,       // Broader       No       Male   Btw6MonAnd2Yr Reported        
+		   0.6175,      0.3825,       // Broader       No       Male   Btw6MonAnd2Yr Unknown         
+		   0.6364,      0.3636,       // Broader       No       Male   Btw2And5Yr    Reported        
+		   0.5835,      0.4165,       // Broader       No       Male   Btw2And5Yr    Unknown         
+		   0.5964,      0.4036,       // Broader       No       Male   Above5Yr      Reported        
+		   0.5466,      0.4534);      // Broader       No       Male   Above5Yr      Unknown         ;
+	numcases = 10;
+	title = "Ecoli local colonisation (b7)";
+	comment = "This variable is latent.";
+	whenchanged = 1648681860;
+	belief = (0.7234033, 0.2765968);
+	visual V1 {
+		center = (390, 264);
+		height = 7;
+		};
+	};
+
+node OtherGramNegPresence {
+	discrete = TRUE;
+	states = (High, Low);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (OnAbxEDGroup3, diarrhea, Sex, AgeGroup, PrevUriKidProbs);
+	probs = 
+		// High         Low           // OnAbxEDGroup3 diarrhea Sex    AgeGroup      PrevUriKidProbs 
+		  (0.7012,      0.2988,       // No            Yes      Female LessThan6Mon  Reported        
+		   0.6538,      0.3462,       // No            Yes      Female LessThan6Mon  Unknown         
+		   0.673,       0.327,        // No            Yes      Female Btw6MonAnd2Yr Reported        
+		   0.6242,      0.3758,       // No            Yes      Female Btw6MonAnd2Yr Unknown         
+		   0.6415,      0.3585,       // No            Yes      Female Btw2And5Yr    Reported        
+		   0.5915,      0.4085,       // No            Yes      Female Btw2And5Yr    Unknown         
+		   0.6042,      0.3958,       // No            Yes      Female Above5Yr      Reported        
+		   0.5531,      0.4469,       // No            Yes      Female Above5Yr      Unknown         
+		   0.6634,      0.3366,       // No            Yes      Male   LessThan6Mon  Reported        
+		   0.6142,      0.3858,       // No            Yes      Male   LessThan6Mon  Unknown         
+		   0.6341,      0.3659,       // No            Yes      Male   Btw6MonAnd2Yr Reported        
+		   0.5839,      0.4161,       // No            Yes      Male   Btw6MonAnd2Yr Unknown         
+		   0.6017,      0.3983,       // No            Yes      Male   Btw2And5Yr    Reported        
+		   0.5506,      0.4494,       // No            Yes      Male   Btw2And5Yr    Unknown         
+		   0.5634,      0.4366,       // No            Yes      Male   Above5Yr      Reported        
+		   0.5117,      0.4883,       // No            Yes      Male   Above5Yr      Unknown         
+		   0.6217,      0.3783,       // No            No       Female LessThan6Mon  Reported        
+		   0.5711,      0.4289,       // No            No       Female LessThan6Mon  Unknown         
+		   0.5915,      0.4085,       // No            No       Female Btw6MonAnd2Yr Reported        
+		   0.5402,      0.4598,       // No            No       Female Btw6MonAnd2Yr Unknown         
+		   0.5583,      0.4417,       // No            No       Female Btw2And5Yr    Reported        
+		   0.5065,      0.4935,       // No            No       Female Btw2And5Yr    Unknown         
+		   0.5195,      0.4805,       // No            No       Female Above5Yr      Reported        
+		   0.4676,      0.5324,       // No            No       Female Above5Yr      Unknown         
+		   0.5813419,   0.4186581,    // No            No       Male   LessThan6Mon  Reported        
+		   0.5299,      0.4701,       // No            No       Male   LessThan6Mon  Unknown         
+		   0.5506,      0.4494,       // No            No       Male   Btw6MonAnd2Yr Reported        
+		   0.4987,      0.5013,       // No            No       Male   Btw6MonAnd2Yr Unknown         
+		   0.5169,      0.4831,       // No            No       Male   Btw2And5Yr    Reported        
+		   0.465,       0.535,        // No            No       Male   Btw2And5Yr    Unknown         
+		   0.478,       0.522,        // No            No       Male   Above5Yr      Reported        
+		   0.4263,      0.5737,       // No            No       Male   Above5Yr      Unknown         
+		   0.6415,      0.3585,       // Narrow        Yes      Female LessThan6Mon  Reported        
+		   0.5915,      0.4085,       // Narrow        Yes      Female LessThan6Mon  Unknown         
+		   0.6117,      0.3883,       // Narrow        Yes      Female Btw6MonAnd2Yr Reported        
+		   0.5609,      0.4391,       // Narrow        Yes      Female Btw6MonAnd2Yr Unknown         
+		   0.5788,      0.4212,       // Narrow        Yes      Female Btw2And5Yr    Reported        
+		   0.5273,      0.4727,       // Narrow        Yes      Female Btw2And5Yr    Unknown         
+		   0.5402,      0.4598,       // Narrow        Yes      Female Above5Yr      Reported        
+		   0.4883,      0.5117,       // Narrow        Yes      Female Above5Yr      Unknown         
+		   0.6017,      0.3983,       // Narrow        Yes      Male   LessThan6Mon  Reported        
+		   0.5506,      0.4494,       // Narrow        Yes      Male   LessThan6Mon  Unknown         
+		   0.5711,      0.4289,       // Narrow        Yes      Male   Btw6MonAnd2Yr Reported        
+		   0.5195,      0.4805,       // Narrow        Yes      Male   Btw6MonAnd2Yr Unknown         
+		   0.5376,      0.4624,       // Narrow        Yes      Male   Btw2And5Yr    Reported        
+		   0.4857,      0.5143,       // Narrow        Yes      Male   Btw2And5Yr    Unknown         
+		   0.4987,      0.5013,       // Narrow        Yes      Male   Above5Yr      Reported        
+		   0.4469,      0.5531,       // Narrow        Yes      Male   Above5Yr      Unknown         
+		   0.5583,      0.4417,       // Narrow        No       Female LessThan6Mon  Reported        
+		   0.5065,      0.4935,       // Narrow        No       Female LessThan6Mon  Unknown         
+		   0.5273,      0.4727,       // Narrow        No       Female Btw6MonAnd2Yr Reported        
+		   0.4754,      0.5246,       // Narrow        No       Female Btw6MonAnd2Yr Unknown         
+		   0.4935,      0.5065,       // Narrow        No       Female Btw2And5Yr    Reported        
+		   0.4417,      0.5583,       // Narrow        No       Female Btw2And5Yr    Unknown         
+		   0.4546,      0.5454,       // Narrow        No       Female Above5Yr      Reported        
+		   0.4034,      0.5966,       // Narrow        No       Female Above5Yr      Unknown         
+		   0.5169,      0.4831,       // Narrow        No       Male   LessThan6Mon  Reported        
+		   0.465,       0.535,        // Narrow        No       Male   LessThan6Mon  Unknown         
+		   0.4857,      0.5143,       // Narrow        No       Male   Btw6MonAnd2Yr Reported        
+		   0.434,       0.566,        // Narrow        No       Male   Btw6MonAnd2Yr Unknown         
+		   0.4521,      0.5479,       // Narrow        No       Male   Btw2And5Yr    Reported        
+		   0.4008,      0.5992,       // Narrow        No       Male   Btw2And5Yr    Unknown         
+		   0.4135587,   0.5864413,    // Narrow        No       Male   Above5Yr      Reported        
+		   0.3633,      0.6367,       // Narrow        No       Male   Above5Yr      Unknown         
+		   0.6292,      0.3708,       // Broader       Yes      Female LessThan6Mon  Reported        
+		   0.5788,      0.4212,       // Broader       Yes      Female LessThan6Mon  Unknown         
+		   0.5991,      0.4009,       // Broader       Yes      Female Btw6MonAnd2Yr Reported        
+		   0.548,       0.452,        // Broader       Yes      Female Btw6MonAnd2Yr Unknown         
+		   0.566,       0.434,        // Broader       Yes      Female Btw2And5Yr    Reported        
+		   0.5143,      0.4857,       // Broader       Yes      Female Btw2And5Yr    Unknown         
+		   0.5273,      0.4727,       // Broader       Yes      Female Above5Yr      Reported        
+		   0.4754,      0.5246,       // Broader       Yes      Female Above5Yr      Unknown         
+		   0.589,       0.411,        // Broader       Yes      Male   LessThan6Mon  Reported        
+		   0.5376,      0.4624,       // Broader       Yes      Male   LessThan6Mon  Unknown         
+		   0.5583,      0.4417,       // Broader       Yes      Male   Btw6MonAnd2Yr Reported        
+		   0.5065,      0.4935,       // Broader       Yes      Male   Btw6MonAnd2Yr Unknown         
+		   0.5247,      0.4753,       // Broader       Yes      Male   Btw2And5Yr    Reported        
+		   0.4728,      0.5272,       // Broader       Yes      Male   Btw2And5Yr    Unknown         
+		   0.4857,      0.5143,       // Broader       Yes      Male   Above5Yr      Reported        
+		   0.434,       0.566,        // Broader       Yes      Male   Above5Yr      Unknown         
+		   0.5454,      0.4546,       // Broader       No       Female LessThan6Mon  Reported        
+		   0.4935,      0.5065,       // Broader       No       Female LessThan6Mon  Unknown         
+		   0.5143,      0.4857,       // Broader       No       Female Btw6MonAnd2Yr Reported        
+		   0.4624,      0.5376,       // Broader       No       Female Btw6MonAnd2Yr Unknown         
+		   0.480552,    0.519448,     // Broader       No       Female Btw2And5Yr    Reported        
+		   0.4289,      0.5711,       // Broader       No       Female Btw2And5Yr    Unknown         
+		   0.4417,      0.5583,       // Broader       No       Female Above5Yr      Reported        
+		   0.3907,      0.6093,       // Broader       No       Female Above5Yr      Unknown         
+		   0.5039,      0.4961,       // Broader       No       Male   LessThan6Mon  Reported        
+		   0.4521,      0.5479,       // Broader       No       Male   LessThan6Mon  Unknown         
+		   0.4728,      0.5272,       // Broader       No       Male   Btw6MonAnd2Yr Reported        
+		   0.4212,      0.5788,       // Broader       No       Male   Btw6MonAnd2Yr Unknown         
+		   0.4392,      0.5608,       // Broader       No       Male   Btw2And5Yr    Reported        
+		   0.3882,      0.6118,       // Broader       No       Male   Btw2And5Yr    Unknown         
+		   0.4008,      0.5992,       // Broader       No       Male   Above5Yr      Reported        
+		   0.351,       0.649);       // Broader       No       Male   Above5Yr      Unknown         ;
+	numcases = 10;
+	title = "Other gram neg local colonisation (b8)";
+	comment = "This variable is latent.";
+	whenchanged = 1648681865;
+	belief = (0.5215213, 0.4784786);
+	visual V1 {
+		center = (600, 264);
+		height = 8;
+		};
+	};
+
+node GramPosPresence {
+	discrete = TRUE;
+	states = (High, Low);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (OnAbxEDGroup3, diarrhea, Sex, AgeGroup, PrevUriKidProbs);
+	probs = 
+		// High         Low           // OnAbxEDGroup3 diarrhea Sex    AgeGroup      PrevUriKidProbs 
+		  (0.7012,      0.2988,       // No            Yes      Female LessThan6Mon  Reported        
+		   0.646,       0.354,        // No            Yes      Female LessThan6Mon  Unknown         
+		   0.6685,      0.3315,       // No            Yes      Female Btw6MonAnd2Yr Reported        
+		   0.6115,      0.3885,       // No            Yes      Female Btw6MonAnd2Yr Unknown         
+		   0.6317,      0.3683,       // No            Yes      Female Btw2And5Yr    Reported        
+		   0.5732,      0.4268,       // No            Yes      Female Btw2And5Yr    Unknown         
+		   0.588,       0.412,        // No            Yes      Female Above5Yr      Reported        
+		   0.5284,      0.4716,       // No            Yes      Female Above5Yr      Unknown         
+		   0.6573,      0.3427,       // No            Yes      Male   LessThan6Mon  Reported        
+		   0.5998,      0.4002,       // No            Yes      Male   LessThan6Mon  Unknown         
+		   0.6231,      0.3769,       // No            Yes      Male   Btw6MonAnd2Yr Reported        
+		   0.5643,      0.4357,       // No            Yes      Male   Btw6MonAnd2Yr Unknown         
+		   0.5851,      0.4149,       // No            Yes      Male   Btw2And5Yr    Reported        
+		   0.5254,      0.4746,       // No            Yes      Male   Btw2And5Yr    Unknown         
+		   0.5404,      0.4596,       // No            Yes      Male   Above5Yr      Reported        
+		   0.480252,    0.519748,     // No            Yes      Male   Above5Yr      Unknown         
+		   0.6712,      0.3288,       // No            No       Female LessThan6Mon  Reported        
+		   0.6144,      0.3856,       // No            No       Female LessThan6Mon  Unknown         
+		   0.6374,      0.3626,       // No            No       Female Btw6MonAnd2Yr Reported        
+		   0.5792,      0.4208,       // No            No       Female Btw6MonAnd2Yr Unknown         
+		   0.5998,      0.4002,       // No            No       Female Btw2And5Yr    Reported        
+		   0.5404,      0.4596,       // No            No       Female Btw2And5Yr    Unknown         
+		   0.5554,      0.4446,       // No            No       Female Above5Yr      Reported        
+		   0.4953,      0.5047,       // No            No       Female Above5Yr      Unknown         
+		   0.626,       0.374,        // No            No       Male   LessThan6Mon  Reported        
+		   0.5673,      0.4327,       // No            No       Male   LessThan6Mon  Unknown         
+		   0.591,       0.409,        // No            No       Male   Btw6MonAnd2Yr Reported        
+		   0.5314,      0.4686,       // No            No       Male   Btw6MonAnd2Yr Unknown         
+		   0.5524,      0.4476,       // No            No       Male   Btw2And5Yr    Reported        
+		   0.4923,      0.5077,       // No            No       Male   Btw2And5Yr    Unknown         
+		   0.5073493,   0.4926507,    // No            No       Male   Above5Yr      Reported        
+		   0.4472,      0.5528,       // No            No       Male   Above5Yr      Unknown         
+		   0.6317,      0.3683,       // Narrow        Yes      Female LessThan6Mon  Reported        
+		   0.5732,      0.4268,       // Narrow        Yes      Female LessThan6Mon  Unknown         
+		   0.5969,      0.4031,       // Narrow        Yes      Female Btw6MonAnd2Yr Reported        
+		   0.5374,      0.4626,       // Narrow        Yes      Female Btw6MonAnd2Yr Unknown         
+		   0.5584,      0.4416,       // Narrow        Yes      Female Btw2And5Yr    Reported        
+		   0.4983,      0.5017,       // Narrow        Yes      Female Btw2And5Yr    Unknown         
+		   0.5134,      0.4866,       // Narrow        Yes      Female Above5Yr      Reported        
+		   0.4532,      0.5468,       // Narrow        Yes      Female Above5Yr      Unknown         
+		   0.5851,      0.4149,       // Narrow        Yes      Male   LessThan6Mon  Reported        
+		   0.5254,      0.4746,       // Narrow        Yes      Male   LessThan6Mon  Unknown         
+		   0.5494,      0.4506,       // Narrow        Yes      Male   Btw6MonAnd2Yr Reported        
+		   0.4893,      0.5107,       // Narrow        Yes      Male   Btw6MonAnd2Yr Unknown         
+		   0.5104,      0.4896,       // Narrow        Yes      Male   Btw2And5Yr    Reported        
+		   0.4502,      0.5498,       // Narrow        Yes      Male   Btw2And5Yr    Unknown         
+		   0.4652,      0.5348,       // Narrow        Yes      Male   Above5Yr      Reported        
+		   0.4057,      0.5943,       // Narrow        Yes      Male   Above5Yr      Unknown         
+		   0.5998,      0.4002,       // Narrow        No       Female LessThan6Mon  Reported        
+		   0.5404,      0.4596,       // Narrow        No       Female LessThan6Mon  Unknown         
+		   0.5643,      0.4357,       // Narrow        No       Female Btw6MonAnd2Yr Reported        
+		   0.5043,      0.4957,       // Narrow        No       Female Btw6MonAnd2Yr Unknown         
+		   0.5254,      0.4746,       // Narrow        No       Female Btw2And5Yr    Reported        
+		   0.4652,      0.5348,       // Narrow        No       Female Btw2And5Yr    Unknown         
+		   0.480252,    0.519748,     // Narrow        No       Female Above5Yr      Reported        
+		   0.4204,      0.5796,       // Narrow        No       Female Above5Yr      Unknown         
+		   0.5524,      0.4476,       // Narrow        No       Male   LessThan6Mon  Reported        
+		   0.4923,      0.5077,       // Narrow        No       Male   LessThan6Mon  Unknown         
+		   0.5164,      0.4836,       // Narrow        No       Male   Btw6MonAnd2Yr Reported        
+		   0.4562,      0.5438,       // Narrow        No       Male   Btw6MonAnd2Yr Unknown         
+		   0.4772,      0.5228,       // Narrow        No       Male   Btw2And5Yr    Reported        
+		   0.4175,      0.5825,       // Narrow        No       Male   Btw2And5Yr    Unknown         
+		   0.4323,      0.5677,       // Narrow        No       Male   Above5Yr      Reported        
+		   0.3736,      0.6264,       // Narrow        No       Male   Above5Yr      Unknown         
+		   0.6173,      0.3827,       // Broader       Yes      Female LessThan6Mon  Reported        
+		   0.5584,      0.4416,       // Broader       Yes      Female LessThan6Mon  Unknown         
+		   0.5821,      0.4179,       // Broader       Yes      Female Btw6MonAnd2Yr Reported        
+		   0.5224,      0.4776,       // Broader       Yes      Female Btw6MonAnd2Yr Unknown         
+		   0.5434,      0.4566,       // Broader       Yes      Female Btw2And5Yr    Reported        
+		   0.4833,      0.5167,       // Broader       Yes      Female Btw2And5Yr    Unknown         
+		   0.4983,      0.5017,       // Broader       Yes      Female Above5Yr      Reported        
+		   0.4383,      0.5617,       // Broader       Yes      Female Above5Yr      Unknown         
+		   0.5703,      0.4297,       // Broader       Yes      Male   LessThan6Mon  Reported        
+		   0.5104,      0.4896,       // Broader       Yes      Male   LessThan6Mon  Unknown         
+		   0.5344,      0.4656,       // Broader       Yes      Male   Btw6MonAnd2Yr Reported        
+		   0.4742,      0.5258,       // Broader       Yes      Male   Btw6MonAnd2Yr Unknown         
+		   0.4953,      0.5047,       // Broader       Yes      Male   Btw2And5Yr    Reported        
+		   0.4353,      0.5647,       // Broader       Yes      Male   Btw2And5Yr    Unknown         
+		   0.4502,      0.5498,       // Broader       Yes      Male   Above5Yr      Reported        
+		   0.391,       0.609,        // Broader       Yes      Male   Above5Yr      Unknown         
+		   0.5851,      0.4149,       // Broader       No       Female LessThan6Mon  Reported        
+		   0.5254,      0.4746,       // Broader       No       Female LessThan6Mon  Unknown         
+		   0.5494,      0.4506,       // Broader       No       Female Btw6MonAnd2Yr Reported        
+		   0.4893,      0.5107,       // Broader       No       Female Btw6MonAnd2Yr Unknown         
+		   0.5104,      0.4896,       // Broader       No       Female Btw2And5Yr    Reported        
+		   0.4502,      0.5498,       // Broader       No       Female Btw2And5Yr    Unknown         
+		   0.4652,      0.5348,       // Broader       No       Female Above5Yr      Reported        
+		   0.4057,      0.5943,       // Broader       No       Female Above5Yr      Unknown         
+		   0.5374,      0.4626,       // Broader       No       Male   LessThan6Mon  Reported        
+		   0.4772,      0.5228,       // Broader       No       Male   LessThan6Mon  Unknown         
+		   0.5013,      0.4987,       // Broader       No       Male   Btw6MonAnd2Yr Reported        
+		   0.4413,      0.5587,       // Broader       No       Male   Btw6MonAnd2Yr Unknown         
+		   0.4622,      0.5378,       // Broader       No       Male   Btw2And5Yr    Reported        
+		   0.4027,      0.5973,       // Broader       No       Male   Btw2And5Yr    Unknown         
+		   0.4175,      0.5825,       // Broader       No       Male   Above5Yr      Reported        
+		   0.3592,      0.6408);      // Broader       No       Male   Above5Yr      Unknown         ;
+	numcases = 10;
+	title = "Gram pos local colonisation (b9)";
+	comment = "This variable is latent.";
+	whenchanged = 1648681867;
+	belief = (0.5247651, 0.4752349);
+	visual V1 {
+		center = (828, 264);
+		height = 9;
+		};
+	};
+
+node CauseUTI {
+	discrete = TRUE;
+	states = (EColi, OtherGramNeg, GramPos, None);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (Comorbid, AgeGroup, EcoliPresence, OtherGramNegPresence, GramPosPresence);
+	parents = (PrevUriKidProbs, AgeGroup, EcoliPresence, OtherGramNegPresence, GramPosPresence);
+	probs = 
+		// EColi        OtherGramNeg GramPos      None          // Comorbid AgeGroup      EcoliPresence OtherGramNegPresence GramPosPresence 
+		  (0.23,        0.32,        0.23,        0.22,         // Reported LessThan6Mon  High          High                 High            
+		   0.3299967,   0.4499955,   1.00439e-5,  0.2199978,    // Reported LessThan6Mon  High          High                 Low             
+		   0.389997,    7.734739e-6, 0.389997,    0.2199983,    // Reported LessThan6Mon  High          Low                  High            
+		   0.7799888,   8.001301e-6, 6.352518e-6, 0.2199969,    // Reported LessThan6Mon  High          Low                  Low             
+		   1.107588e-5, 0.449995,    0.3299963,   0.2199976,    // Reported LessThan6Mon  Low           High                 High            
+		   1e-7,        0.78,        1e-7,        0.22,         // Reported LessThan6Mon  Low           High                 Low             
+		   1e-7,        9.999878e-8, 0.78,        0.22,         // Reported LessThan6Mon  Low           Low                  High            
+		   1.176434e-5, 1.154383e-5, 1.1123e-5,   0.9999655,    // Reported LessThan6Mon  Low           Low                  Low             
+		   0.23,        0.32,        0.23,        0.22,         // Reported Btw6MonAnd2Yr High          High                 High            
+		   0.3299963,   0.4499941,   1.004388e-5, 0.2199996,    // Reported Btw6MonAnd2Yr High          High                 Low             
+		   0.3899981,   7.734702e-6, 0.3899951,   0.219999,     // Reported Btw6MonAnd2Yr High          Low                  High            
+		   0.7799864,   8.001273e-6, 6.352499e-6, 0.2199993,    // Reported Btw6MonAnd2Yr High          Low                  Low             
+		   1.107588e-5, 0.4499941,   0.3299953,   0.2199995,    // Reported Btw6MonAnd2Yr Low           High                 High            
+		   9.999879e-8, 0.78,        1e-7,        0.22,         // Reported Btw6MonAnd2Yr Low           High                 Low             
+		   1e-7,        9.999878e-8, 0.78,        0.22,         // Reported Btw6MonAnd2Yr Low           Low                  High            
+		   1.000024e-7, 1.000012e-7, 1e-7,        1,            // Reported Btw6MonAnd2Yr Low           Low                  Low             
+		   0.27,        0.36,        0.26,        0.11,         // Reported Btw2And5Yr    High          High                 High            
+		   0.3799977,   0.5099969,   6.89641e-6,  0.1099986,    // Reported Btw2And5Yr    High          High                 Low             
+		   0.4499979,   4.568479e-6, 0.439998,    0.1099995,    // Reported Btw2And5Yr    High          Low                  High            
+		   0.8899927,   4.1762e-6,   4.099366e-6, 0.1099991,    // Reported Btw2And5Yr    High          Low                  Low             
+		   1.050687e-5, 0.5199945,   0.3699961,   0.1099988,    // Reported Btw2And5Yr    Low           High                 High            
+		   5.82779e-6,  0.8899921,   3.123272e-6, 0.109999,     // Reported Btw2And5Yr    Low           High                 Low             
+		   7.052266e-6, 4.741028e-6, 0.8899895,   0.1099987,    // Reported Btw2And5Yr    Low           Low                  High            
+		   1.176409e-5, 1.15436e-5,  1.11227e-5,  0.9999655,    // Reported Btw2And5Yr    Low           Low                  Low             
+		   0.29,        0.39,        0.28,        0.04,         // Reported Above5Yr      High          High                 High            
+		   0.4099991,   0.5499988,   2.199e-6,    0.03999991,   // Reported Above5Yr      High          High                 Low             
+		   0.4899976,   3.405983e-6, 0.4699993,   0.0399998,    // Reported Above5Yr      High          Low                  High            
+		   0.9599989,   7.2925e-7,   4.308595e-7, 0.03999995,   // Reported Above5Yr      High          Low                  Low             
+		   9.898701e-6, 0.5599945,   0.399996,    0.0399996,    // Reported Above5Yr      Low           High                 High            
+		   1.284629e-5, 0.9599809,   7.071295e-6, 0.0399992,    // Reported Above5Yr      Low           High                 Low             
+		   3.90122e-6,  3.99198e-6,  0.9599924,   0.03999968,   // Reported Above5Yr      Low           Low                  High            
+		   1.17641e-5,  1.15436e-5,  1.1123e-5,   0.9999655,    // Reported Above5Yr      Low           Low                  Low             
+		   0.14,        0.19,        0.14,        0.53,         // Unknown  LessThan6Mon  High          High                 High            
+		   0.199998,    0.2699973,   9.9806e-6,   0.5299947,    // Unknown  LessThan6Mon  High          High                 Low             
+		   0.2399996,   1.807097e-6, 0.2299996,   0.529999,     // Unknown  LessThan6Mon  High          Low                  High            
+		   0.4699992,   7.568337e-7, 1.013198e-6, 0.5299991,    // Unknown  LessThan6Mon  High          Low                  Low             
+		   1.015418e-5, 0.2699973,   0.199998,    0.5299946,    // Unknown  LessThan6Mon  Low           High                 High            
+		   1e-7,        0.47,        9.999879e-8, 0.53,         // Unknown  LessThan6Mon  Low           High                 Low             
+		   8.858643e-6, 7.901872e-6, 0.4699921,   0.5299911,    // Unknown  LessThan6Mon  Low           Low                  High            
+		   8.254183e-6, 5.39882e-6,  1.272122e-5, 0.9999737,    // Unknown  LessThan6Mon  Low           Low                  Low             
+		   0.14,        0.19,        0.14,        0.53,         // Unknown  Btw6MonAnd2Yr High          High                 High            
+		   0.199997,    0.2699957,   9.980551e-6, 0.5299973,    // Unknown  Btw6MonAnd2Yr High          High                 Low             
+		   0.2399996,   1.807097e-6, 0.2299996,   0.529999,     // Unknown  Btw6MonAnd2Yr High          Low                  High            
+		   0.4699992,   7.568337e-7, 1.013198e-6, 0.5299991,    // Unknown  Btw6MonAnd2Yr High          Low                  Low             
+		   1.015415e-5, 0.2699956,   0.199997,    0.5299972,    // Unknown  Btw6MonAnd2Yr Low           High                 High            
+		   9.999878e-8, 0.47,        1e-7,        0.53,         // Unknown  Btw6MonAnd2Yr Low           High                 Low             
+		   8.858563e-6, 7.901801e-6, 0.4699879,   0.5299954,    // Unknown  Btw6MonAnd2Yr Low           Low                  High            
+		   8.254176e-6, 5.398818e-6, 1.27212e-5,  0.9999737,    // Unknown  Btw6MonAnd2Yr Low           Low                  Low             
+		   0.16,        0.22,        0.16,        0.46,         // Unknown  Btw2And5Yr    High          High                 High            
+		   0.2299996,   0.3099994,   1.924596e-6, 0.4599991,    // Unknown  Btw2And5Yr    High          High                 Low             
+		   0.2699987,   4.784677e-6, 0.2699987,   0.4599978,    // Unknown  Btw2And5Yr    High          Low                  High            
+		   0.5399979,   2.694391e-6, 1.251912e-6, 0.4599982,    // Unknown  Btw2And5Yr    High          Low                  Low             
+		   1.047478e-5, 0.3099968,   0.2299976,   0.4599952,    // Unknown  Btw2And5Yr    Low           High                 High            
+		   3.864574e-6, 0.5399963,   2.97738e-6,  0.4599968,    // Unknown  Btw2And5Yr    Low           High                 Low             
+		   9.999873e-8, 1e-7,        0.54,        0.46,         // Unknown  Btw2And5Yr    Low           Low                  High            
+		   8.254176e-6, 5.398818e-6, 1.2721e-5,   0.9999737,    // Unknown  Btw2And5Yr    Low           Low                  Low             
+		   0.17,        0.23,        0.17,        0.43,         // Unknown  Above5Yr      High          High                 High            
+		   0.239999,    0.3299987,   4.0513e-6,   0.4299982,    // Unknown  Above5Yr      High          High                 Low             
+		   0.2899989,   3.901685e-6, 0.2799989,   0.4299983,    // Unknown  Above5Yr      High          Low                  High            
+		   0.5699989,   9.99998e-7,  9.99998e-7,  0.4299991,    // Unknown  Above5Yr      High          Low                  Low             
+		   1.031086e-5, 0.3299989,   0.2399967,   0.4299941,    // Unknown  Above5Yr      Low           High                 High            
+		   8.604515e-6, 0.5699912,   6.888693e-6, 0.4299933,    // Unknown  Above5Yr      Low           High                 Low             
+		   8.100262e-6, 5.569724e-6, 0.5699922,   0.4299941,    // Unknown  Above5Yr      Low           Low                  High            
+		   8.254176e-6, 5.398818e-6, 1.2721e-5,   0.9999737);   // Unknown  Above5Yr      Low           Low                  Low             ;
+	numcases = 10;
+	title = "Causative pathogen (b10)";
+	comment = "This is a latent variable.";
+	whenchanged = 1648685825;
+	belief = (0.2656486, 0.2011773, 0.1694901, 0.363684);
+	visual V1 {
+		center = (1098, 342);
+		height = 33;
+		};
+	};
+
+node CollMethod {
+	discrete = TRUE;
+	states = (CleanCatch, Catheter, SupraAsp);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (AgeGroup, PrevUriKidProbs);
+	probs = 
+		// CleanCatch   Catheter     SupraAsp      // AgeGroup      PrevUriKidProbs 
+		  (0.3333333,   0.3333333,   0.3333333,    // LessThan6Mon  Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // LessThan6Mon  Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // Btw6MonAnd2Yr Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // Btw6MonAnd2Yr Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // Btw2And5Yr    Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // Btw2And5Yr    Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // Above5Yr      Reported        
+		   0.3333333,   0.3333333,   0.3333333);   // Above5Yr      Unknown         ;
+	numcases = 10;
+	title = "Urine collection method (b13)";
+	whenchanged = 1648682167;
+	belief = (0.3333333, 0.3333333, 0.3333333);
+	visual V1 {
+		center = (96, 276);
+		height = 2;
+		};
+	};
+
+node ContaminationRisk {
+	discrete = TRUE;
+	states = (High, Low);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Sex, CollMethod, diarrhea, AgeGroup);
+	probs = 
+		// High         Low           // Sex    CollMethod diarrhea AgeGroup      
+		  (0.9001,      0.0999,       // Female CleanCatch Yes      LessThan6Mon  
+		   0.8616,      0.1384,       // Female CleanCatch Yes      Btw6MonAnd2Yr 
+		   0.8106,      0.1894,       // Female CleanCatch Yes      Btw2And5Yr    
+		   0.7403,      0.2597,       // Female CleanCatch Yes      Above5Yr      
+		   0.7746,      0.2254,       // Female CleanCatch No       LessThan6Mon  
+		   0.7144,      0.2856,       // Female CleanCatch No       Btw6MonAnd2Yr 
+		   0.6424,      0.3576,       // Female CleanCatch No       Btw2And5Yr    
+		   0.5532,      0.4468,       // Female CleanCatch No       Above5Yr      
+		   0.7352,      0.2648,       // Female Catheter   Yes      LessThan6Mon  
+		   0.6708,      0.3292,       // Female Catheter   Yes      Btw6MonAnd2Yr 
+		   0.5954,      0.4046,       // Female Catheter   Yes      Btw2And5Yr    
+		   0.5044,      0.4956,       // Female Catheter   Yes      Above5Yr      
+		   0.5472,      0.4528,       // Female Catheter   No       LessThan6Mon  
+		   0.4738,      0.5262,       // Female Catheter   No       Btw6MonAnd2Yr 
+		   0.3954,      0.6046,       // Female Catheter   No       Btw2And5Yr    
+		   0.3098,      0.6902,       // Female Catheter   No       Above5Yr      
+		   0.6652,      0.3348,       // Female SupraAsp   Yes      LessThan6Mon  
+		   0.5954,      0.4046,       // Female SupraAsp   Yes      Btw6MonAnd2Yr 
+		   0.5166,      0.4834,       // Female SupraAsp   Yes      Btw2And5Yr    
+		   0.4252,      0.5748,       // Female SupraAsp   Yes      Above5Yr      
+		   0.4677,      0.5323,       // Female SupraAsp   No       LessThan6Mon  
+		   0.3954,      0.6046,       // Female SupraAsp   No       Btw6MonAnd2Yr 
+		   0.3208,      0.6792,       // Female SupraAsp   No       Btw2And5Yr    
+		   0.2426,      0.7574,       // Female SupraAsp   No       Above5Yr      
+		   0.8469,      0.1531,       // Male   CleanCatch Yes      LessThan6Mon  
+		   0.7975,      0.2025,       // Male   CleanCatch Yes      Btw6MonAnd2Yr 
+		   0.7352,      0.2648,       // Male   CleanCatch Yes      Btw2And5Yr    
+		   0.6539,      0.3461,       // Male   CleanCatch Yes      Above5Yr      
+		   0.693,       0.307,        // Male   CleanCatch No       LessThan6Mon  
+		   0.625,       0.375,        // Male   CleanCatch No       Btw6MonAnd2Yr 
+		   0.5472,      0.4528,       // Male   CleanCatch No       Btw2And5Yr    
+		   0.4555,      0.5445,       // Male   CleanCatch No       Above5Yr      
+		   0.6482,      0.3518,       // Male   Catheter   Yes      LessThan6Mon  
+		   0.5774,      0.4226,       // Male   Catheter   Yes      Btw6MonAnd2Yr 
+		   0.4983,      0.5017,       // Male   Catheter   Yes      Btw2And5Yr    
+		   0.4072,      0.5928,       // Male   Catheter   Yes      Above5Yr      
+		   0.4494,      0.5506,       // Male   Catheter   No       LessThan6Mon  
+		   0.3777,      0.6223,       // Male   Catheter   No       Btw6MonAnd2Yr 
+		   0.3044,      0.6956,       // Male   Catheter   No       Btw2And5Yr    
+		   0.2282772,   0.7717228,    // Male   Catheter   No       Above5Yr      
+		   0.5714,      0.4286,       // Male   SupraAsp   Yes      LessThan6Mon  
+		   0.4983,      0.5017,       // Male   SupraAsp   Yes      Btw6MonAnd2Yr 
+		   0.4192,      0.5808,       // Male   SupraAsp   Yes      Btw2And5Yr    
+		   0.3319,      0.6681,       // Male   SupraAsp   Yes      Above5Yr      
+		   0.3719,      0.6281,       // Male   SupraAsp   No       LessThan6Mon  
+		   0.3044,      0.6956,       // Male   SupraAsp   No       Btw6MonAnd2Yr 
+		   0.2378,      0.7622,       // Male   SupraAsp   No       Btw2And5Yr    
+		   0.1714,      0.8286);      // Male   SupraAsp   No       Above5Yr      ;
+	numcases = 10;
+	title = "Specimen contamination risk (b15)";
+	comment = "This is a latent variable, and not updated by data.";
+	whenchanged = 1648685694;
+	belief = (0.5335308, 0.4664692);
+	visual V1 {
+		center = (282, 414);
+		height = 4;
+		link 2 {
+			path = ((137, 308), (248, 389));
+			};
+		};
+	};
+
+node CurrPhenotype {
+	discrete = TRUE;
+	states = (Type1, Type2, Type3);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (CauseUTI, AgeGroup, PrevUriKidProbs);
+	parents = (CauseUTI, AgeGroup, PrevUriKidProbs);
+	probs = 
+		// Type1        Type2        Type3         // CauseUTI     AgeGroup      PrevUriKidProbs 
+		  (0.49,        0.49,        0.02,         // EColi        LessThan6Mon  Reported        
+		   0.49,        0.49,        0.02,         // EColi        LessThan6Mon  Unknown         
+		   0.49,        0.49,        0.02,         // EColi        Btw6MonAnd2Yr Reported        
+		   0.49,        0.49,        0.02,         // EColi        Btw6MonAnd2Yr Unknown         
+		   0.49,        0.49,        0.02,         // EColi        Btw2And5Yr    Reported        
+		   0.49,        0.49,        0.02,         // EColi        Btw2And5Yr    Unknown         
+		   0.49,        0.49,        0.02,         // EColi        Above5Yr      Reported        
+		   0.49,        0.49,        0.02,         // EColi        Above5Yr      Unknown         
+		   0.49,        0.49,        0.02,         // OtherGramNeg LessThan6Mon  Reported        
+		   0.49,        0.49,        0.02,         // OtherGramNeg LessThan6Mon  Unknown         
+		   0.49,        0.49,        0.02,         // OtherGramNeg Btw6MonAnd2Yr Reported        
+		   0.49,        0.49,        0.02,         // OtherGramNeg Btw6MonAnd2Yr Unknown         
+		   0.49,        0.49,        0.02,         // OtherGramNeg Btw2And5Yr    Reported        
+		   0.49,        0.49,        0.02,         // OtherGramNeg Btw2And5Yr    Unknown         
+		   0.49,        0.49,        0.02,         // OtherGramNeg Above5Yr      Reported        
+		   0.49,        0.49,        0.02,         // OtherGramNeg Above5Yr      Unknown         
+		   0.49,        0.49,        0.02,         // GramPos      LessThan6Mon  Reported        
+		   0.49,        0.49,        0.02,         // GramPos      LessThan6Mon  Unknown         
+		   0.49,        0.49,        0.02,         // GramPos      Btw6MonAnd2Yr Reported        
+		   0.49,        0.49,        0.02,         // GramPos      Btw6MonAnd2Yr Unknown         
+		   0.49,        0.49,        0.02,         // GramPos      Btw2And5Yr    Reported        
+		   0.49,        0.49,        0.02,         // GramPos      Btw2And5Yr    Unknown         
+		   0.49,        0.49,        0.02,         // GramPos      Above5Yr      Reported        
+		   0.49,        0.49,        0.02,         // GramPos      Above5Yr      Unknown         
+		   0.01,        0.01,        0.98,         // None         LessThan6Mon  Reported        
+		   0.01,        0.01,        0.98,         // None         LessThan6Mon  Unknown         
+		   0.01,        0.01,        0.98,         // None         Btw6MonAnd2Yr Reported        
+		   0.01,        0.01,        0.98,         // None         Btw6MonAnd2Yr Unknown         
+		   0.01,        0.01,        0.98,         // None         Btw2And5Yr    Reported        
+		   0.01,        0.01,        0.98,         // None         Btw2And5Yr    Unknown         
+		   0.01,        0.01,        0.98,         // None         Above5Yr      Reported        
+		   0.01,        0.01,        0.98);        // None         Above5Yr      Unknown         ;
+	numcases = 10;
+	title = "Current clinical phenotype (b11)";
+	whenchanged = 1648681828;
+	belief = (0.3154317, 0.3154317, 0.3691366);
+	visual V1 {
+		center = (1596, 390);
+		height = 15;
+		};
+	};
+
+node EmpricAbxGroup3 {
+	discrete = TRUE;
+	states = (Narrow, Broader);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (OnAbxEDGroup3, CurrPhenotype, AgeGroup);
+	probs = 
+		// Narrow       Broader       // OnAbxEDGroup3 CurrPhenotype AgeGroup      
+		  (0.5,         0.5,          // No            Type1         LessThan6Mon  
+		   0.5,         0.5,          // No            Type1         Btw6MonAnd2Yr 
+		   0.5,         0.5,          // No            Type1         Btw2And5Yr    
+		   0.5,         0.5,          // No            Type1         Above5Yr      
+		   0.5,         0.5,          // No            Type2         LessThan6Mon  
+		   0.5,         0.5,          // No            Type2         Btw6MonAnd2Yr 
+		   0.5,         0.5,          // No            Type2         Btw2And5Yr    
+		   0.5,         0.5,          // No            Type2         Above5Yr      
+		   0.5,         0.5,          // No            Type3         LessThan6Mon  
+		   0.5,         0.5,          // No            Type3         Btw6MonAnd2Yr 
+		   0.5,         0.5,          // No            Type3         Btw2And5Yr    
+		   0.5,         0.5,          // No            Type3         Above5Yr      
+		   0.5,         0.5,          // Narrow        Type1         LessThan6Mon  
+		   0.5,         0.5,          // Narrow        Type1         Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Narrow        Type1         Btw2And5Yr    
+		   0.5,         0.5,          // Narrow        Type1         Above5Yr      
+		   0.5,         0.5,          // Narrow        Type2         LessThan6Mon  
+		   0.5,         0.5,          // Narrow        Type2         Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Narrow        Type2         Btw2And5Yr    
+		   0.5,         0.5,          // Narrow        Type2         Above5Yr      
+		   0.5,         0.5,          // Narrow        Type3         LessThan6Mon  
+		   0.5,         0.5,          // Narrow        Type3         Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Narrow        Type3         Btw2And5Yr    
+		   0.5,         0.5,          // Narrow        Type3         Above5Yr      
+		   0.5,         0.5,          // Broader       Type1         LessThan6Mon  
+		   0.5,         0.5,          // Broader       Type1         Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Broader       Type1         Btw2And5Yr    
+		   0.5,         0.5,          // Broader       Type1         Above5Yr      
+		   0.5,         0.5,          // Broader       Type2         LessThan6Mon  
+		   0.5,         0.5,          // Broader       Type2         Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Broader       Type2         Btw2And5Yr    
+		   0.5,         0.5,          // Broader       Type2         Above5Yr      
+		   0.5,         0.5,          // Broader       Type3         LessThan6Mon  
+		   0.5,         0.5,          // Broader       Type3         Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Broader       Type3         Btw2And5Yr    
+		   0.5,         0.5);         // Broader       Type3         Above5Yr      ;
+	title = "Empiric abx in ED (b12)";
+	whenchanged = 1648687181;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (1770, 492);
+		height = 35;
+		link 2 {
+			path = ((1648, 422), (1727, 467));
+			};
+		};
+	};
+
+node RespSymp {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (AgeGroup);
+	probs = 
+		// Yes          No            // AgeGroup      
+		  (0.5,         0.5,          // LessThan6Mon  
+		   0.5,         0.5,          // Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Btw2And5Yr    
+		   0.5,         0.5);         // Above5Yr      ;
+	numcases = 10;
+	title = "Respiratory symptoms (b31)";
+	comment = "Respiratory symptoms, jaundice ";
+	whenchanged = 1648684505;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (1422, 288);
+		height = 22;
+		link 1 {
+			path = ((1356, 83), (1414, 263));
+			};
+		};
+	};
+
+node TemperatureLvl2 {
+	discrete = TRUE;
+	states = (Abv385, Btw375and385, Btw365and375, Below365);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (Cause, Severity, AgeGroup, RespSymp);
+	parents = (CauseUTI, CurrPhenotype, AgeGroup, RespSymp);
+	probs = 
+		// Abv385       Btw375and385 Btw365and375 Below365      // Cause        Severity AgeGroup      RespSymp 
+		  (0.25,        0.25,        0.25,        0.25,         // EColi        Type1    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type1    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type1    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type1    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type1    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type1    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type1    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type1    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type2    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type2    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type2    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type2    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type2    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type2    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type2    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type2    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type3    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type3    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type3    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type3    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type3    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type3    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type3    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // EColi        Type3    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type1    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type1    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type1    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type1    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type1    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type1    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type1    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type1    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type2    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type2    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type2    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type2    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type2    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type2    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type2    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type2    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type3    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type3    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type3    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type3    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type3    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type3    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type3    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // OtherGramNeg Type3    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type1    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type1    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type1    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type1    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type1    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type1    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type1    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type1    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type2    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type2    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type2    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type2    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type2    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type2    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type2    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type2    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type3    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type3    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type3    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type3    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type3    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type3    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type3    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // GramPos      Type3    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type1    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type1    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type1    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type1    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type1    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type1    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type1    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type1    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type2    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type2    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type2    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type2    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type2    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type2    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type2    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type2    Above5Yr      No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type3    LessThan6Mon  Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type3    LessThan6Mon  No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type3    Btw6MonAnd2Yr Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type3    Btw6MonAnd2Yr No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type3    Btw2And5Yr    Yes      
+		   0.25,        0.25,        0.25,        0.25,         // None         Type3    Btw2And5Yr    No       
+		   0.25,        0.25,        0.25,        0.25,         // None         Type3    Above5Yr      Yes      
+		   0.25,        0.25,        0.25,        0.25);        // None         Type3    Above5Yr      No       ;
+	numcases = 10;
+	title = "Temperature in ED (b33)";
+	whenchanged = 1648685163;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (1500, 660);
+		height = 28;
+		};
+	};
+
+node UrinSym_PainOrDiscomf {
+	discrete = TRUE;
+	states = (Yes, Unknown);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (Cause, Age, Severity);
+	parents = (CauseUTI, AgeGroup, CurrPhenotype);
+	probs = 
+		// Yes          Unknown       // Cause        Age           Severity 
+		  (0.5,         0.5,          // EColi        LessThan6Mon  Type1    
+		   0.5,         0.5,          // EColi        LessThan6Mon  Type2    
+		   0.5,         0.5,          // EColi        LessThan6Mon  Type3    
+		   0.5,         0.5,          // EColi        Btw6MonAnd2Yr Type1    
+		   0.5,         0.5,          // EColi        Btw6MonAnd2Yr Type2    
+		   0.5,         0.5,          // EColi        Btw6MonAnd2Yr Type3    
+		   0.5,         0.5,          // EColi        Btw2And5Yr    Type1    
+		   0.5,         0.5,          // EColi        Btw2And5Yr    Type2    
+		   0.5,         0.5,          // EColi        Btw2And5Yr    Type3    
+		   0.5,         0.5,          // EColi        Above5Yr      Type1    
+		   0.5,         0.5,          // EColi        Above5Yr      Type2    
+		   0.5,         0.5,          // EColi        Above5Yr      Type3    
+		   0.5,         0.5,          // OtherGramNeg LessThan6Mon  Type1    
+		   0.5,         0.5,          // OtherGramNeg LessThan6Mon  Type2    
+		   0.5,         0.5,          // OtherGramNeg LessThan6Mon  Type3    
+		   0.5,         0.5,          // OtherGramNeg Btw6MonAnd2Yr Type1    
+		   0.5,         0.5,          // OtherGramNeg Btw6MonAnd2Yr Type2    
+		   0.5,         0.5,          // OtherGramNeg Btw6MonAnd2Yr Type3    
+		   0.5,         0.5,          // OtherGramNeg Btw2And5Yr    Type1    
+		   0.5,         0.5,          // OtherGramNeg Btw2And5Yr    Type2    
+		   0.5,         0.5,          // OtherGramNeg Btw2And5Yr    Type3    
+		   0.5,         0.5,          // OtherGramNeg Above5Yr      Type1    
+		   0.5,         0.5,          // OtherGramNeg Above5Yr      Type2    
+		   0.5,         0.5,          // OtherGramNeg Above5Yr      Type3    
+		   0.5,         0.5,          // GramPos      LessThan6Mon  Type1    
+		   0.5,         0.5,          // GramPos      LessThan6Mon  Type2    
+		   0.5,         0.5,          // GramPos      LessThan6Mon  Type3    
+		   0.5,         0.5,          // GramPos      Btw6MonAnd2Yr Type1    
+		   0.5,         0.5,          // GramPos      Btw6MonAnd2Yr Type2    
+		   0.5,         0.5,          // GramPos      Btw6MonAnd2Yr Type3    
+		   0.5,         0.5,          // GramPos      Btw2And5Yr    Type1    
+		   0.5,         0.5,          // GramPos      Btw2And5Yr    Type2    
+		   0.5,         0.5,          // GramPos      Btw2And5Yr    Type3    
+		   0.5,         0.5,          // GramPos      Above5Yr      Type1    
+		   0.5,         0.5,          // GramPos      Above5Yr      Type2    
+		   0.5,         0.5,          // GramPos      Above5Yr      Type3    
+		   0.01,        0.99,         // None         LessThan6Mon  Type1    
+		   0.01,        0.99,         // None         LessThan6Mon  Type2    
+		   0.01,        0.99,         // None         LessThan6Mon  Type3    
+		   0.01,        0.99,         // None         Btw6MonAnd2Yr Type1    
+		   0.01,        0.99,         // None         Btw6MonAnd2Yr Type2    
+		   0.01,        0.99,         // None         Btw6MonAnd2Yr Type3    
+		   0.01,        0.99,         // None         Btw2And5Yr    Type1    
+		   0.01,        0.99,         // None         Btw2And5Yr    Type2    
+		   0.01,        0.99,         // None         Btw2And5Yr    Type3    
+		   0.01,        0.99,         // None         Above5Yr      Type1    
+		   0.01,        0.99,         // None         Above5Yr      Type2    
+		   0.01,        0.99);        // None         Above5Yr      Type3    ;
+	numcases = 10;
+	title = "Urinary tract pain or discomfort (b26)";
+	whenchanged = 1648684415;
+	belief = (0.3217948, 0.6782051);
+	visual V1 {
+		center = (1320, 504);
+		height = 23;
+		};
+	};
+
+node Irritable {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (AgeGroup, CurrPhenotype, TemperatureLvl2, CauseUTI);
+	probs = 
+		// Yes          No            // AgeGroup      CurrPhenotype TemperatureLvl2 CauseUTI     
+		  (0.5,         0.5,          // LessThan6Mon  Type1         Abv385          EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type1         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type1         Abv385          GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type1         Abv385          None         
+		   0.5,         0.5,          // LessThan6Mon  Type1         Btw375and385    EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type1         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type1         Btw375and385    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type1         Btw375and385    None         
+		   0.5,         0.5,          // LessThan6Mon  Type1         Btw365and375    EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type1         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type1         Btw365and375    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type1         Btw365and375    None         
+		   0.5,         0.5,          // LessThan6Mon  Type1         Below365        EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type1         Below365        OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type1         Below365        GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type1         Below365        None         
+		   0.5,         0.5,          // LessThan6Mon  Type2         Abv385          EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type2         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type2         Abv385          GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type2         Abv385          None         
+		   0.5,         0.5,          // LessThan6Mon  Type2         Btw375and385    EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type2         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type2         Btw375and385    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type2         Btw375and385    None         
+		   0.5,         0.5,          // LessThan6Mon  Type2         Btw365and375    EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type2         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type2         Btw365and375    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type2         Btw365and375    None         
+		   0.5,         0.5,          // LessThan6Mon  Type2         Below365        EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type2         Below365        OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type2         Below365        GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type2         Below365        None         
+		   0.5,         0.5,          // LessThan6Mon  Type3         Abv385          EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type3         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type3         Abv385          GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type3         Abv385          None         
+		   0.5,         0.5,          // LessThan6Mon  Type3         Btw375and385    EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type3         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type3         Btw375and385    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type3         Btw375and385    None         
+		   0.5,         0.5,          // LessThan6Mon  Type3         Btw365and375    EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type3         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type3         Btw365and375    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type3         Btw365and375    None         
+		   0.5,         0.5,          // LessThan6Mon  Type3         Below365        EColi        
+		   0.5,         0.5,          // LessThan6Mon  Type3         Below365        OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Type3         Below365        GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Type3         Below365        None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Abv385          EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Abv385          GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Abv385          None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Btw375and385    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Btw375and385    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Btw375and385    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Btw365and375    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Btw365and375    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Btw365and375    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Below365        EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Below365        OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Below365        GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type1         Below365        None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Abv385          EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Abv385          GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Abv385          None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Btw375and385    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Btw375and385    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Btw375and385    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Btw365and375    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Btw365and375    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Btw365and375    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Below365        EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Below365        OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Below365        GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type2         Below365        None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Abv385          EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Abv385          GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Abv385          None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Btw375and385    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Btw375and385    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Btw375and385    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Btw365and375    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Btw365and375    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Btw365and375    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Below365        EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Below365        OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Below365        GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Type3         Below365        None         
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Abv385          EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Abv385          GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Abv385          None         
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Btw375and385    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Btw375and385    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Btw375and385    None         
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Btw365and375    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Btw365and375    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Btw365and375    None         
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Below365        EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Below365        OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Below365        GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type1         Below365        None         
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Abv385          EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Abv385          GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Abv385          None         
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Btw375and385    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Btw375and385    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Btw375and385    None         
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Btw365and375    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Btw365and375    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Btw365and375    None         
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Below365        EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Below365        OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Below365        GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type2         Below365        None         
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Abv385          EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Abv385          GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Abv385          None         
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Btw375and385    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Btw375and385    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Btw375and385    None         
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Btw365and375    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Btw365and375    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Btw365and375    None         
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Below365        EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Below365        OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Below365        GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Type3         Below365        None         
+		   0.5,         0.5,          // Above5Yr      Type1         Abv385          EColi        
+		   0.5,         0.5,          // Above5Yr      Type1         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type1         Abv385          GramPos      
+		   0.5,         0.5,          // Above5Yr      Type1         Abv385          None         
+		   0.5,         0.5,          // Above5Yr      Type1         Btw375and385    EColi        
+		   0.5,         0.5,          // Above5Yr      Type1         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type1         Btw375and385    GramPos      
+		   0.5,         0.5,          // Above5Yr      Type1         Btw375and385    None         
+		   0.5,         0.5,          // Above5Yr      Type1         Btw365and375    EColi        
+		   0.5,         0.5,          // Above5Yr      Type1         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type1         Btw365and375    GramPos      
+		   0.5,         0.5,          // Above5Yr      Type1         Btw365and375    None         
+		   0.5,         0.5,          // Above5Yr      Type1         Below365        EColi        
+		   0.5,         0.5,          // Above5Yr      Type1         Below365        OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type1         Below365        GramPos      
+		   0.5,         0.5,          // Above5Yr      Type1         Below365        None         
+		   0.5,         0.5,          // Above5Yr      Type2         Abv385          EColi        
+		   0.5,         0.5,          // Above5Yr      Type2         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type2         Abv385          GramPos      
+		   0.5,         0.5,          // Above5Yr      Type2         Abv385          None         
+		   0.5,         0.5,          // Above5Yr      Type2         Btw375and385    EColi        
+		   0.5,         0.5,          // Above5Yr      Type2         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type2         Btw375and385    GramPos      
+		   0.5,         0.5,          // Above5Yr      Type2         Btw375and385    None         
+		   0.5,         0.5,          // Above5Yr      Type2         Btw365and375    EColi        
+		   0.5,         0.5,          // Above5Yr      Type2         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type2         Btw365and375    GramPos      
+		   0.5,         0.5,          // Above5Yr      Type2         Btw365and375    None         
+		   0.5,         0.5,          // Above5Yr      Type2         Below365        EColi        
+		   0.5,         0.5,          // Above5Yr      Type2         Below365        OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type2         Below365        GramPos      
+		   0.5,         0.5,          // Above5Yr      Type2         Below365        None         
+		   0.5,         0.5,          // Above5Yr      Type3         Abv385          EColi        
+		   0.5,         0.5,          // Above5Yr      Type3         Abv385          OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type3         Abv385          GramPos      
+		   0.5,         0.5,          // Above5Yr      Type3         Abv385          None         
+		   0.5,         0.5,          // Above5Yr      Type3         Btw375and385    EColi        
+		   0.5,         0.5,          // Above5Yr      Type3         Btw375and385    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type3         Btw375and385    GramPos      
+		   0.5,         0.5,          // Above5Yr      Type3         Btw375and385    None         
+		   0.5,         0.5,          // Above5Yr      Type3         Btw365and375    EColi        
+		   0.5,         0.5,          // Above5Yr      Type3         Btw365and375    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type3         Btw365and375    GramPos      
+		   0.5,         0.5,          // Above5Yr      Type3         Btw365and375    None         
+		   0.5,         0.5,          // Above5Yr      Type3         Below365        EColi        
+		   0.5,         0.5,          // Above5Yr      Type3         Below365        OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Type3         Below365        GramPos      
+		   0.5,         0.5);         // Above5Yr      Type3         Below365        None         ;
+	numcases = 10;
+	title = "Irritable (b34)";
+	whenchanged = 1648685275;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (1638, 816);
+		height = 30;
+		};
+	};
+
+node AbdoPain {
+	discrete = TRUE;
+	states = (Yes, Unknown);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (AgeGroup, diarrhea, Severity, CauseUTI);
+	parents = (AgeGroup, diarrhea, CurrPhenotype, CauseUTI);
+	probs = 
+		// Yes          Unknown       // AgeGroup      diarrhea Severity CauseUTI     
+		  (0.5,         0.5,          // LessThan6Mon  Yes      Type1    EColi        
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type1    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type1    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type1    None         
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type2    EColi        
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type2    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type2    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type2    None         
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type3    EColi        
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type3    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type3    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  Yes      Type3    None         
+		   0.5,         0.5,          // LessThan6Mon  No       Type1    EColi        
+		   0.5,         0.5,          // LessThan6Mon  No       Type1    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  No       Type1    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  No       Type1    None         
+		   0.5,         0.5,          // LessThan6Mon  No       Type2    EColi        
+		   0.5,         0.5,          // LessThan6Mon  No       Type2    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  No       Type2    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  No       Type2    None         
+		   0.5,         0.5,          // LessThan6Mon  No       Type3    EColi        
+		   0.5,         0.5,          // LessThan6Mon  No       Type3    OtherGramNeg 
+		   0.5,         0.5,          // LessThan6Mon  No       Type3    GramPos      
+		   0.5,         0.5,          // LessThan6Mon  No       Type3    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type1    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type1    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type1    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type1    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type2    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type2    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type2    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type2    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type3    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type3    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type3    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr Yes      Type3    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type1    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type1    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type1    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type1    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type2    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type2    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type2    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type2    None         
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type3    EColi        
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type3    OtherGramNeg 
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type3    GramPos      
+		   0.5,         0.5,          // Btw6MonAnd2Yr No       Type3    None         
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type1    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type1    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type1    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type1    None         
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type2    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type2    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type2    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type2    None         
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type3    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type3    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type3    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    Yes      Type3    None         
+		   0.5,         0.5,          // Btw2And5Yr    No       Type1    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    No       Type1    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    No       Type1    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    No       Type1    None         
+		   0.5,         0.5,          // Btw2And5Yr    No       Type2    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    No       Type2    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    No       Type2    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    No       Type2    None         
+		   0.5,         0.5,          // Btw2And5Yr    No       Type3    EColi        
+		   0.5,         0.5,          // Btw2And5Yr    No       Type3    OtherGramNeg 
+		   0.5,         0.5,          // Btw2And5Yr    No       Type3    GramPos      
+		   0.5,         0.5,          // Btw2And5Yr    No       Type3    None         
+		   0.5,         0.5,          // Above5Yr      Yes      Type1    EColi        
+		   0.5,         0.5,          // Above5Yr      Yes      Type1    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Yes      Type1    GramPos      
+		   0.5,         0.5,          // Above5Yr      Yes      Type1    None         
+		   0.5,         0.5,          // Above5Yr      Yes      Type2    EColi        
+		   0.5,         0.5,          // Above5Yr      Yes      Type2    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Yes      Type2    GramPos      
+		   0.5,         0.5,          // Above5Yr      Yes      Type2    None         
+		   0.5,         0.5,          // Above5Yr      Yes      Type3    EColi        
+		   0.5,         0.5,          // Above5Yr      Yes      Type3    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      Yes      Type3    GramPos      
+		   0.5,         0.5,          // Above5Yr      Yes      Type3    None         
+		   0.5,         0.5,          // Above5Yr      No       Type1    EColi        
+		   0.5,         0.5,          // Above5Yr      No       Type1    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      No       Type1    GramPos      
+		   0.5,         0.5,          // Above5Yr      No       Type1    None         
+		   0.5,         0.5,          // Above5Yr      No       Type2    EColi        
+		   0.5,         0.5,          // Above5Yr      No       Type2    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      No       Type2    GramPos      
+		   0.5,         0.5,          // Above5Yr      No       Type2    None         
+		   0.5,         0.5,          // Above5Yr      No       Type3    EColi        
+		   0.5,         0.5,          // Above5Yr      No       Type3    OtherGramNeg 
+		   0.5,         0.5,          // Above5Yr      No       Type3    GramPos      
+		   0.5,         0.5);         // Above5Yr      No       Type3    None         ;
+	numcases = 10;
+	title = "Abdominal pain (b27)";
+	whenchanged = 1648685170;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (1248, 582);
+		height = 25;
+		};
+	};
+
+node FeverPR {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (AgeGroup, CauseUTI, RespSymp, CurrPhenotype);
+	probs = 
+		// Yes          No            // AgeGroup      CauseUTI     RespSymp CurrPhenotype 
+		  (0.5,         0.5,          // LessThan6Mon  EColi        Yes      Type1         
+		   0.5,         0.5,          // LessThan6Mon  EColi        Yes      Type2         
+		   0.5,         0.5,          // LessThan6Mon  EColi        Yes      Type3         
+		   0.5,         0.5,          // LessThan6Mon  EColi        No       Type1         
+		   0.5,         0.5,          // LessThan6Mon  EColi        No       Type2         
+		   0.5,         0.5,          // LessThan6Mon  EColi        No       Type3         
+		   0.5,         0.5,          // LessThan6Mon  OtherGramNeg Yes      Type1         
+		   0.5,         0.5,          // LessThan6Mon  OtherGramNeg Yes      Type2         
+		   0.5,         0.5,          // LessThan6Mon  OtherGramNeg Yes      Type3         
+		   0.5,         0.5,          // LessThan6Mon  OtherGramNeg No       Type1         
+		   0.5,         0.5,          // LessThan6Mon  OtherGramNeg No       Type2         
+		   0.5,         0.5,          // LessThan6Mon  OtherGramNeg No       Type3         
+		   0.5,         0.5,          // LessThan6Mon  GramPos      Yes      Type1         
+		   0.5,         0.5,          // LessThan6Mon  GramPos      Yes      Type2         
+		   0.5,         0.5,          // LessThan6Mon  GramPos      Yes      Type3         
+		   0.5,         0.5,          // LessThan6Mon  GramPos      No       Type1         
+		   0.5,         0.5,          // LessThan6Mon  GramPos      No       Type2         
+		   0.5,         0.5,          // LessThan6Mon  GramPos      No       Type3         
+		   0.5,         0.5,          // LessThan6Mon  None         Yes      Type1         
+		   0.5,         0.5,          // LessThan6Mon  None         Yes      Type2         
+		   0.5,         0.5,          // LessThan6Mon  None         Yes      Type3         
+		   0.5,         0.5,          // LessThan6Mon  None         No       Type1         
+		   0.5,         0.5,          // LessThan6Mon  None         No       Type2         
+		   0.5,         0.5,          // LessThan6Mon  None         No       Type3         
+		   0.5,         0.5,          // Btw6MonAnd2Yr EColi        Yes      Type1         
+		   0.5,         0.5,          // Btw6MonAnd2Yr EColi        Yes      Type2         
+		   0.5,         0.5,          // Btw6MonAnd2Yr EColi        Yes      Type3         
+		   0.5,         0.5,          // Btw6MonAnd2Yr EColi        No       Type1         
+		   0.5,         0.5,          // Btw6MonAnd2Yr EColi        No       Type2         
+		   0.5,         0.5,          // Btw6MonAnd2Yr EColi        No       Type3         
+		   0.5,         0.5,          // Btw6MonAnd2Yr OtherGramNeg Yes      Type1         
+		   0.5,         0.5,          // Btw6MonAnd2Yr OtherGramNeg Yes      Type2         
+		   0.5,         0.5,          // Btw6MonAnd2Yr OtherGramNeg Yes      Type3         
+		   0.5,         0.5,          // Btw6MonAnd2Yr OtherGramNeg No       Type1         
+		   0.5,         0.5,          // Btw6MonAnd2Yr OtherGramNeg No       Type2         
+		   0.5,         0.5,          // Btw6MonAnd2Yr OtherGramNeg No       Type3         
+		   0.5,         0.5,          // Btw6MonAnd2Yr GramPos      Yes      Type1         
+		   0.5,         0.5,          // Btw6MonAnd2Yr GramPos      Yes      Type2         
+		   0.5,         0.5,          // Btw6MonAnd2Yr GramPos      Yes      Type3         
+		   0.5,         0.5,          // Btw6MonAnd2Yr GramPos      No       Type1         
+		   0.5,         0.5,          // Btw6MonAnd2Yr GramPos      No       Type2         
+		   0.5,         0.5,          // Btw6MonAnd2Yr GramPos      No       Type3         
+		   0.5,         0.5,          // Btw6MonAnd2Yr None         Yes      Type1         
+		   0.5,         0.5,          // Btw6MonAnd2Yr None         Yes      Type2         
+		   0.5,         0.5,          // Btw6MonAnd2Yr None         Yes      Type3         
+		   0.5,         0.5,          // Btw6MonAnd2Yr None         No       Type1         
+		   0.5,         0.5,          // Btw6MonAnd2Yr None         No       Type2         
+		   0.5,         0.5,          // Btw6MonAnd2Yr None         No       Type3         
+		   0.5,         0.5,          // Btw2And5Yr    EColi        Yes      Type1         
+		   0.5,         0.5,          // Btw2And5Yr    EColi        Yes      Type2         
+		   0.5,         0.5,          // Btw2And5Yr    EColi        Yes      Type3         
+		   0.5,         0.5,          // Btw2And5Yr    EColi        No       Type1         
+		   0.5,         0.5,          // Btw2And5Yr    EColi        No       Type2         
+		   0.5,         0.5,          // Btw2And5Yr    EColi        No       Type3         
+		   0.5,         0.5,          // Btw2And5Yr    OtherGramNeg Yes      Type1         
+		   0.5,         0.5,          // Btw2And5Yr    OtherGramNeg Yes      Type2         
+		   0.5,         0.5,          // Btw2And5Yr    OtherGramNeg Yes      Type3         
+		   0.5,         0.5,          // Btw2And5Yr    OtherGramNeg No       Type1         
+		   0.5,         0.5,          // Btw2And5Yr    OtherGramNeg No       Type2         
+		   0.5,         0.5,          // Btw2And5Yr    OtherGramNeg No       Type3         
+		   0.5,         0.5,          // Btw2And5Yr    GramPos      Yes      Type1         
+		   0.5,         0.5,          // Btw2And5Yr    GramPos      Yes      Type2         
+		   0.5,         0.5,          // Btw2And5Yr    GramPos      Yes      Type3         
+		   0.5,         0.5,          // Btw2And5Yr    GramPos      No       Type1         
+		   0.5,         0.5,          // Btw2And5Yr    GramPos      No       Type2         
+		   0.5,         0.5,          // Btw2And5Yr    GramPos      No       Type3         
+		   0.5,         0.5,          // Btw2And5Yr    None         Yes      Type1         
+		   0.5,         0.5,          // Btw2And5Yr    None         Yes      Type2         
+		   0.5,         0.5,          // Btw2And5Yr    None         Yes      Type3         
+		   0.5,         0.5,          // Btw2And5Yr    None         No       Type1         
+		   0.5,         0.5,          // Btw2And5Yr    None         No       Type2         
+		   0.5,         0.5,          // Btw2And5Yr    None         No       Type3         
+		   0.5,         0.5,          // Above5Yr      EColi        Yes      Type1         
+		   0.5,         0.5,          // Above5Yr      EColi        Yes      Type2         
+		   0.5,         0.5,          // Above5Yr      EColi        Yes      Type3         
+		   0.5,         0.5,          // Above5Yr      EColi        No       Type1         
+		   0.5,         0.5,          // Above5Yr      EColi        No       Type2         
+		   0.5,         0.5,          // Above5Yr      EColi        No       Type3         
+		   0.5,         0.5,          // Above5Yr      OtherGramNeg Yes      Type1         
+		   0.5,         0.5,          // Above5Yr      OtherGramNeg Yes      Type2         
+		   0.5,         0.5,          // Above5Yr      OtherGramNeg Yes      Type3         
+		   0.5,         0.5,          // Above5Yr      OtherGramNeg No       Type1         
+		   0.5,         0.5,          // Above5Yr      OtherGramNeg No       Type2         
+		   0.5,         0.5,          // Above5Yr      OtherGramNeg No       Type3         
+		   0.5,         0.5,          // Above5Yr      GramPos      Yes      Type1         
+		   0.5,         0.5,          // Above5Yr      GramPos      Yes      Type2         
+		   0.5,         0.5,          // Above5Yr      GramPos      Yes      Type3         
+		   0.5,         0.5,          // Above5Yr      GramPos      No       Type1         
+		   0.5,         0.5,          // Above5Yr      GramPos      No       Type2         
+		   0.5,         0.5,          // Above5Yr      GramPos      No       Type3         
+		   0.5,         0.5,          // Above5Yr      None         Yes      Type1         
+		   0.5,         0.5,          // Above5Yr      None         Yes      Type2         
+		   0.5,         0.5,          // Above5Yr      None         Yes      Type3         
+		   0.5,         0.5,          // Above5Yr      None         No       Type1         
+		   0.5,         0.5,          // Above5Yr      None         No       Type2         
+		   0.5,         0.5);         // Above5Yr      None         No       Type3         ;
+	numcases = 10;
+	title = "Parent reported fever (b32)";
+	whenchanged = 1648685202;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (1596, 564);
+		height = 24;
+		};
+	};
+
+node WCCLevel {
+	discrete = TRUE;
+	states = (Above18, Btw10And18, Below10, NotDone);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (Cause, AgeGroup);
+	parents = (CauseUTI, AgeGroup);
+	probs = 
+		// Above18      Btw10And18   Below10      NotDone       // Cause        AgeGroup      
+		  (0.2,         0.2,         0.2,         0.4,          // EColi        LessThan6Mon  
+		   0.2,         0.2,         0.2,         0.4,          // EColi        Btw6MonAnd2Yr 
+		   0.1,         0.1,         0.1,         0.7,          // EColi        Btw2And5Yr    
+		   0.1,         0.1,         0.1,         0.7,          // EColi        Above5Yr      
+		   0.2,         0.2,         0.2,         0.4,          // OtherGramNeg LessThan6Mon  
+		   0.2,         0.2,         0.2,         0.4,          // OtherGramNeg Btw6MonAnd2Yr 
+		   0.1,         0.1,         0.1,         0.7,          // OtherGramNeg Btw2And5Yr    
+		   0.1,         0.1,         0.1,         0.7,          // OtherGramNeg Above5Yr      
+		   0.2,         0.2,         0.2,         0.4,          // GramPos      LessThan6Mon  
+		   0.2,         0.2,         0.2,         0.4,          // GramPos      Btw6MonAnd2Yr 
+		   0.1,         0.1,         0.1,         0.7,          // GramPos      Btw2And5Yr    
+		   0.1,         0.1,         0.1,         0.7,          // GramPos      Above5Yr      
+		   0.01,        0.01,        0.23,        0.75,         // None         LessThan6Mon  
+		   0.01,        0.009997699, 0.2300005,   0.7500017,    // None         Btw6MonAnd2Yr 
+		   0.01,        0.01,        0.18,        0.8,          // None         Btw2And5Yr    
+		   0.01,        0.01,        0.08,        0.9);         // None         Above5Yr      ;
+	numcases = 10;
+	title = "Blood - WBC level (b24)";
+	whenchanged = 1648684126;
+	belief = (0.09701139, 0.09701116, 0.1612653, 0.6447121);
+	visual V1 {
+		center = (1002, 726);
+		height = 18;
+		};
+	};
+
+node NeutLevel {
+	discrete = TRUE;
+	states = (Above15, Btw8And15, Below8, NotDone);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (WCCLevel, CauseUTI, AgeGroup);
+	probs = 
+		// Above15      Btw8And15    Below8       NotDone       // WCCLevel   CauseUTI     AgeGroup      
+		  (0.3718452,   0.5908775,   0.03636718,  9.100659e-4,  // Above18    EColi        LessThan6Mon  
+		   0.5112464,   0.4375011,   0.05000123,  0.001251249,  // Above18    EColi        Btw6MonAnd2Yr 
+		   0.8179945,   0.1000017,   0.08000176,  0.002001994,  // Above18    EColi        Btw2And5Yr    
+		   0.6811231,   0.2505498,   0.06665897,  0.001668099,  // Above18    EColi        Above5Yr      
+		   0.08993988,  0.5003995,   0.3996594,   0.01000123,   // Above18    OtherGramNeg LessThan6Mon  
+		   0.09000642,  0.49999,     0.399994,    0.0100096,    // Above18    OtherGramNeg Btw6MonAnd2Yr 
+		   0.09002921,  0.4999775,   0.399984,    0.01000935,   // Above18    OtherGramNeg Btw2And5Yr    
+		   0.04637218,  0.7485363,   0.2000845,   0.00500699,   // Above18    OtherGramNeg Above5Yr      
+		   0.09000643,  0.49999,     0.399994,    0.0100096,    // Above18    GramPos      LessThan6Mon  
+		   0.0900064,   0.49999,     0.399994,    0.0100096,    // Above18    GramPos      Btw6MonAnd2Yr 
+		   0.09000656,  0.4999899,   0.3999939,   0.0100096,    // Above18    GramPos      Btw2And5Yr    
+		   0.09000349,  0.5000062,   0.399981,    0.01000927,   // Above18    GramPos      Above5Yr      
+		   0.0900064,   0.49999,     0.399994,    0.0100096,    // Above18    None         LessThan6Mon  
+		   0.09003945,  0.4999718,   0.3999795,   0.01000923,   // Above18    None         Btw6MonAnd2Yr 
+		   0.09000642,  0.49999,     0.399994,    0.0100096,    // Above18    None         Btw2And5Yr    
+		   0.0900064,   0.49999,     0.399994,    0.0100096,    // Above18    None         Above5Yr      
+		   0.004425076, 0.1720676,   0.8230152,   4.92112e-4,   // Btw10And18 EColi        LessThan6Mon  
+		   0.01111159,  0.6789663,   0.3086864,   0.001235718,  // Btw10And18 EColi        Btw6MonAnd2Yr 
+		   0.04460021,  0.7520744,   0.1983654,   0.004959982,  // Btw10And18 EColi        Btw2And5Yr    
+		   0.01256704,  0.7942063,   0.1918357,   0.001390993,  // Btw10And18 EColi        Above5Yr      
+		   0.01373625,  0.07630555,  0.9084306,   0.001527606,  // Btw10And18 OtherGramNeg LessThan6Mon  
+		   0.04736174,  0.2631008,   0.6842704,   0.005267092,  // Btw10And18 OtherGramNeg Btw6MonAnd2Yr 
+		   0.02261989,  0.623792,    0.3510725,   0.002515554,  // Btw10And18 OtherGramNeg Btw2And5Yr    
+		   0.2373412,   0.7138723,   0.04764961,  0.001136966,  // Btw10And18 OtherGramNeg Above5Yr      
+		   0.01474006,  0.245642,    0.7379787,   0.00163924,   // Btw10And18 GramPos      LessThan6Mon  
+		   0.03001246,  0.1667207,   0.7999291,   0.003337681,  // Btw10And18 GramPos      Btw6MonAnd2Yr 
+		   0.08976671,  0.4986585,   0.4015918,   0.009982943,  // Btw10And18 GramPos      Btw2And5Yr    
+		   0.08980764,  0.501096,    0.399109,    0.009987451,  // Btw10And18 GramPos      Above5Yr      
+		   0.04000839,  0.4999899,   0.4499921,   0.0100096,    // Btw10And18 None         LessThan6Mon  
+		   0.0400084,   0.49999,     0.449992,    0.0100096,    // Btw10And18 None         Btw6MonAnd2Yr 
+		   0.02000444,  0.7499841,   0.2250065,   0.00500486,   // Btw10And18 None         Btw2And5Yr    
+		   0.02003033,  0.7496684,   0.2252899,   0.005011337,  // Btw10And18 None         Above5Yr      
+		   1.667054e-6, 0.08168732,  0.9166423,   0.001668721,  // Below10    EColi        LessThan6Mon  
+		   3.318551e-6, 0.1626123,   0.8340625,   0.00332187,   // Below10    EColi        Btw6MonAnd2Yr 
+		   5.095063e-6, 0.2496632,   0.7452316,   0.005100158,  // Below10    EColi        Btw2And5Yr    
+		   3.296714e-6, 0.1615423,   0.8351544,   0.00330001,   // Below10    EColi        Above5Yr      
+		   9.995574e-6, 0.4897932,   0.5001913,   0.01000557,   // Below10    OtherGramNeg LessThan6Mon  
+		   3.348149e-6, 0.1640626,   0.8325825,   0.003351497,  // Below10    OtherGramNeg Btw6MonAnd2Yr 
+		   9.95777e-6,  0.4879407,   0.5020816,   0.009967728,  // Below10    OtherGramNeg Btw2And5Yr    
+		   1.115632e-6, 0.05466707,  0.9442151,   0.001116747,  // Below10    OtherGramNeg Above5Yr      
+		   9.988933e-6, 0.4894677,   0.5005233,   0.009998921,  // Below10    GramPos      LessThan6Mon  
+		   9.9996e-6,   0.4899904,   0.49999,     0.0100096,    // Below10    GramPos      Btw6MonAnd2Yr 
+		   9.9996e-6,   0.4899904,   0.49999,     0.0100096,    // Below10    GramPos      Btw2And5Yr    
+		   9.96736e-6,  0.4884107,   0.5016021,   0.009977327,  // Below10    GramPos      Above5Yr      
+		   4.999991e-6, 0.02000496,  0.9749851,   0.005004991,  // Below10    None         LessThan6Mon  
+		   2.49998e-6,  0.01000242,  0.9874926,   0.00250248,   // Below10    None         Btw6MonAnd2Yr 
+		   9.678717e-6, 0.03872455,  0.9515774,   0.009688396,  // Below10    None         Btw2And5Yr    
+		   4.999925e-6, 0.0200047,   0.9749854,   0.005004925,  // Below10    None         Above5Yr      
+		   5.035098e-5, 5.035098e-5, 5.035098e-5, 0.999849,     // NotDone    EColi        LessThan6Mon  
+		   1.786721e-5, 1.786721e-5, 1.786721e-5, 0.9999464,    // NotDone    EColi        Btw6MonAnd2Yr 
+		   2.168045e-5, 2.168045e-5, 2.168045e-5, 0.999935,     // NotDone    EColi        Btw2And5Yr    
+		   1.370155e-5, 1.370155e-5, 1.370155e-5, 0.9999589,    // NotDone    EColi        Above5Yr      
+		   0.001008197, 0.001008197, 0.001008197, 0.9969754,    // NotDone    OtherGramNeg LessThan6Mon  
+		   9.465658e-5, 9.465658e-5, 9.465658e-5, 0.999716,     // NotDone    OtherGramNeg Btw6MonAnd2Yr 
+		   5.8739e-5,   5.8739e-5,   5.8739e-5,   0.9998238,    // NotDone    OtherGramNeg Btw2And5Yr    
+		   3.652522e-4, 3.652522e-4, 3.652522e-4, 0.9989042,    // NotDone    OtherGramNeg Above5Yr      
+		   1.271538e-4, 1.271538e-4, 1.271538e-4, 0.9996185,    // NotDone    GramPos      LessThan6Mon  
+		   7.318858e-5, 7.318858e-5, 7.318858e-5, 0.9997804,    // NotDone    GramPos      Btw6MonAnd2Yr 
+		   4.75727e-5,  4.75727e-5,  4.75727e-5,  0.9998573,    // NotDone    GramPos      Btw2And5Yr    
+		   4.663815e-5, 4.663815e-5, 4.663815e-5, 0.9998601,    // NotDone    GramPos      Above5Yr      
+		   1.684445e-4, 1.684445e-4, 1.684445e-4, 0.9994947,    // NotDone    None         LessThan6Mon  
+		   0.001008088, 0.001008088, 0.001008088, 0.9969757,    // NotDone    None         Btw6MonAnd2Yr 
+		   1.686416e-4, 1.686416e-4, 1.686416e-4, 0.9994941,    // NotDone    None         Btw2And5Yr    
+		   3.624674e-5, 3.624674e-5, 3.624674e-5, 0.9998913);   // NotDone    None         Above5Yr      ;
+	numcases = 10;
+	title = "Blood - ANC level (b25)";
+	whenchanged = 1648684137;
+	belief = (0.03050511, 0.1161565, 0.2072539, 0.6460845);
+	visual V1 {
+		center = (1098, 828);
+		height = 19;
+		};
+	};
+
+node CRPLevel {
+	discrete = TRUE;
+	states = (Above70, Btw15And70, Below15, NotDone);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (CauseUTI, AgeGroup);
+	parents = (CauseUTI, AgeGroup);
+	probs = 
+		// Above70      Btw15And70   Below15      NotDone       // CauseUTI     AgeGroup      
+		  (0.2,         0.2,         0.2,         0.4,          // EColi        LessThan6Mon  
+		   0.2,         0.2,         0.2,         0.4,          // EColi        Btw6MonAnd2Yr 
+		   0.1,         0.1,         0.1,         0.7,          // EColi        Btw2And5Yr    
+		   0.1,         0.1,         0.1,         0.7,          // EColi        Above5Yr      
+		   0.2,         0.2,         0.2,         0.4,          // OtherGramNeg LessThan6Mon  
+		   0.2,         0.2,         0.2,         0.4,          // OtherGramNeg Btw6MonAnd2Yr 
+		   0.1,         0.1,         0.1,         0.7,          // OtherGramNeg Btw2And5Yr    
+		   0.1,         0.1,         0.1,         0.7,          // OtherGramNeg Above5Yr      
+		   0.2,         0.2,         0.2,         0.4,          // GramPos      LessThan6Mon  
+		   0.2,         0.2,         0.2,         0.4,          // GramPos      Btw6MonAnd2Yr 
+		   0.1,         0.1,         0.1,         0.7,          // GramPos      Btw2And5Yr    
+		   0.1,         0.1,         0.1,         0.7,          // GramPos      Above5Yr      
+		   0.01,        0.01,        0.23,        0.75,         // None         LessThan6Mon  
+		   0.009999993, 0.009997693, 0.2300008,   0.7500015,    // None         Btw6MonAnd2Yr 
+		   0.01,        0.01,        0.18,        0.8,          // None         Btw2And5Yr    
+		   0.01,        0.01,        0.08,        0.9);         // None         Above5Yr      ;
+	numcases = 10;
+	title = "Blood - CRP level (b23)";
+	whenchanged = 1648684115;
+	belief = (0.09701139, 0.09701116, 0.1612654, 0.6447121);
+	visual V1 {
+		center = (1062, 618);
+		height = 17;
+		link 1 {
+			path = ((1093, 380), (1066, 580));
+			};
+		};
+	};
+
+node NauseaOrVomit {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (CurrentSeverity, AgeGroup, CauseUTI);
+	parents = (CauseUTI, CurrPhenotype, AgeGroup);
+	probs = 
+		// Yes          No            // CurrentSeverity AgeGroup CauseUTI      
+		  (0.5,         0.5,          // EColi           Type1    LessThan6Mon  
+		   0.5,         0.5,          // EColi           Type1    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // EColi           Type1    Btw2And5Yr    
+		   0.5,         0.5,          // EColi           Type1    Above5Yr      
+		   0.5,         0.5,          // EColi           Type2    LessThan6Mon  
+		   0.5,         0.5,          // EColi           Type2    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // EColi           Type2    Btw2And5Yr    
+		   0.5,         0.5,          // EColi           Type2    Above5Yr      
+		   0.5,         0.5,          // EColi           Type3    LessThan6Mon  
+		   0.5,         0.5,          // EColi           Type3    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // EColi           Type3    Btw2And5Yr    
+		   0.5,         0.5,          // EColi           Type3    Above5Yr      
+		   0.5,         0.5,          // OtherGramNeg    Type1    LessThan6Mon  
+		   0.5,         0.5,          // OtherGramNeg    Type1    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // OtherGramNeg    Type1    Btw2And5Yr    
+		   0.5,         0.5,          // OtherGramNeg    Type1    Above5Yr      
+		   0.5,         0.5,          // OtherGramNeg    Type2    LessThan6Mon  
+		   0.5,         0.5,          // OtherGramNeg    Type2    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // OtherGramNeg    Type2    Btw2And5Yr    
+		   0.5,         0.5,          // OtherGramNeg    Type2    Above5Yr      
+		   0.5,         0.5,          // OtherGramNeg    Type3    LessThan6Mon  
+		   0.5,         0.5,          // OtherGramNeg    Type3    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // OtherGramNeg    Type3    Btw2And5Yr    
+		   0.5,         0.5,          // OtherGramNeg    Type3    Above5Yr      
+		   0.5,         0.5,          // GramPos         Type1    LessThan6Mon  
+		   0.5,         0.5,          // GramPos         Type1    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // GramPos         Type1    Btw2And5Yr    
+		   0.5,         0.5,          // GramPos         Type1    Above5Yr      
+		   0.5,         0.5,          // GramPos         Type2    LessThan6Mon  
+		   0.5,         0.5,          // GramPos         Type2    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // GramPos         Type2    Btw2And5Yr    
+		   0.5,         0.5,          // GramPos         Type2    Above5Yr      
+		   0.5,         0.5,          // GramPos         Type3    LessThan6Mon  
+		   0.5,         0.5,          // GramPos         Type3    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // GramPos         Type3    Btw2And5Yr    
+		   0.5,         0.5,          // GramPos         Type3    Above5Yr      
+		   0.5,         0.5,          // None            Type1    LessThan6Mon  
+		   0.5,         0.5,          // None            Type1    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // None            Type1    Btw2And5Yr    
+		   0.5,         0.5,          // None            Type1    Above5Yr      
+		   0.5,         0.5,          // None            Type2    LessThan6Mon  
+		   0.5,         0.5,          // None            Type2    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // None            Type2    Btw2And5Yr    
+		   0.5,         0.5,          // None            Type2    Above5Yr      
+		   0.5,         0.5,          // None            Type3    LessThan6Mon  
+		   0.5,         0.5,          // None            Type3    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // None            Type3    Btw2And5Yr    
+		   0.5,         0.5);         // None            Type3    Above5Yr      ;
+	numcases = 10;
+	title = "Nausea or vomiting (b36)";
+	whenchanged = 1648685543;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (1758, 666);
+		height = 31;
+		};
+	};
+
+node PoorIntake {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (NauseaVomit, Severity, Age);
+	parents = (NauseaOrVomit, CurrPhenotype, AgeGroup);
+	probs = 
+		// Yes          No            // NauseaVomit Severity Age           
+		  (0.5,         0.5,          // Yes         Type1    LessThan6Mon  
+		   0.5,         0.5,          // Yes         Type1    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Yes         Type1    Btw2And5Yr    
+		   0.5,         0.5,          // Yes         Type1    Above5Yr      
+		   0.5,         0.5,          // Yes         Type2    LessThan6Mon  
+		   0.5,         0.5,          // Yes         Type2    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Yes         Type2    Btw2And5Yr    
+		   0.5,         0.5,          // Yes         Type2    Above5Yr      
+		   0.5,         0.5,          // Yes         Type3    LessThan6Mon  
+		   0.5,         0.5,          // Yes         Type3    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Yes         Type3    Btw2And5Yr    
+		   0.5,         0.5,          // Yes         Type3    Above5Yr      
+		   0.5,         0.5,          // No          Type1    LessThan6Mon  
+		   0.5,         0.5,          // No          Type1    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // No          Type1    Btw2And5Yr    
+		   0.5,         0.5,          // No          Type1    Above5Yr      
+		   0.5,         0.5,          // No          Type2    LessThan6Mon  
+		   0.5,         0.5,          // No          Type2    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // No          Type2    Btw2And5Yr    
+		   0.5,         0.5,          // No          Type2    Above5Yr      
+		   0.5,         0.5,          // No          Type3    LessThan6Mon  
+		   0.5,         0.5,          // No          Type3    Btw6MonAnd2Yr 
+		   0.5,         0.5,          // No          Type3    Btw2And5Yr    
+		   0.5,         0.5);         // No          Type3    Above5Yr      ;
+	numcases = 10;
+	title = "Poor oral intake (b37)";
+	whenchanged = 1648685557;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (1758, 768);
+		height = 32;
+		};
+	};
+
+node Epithelials {
+	discrete = TRUE;
+	states = (Moderate, Low);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (CollMethod, Sex, AgeGroup);
+	probs = 
+		// Moderate     Low           // CollMethod Sex    AgeGroup      
+		  (0.5,         0.5,          // CleanCatch Female LessThan6Mon  
+		   0.5,         0.5,          // CleanCatch Female Btw6MonAnd2Yr 
+		   0.5,         0.5,          // CleanCatch Female Btw2And5Yr    
+		   0.5,         0.5,          // CleanCatch Female Above5Yr      
+		   0.5,         0.5,          // CleanCatch Male   LessThan6Mon  
+		   0.5,         0.5,          // CleanCatch Male   Btw6MonAnd2Yr 
+		   0.5,         0.5,          // CleanCatch Male   Btw2And5Yr    
+		   0.5,         0.5,          // CleanCatch Male   Above5Yr      
+		   0.5,         0.5,          // Catheter   Female LessThan6Mon  
+		   0.5,         0.5,          // Catheter   Female Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Catheter   Female Btw2And5Yr    
+		   0.5,         0.5,          // Catheter   Female Above5Yr      
+		   0.5,         0.5,          // Catheter   Male   LessThan6Mon  
+		   0.5,         0.5,          // Catheter   Male   Btw6MonAnd2Yr 
+		   0.5,         0.5,          // Catheter   Male   Btw2And5Yr    
+		   0.5,         0.5,          // Catheter   Male   Above5Yr      
+		   0.5,         0.5,          // SupraAsp   Female LessThan6Mon  
+		   0.5,         0.5,          // SupraAsp   Female Btw6MonAnd2Yr 
+		   0.5,         0.5,          // SupraAsp   Female Btw2And5Yr    
+		   0.5,         0.5,          // SupraAsp   Female Above5Yr      
+		   0.5,         0.5,          // SupraAsp   Male   LessThan6Mon  
+		   0.5,         0.5,          // SupraAsp   Male   Btw6MonAnd2Yr 
+		   0.5,         0.5,          // SupraAsp   Male   Btw2And5Yr    
+		   0.5,         0.5);         // SupraAsp   Male   Above5Yr      ;
+	title = "Epithelial cells (b14)";
+	whenchanged = 1648685779;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (96, 414);
+		height = 3;
+		};
+	};
+
+node UltraSound {
+	discrete = TRUE;
+	states = (Abnormal, Unknown, NotDone);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (CauseUTI, Age, PrevUriKidProbs);
+	parents = (CauseUTI, AgeGroup, PrevUriKidProbs);
+	probs = 
+		// Abnormal     Unknown      NotDone       // CauseUTI     Age           PrevUriKidProbs 
+		  (0.3333333,   0.3333333,   0.3333333,    // EColi        LessThan6Mon  Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // EColi        LessThan6Mon  Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // EColi        Btw6MonAnd2Yr Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // EColi        Btw6MonAnd2Yr Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // EColi        Btw2And5Yr    Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // EColi        Btw2And5Yr    Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // EColi        Above5Yr      Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // EColi        Above5Yr      Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // OtherGramNeg LessThan6Mon  Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // OtherGramNeg LessThan6Mon  Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // OtherGramNeg Btw6MonAnd2Yr Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // OtherGramNeg Btw6MonAnd2Yr Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // OtherGramNeg Btw2And5Yr    Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // OtherGramNeg Btw2And5Yr    Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // OtherGramNeg Above5Yr      Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // OtherGramNeg Above5Yr      Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // GramPos      LessThan6Mon  Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // GramPos      LessThan6Mon  Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // GramPos      Btw6MonAnd2Yr Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // GramPos      Btw6MonAnd2Yr Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // GramPos      Btw2And5Yr    Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // GramPos      Btw2And5Yr    Unknown         
+		   0.3333333,   0.3333333,   0.3333333,    // GramPos      Above5Yr      Reported        
+		   0.3333333,   0.3333333,   0.3333333,    // GramPos      Above5Yr      Unknown         
+		   0.01,        0.59,        0.4,          // None         LessThan6Mon  Reported        
+		   0.01,        0.59,        0.4,          // None         LessThan6Mon  Unknown         
+		   0.01,        0.59,        0.4,          // None         Btw6MonAnd2Yr Reported        
+		   0.01,        0.59,        0.4,          // None         Btw6MonAnd2Yr Unknown         
+		   0.01,        0.59,        0.4,          // None         Btw2And5Yr    Reported        
+		   0.01,        0.59,        0.4,          // None         Btw2And5Yr    Unknown         
+		   0.01,        0.59,        0.4,          // None         Above5Yr      Reported        
+		   0.01,        0.59,        0.4);         // None         Above5Yr      Unknown         ;
+	numcases = 10;
+	title = "Ultrasound result (b30)";
+	whenchanged = 1648684212;
+	belief = (0.2157422, 0.4266789, 0.3575789);
+	visual V1 {
+		center = (1344, 420);
+		height = 21;
+		link 1 {
+			path = ((1190, 371), (1267, 396));
+			};
+		};
+	};
+
+node UrinSym_smelly {
+	discrete = TRUE;
+	states = (Yes, Unknown);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (OrganismGrown, AgeGroup, CurrentSeverity);
+	parents = (CauseUTI, AgeGroup, CurrPhenotype);
+	probs = 
+		// Yes          Unknown       // OrganismGrown AgeGroup      CurrentSeverity 
+		  (0.5,         0.5,          // EColi         LessThan6Mon  Type1           
+		   0.5,         0.5,          // EColi         LessThan6Mon  Type2           
+		   0.5,         0.5,          // EColi         LessThan6Mon  Type3           
+		   0.5,         0.5,          // EColi         Btw6MonAnd2Yr Type1           
+		   0.5,         0.5,          // EColi         Btw6MonAnd2Yr Type2           
+		   0.5,         0.5,          // EColi         Btw6MonAnd2Yr Type3           
+		   0.5,         0.5,          // EColi         Btw2And5Yr    Type1           
+		   0.5,         0.5,          // EColi         Btw2And5Yr    Type2           
+		   0.5,         0.5,          // EColi         Btw2And5Yr    Type3           
+		   0.5,         0.5,          // EColi         Above5Yr      Type1           
+		   0.5,         0.5,          // EColi         Above5Yr      Type2           
+		   0.5,         0.5,          // EColi         Above5Yr      Type3           
+		   0.5,         0.5,          // OtherGramNeg  LessThan6Mon  Type1           
+		   0.5,         0.5,          // OtherGramNeg  LessThan6Mon  Type2           
+		   0.5,         0.5,          // OtherGramNeg  LessThan6Mon  Type3           
+		   0.5,         0.5,          // OtherGramNeg  Btw6MonAnd2Yr Type1           
+		   0.5,         0.5,          // OtherGramNeg  Btw6MonAnd2Yr Type2           
+		   0.5,         0.5,          // OtherGramNeg  Btw6MonAnd2Yr Type3           
+		   0.5,         0.5,          // OtherGramNeg  Btw2And5Yr    Type1           
+		   0.5,         0.5,          // OtherGramNeg  Btw2And5Yr    Type2           
+		   0.5,         0.5,          // OtherGramNeg  Btw2And5Yr    Type3           
+		   0.5,         0.5,          // OtherGramNeg  Above5Yr      Type1           
+		   0.5,         0.5,          // OtherGramNeg  Above5Yr      Type2           
+		   0.5,         0.5,          // OtherGramNeg  Above5Yr      Type3           
+		   0.5,         0.5,          // GramPos       LessThan6Mon  Type1           
+		   0.5,         0.5,          // GramPos       LessThan6Mon  Type2           
+		   0.5,         0.5,          // GramPos       LessThan6Mon  Type3           
+		   0.5,         0.5,          // GramPos       Btw6MonAnd2Yr Type1           
+		   0.5,         0.5,          // GramPos       Btw6MonAnd2Yr Type2           
+		   0.5,         0.5,          // GramPos       Btw6MonAnd2Yr Type3           
+		   0.5,         0.5,          // GramPos       Btw2And5Yr    Type1           
+		   0.5,         0.5,          // GramPos       Btw2And5Yr    Type2           
+		   0.5,         0.5,          // GramPos       Btw2And5Yr    Type3           
+		   0.5,         0.5,          // GramPos       Above5Yr      Type1           
+		   0.5,         0.5,          // GramPos       Above5Yr      Type2           
+		   0.5,         0.5,          // GramPos       Above5Yr      Type3           
+		   0.05,        0.95,         // None          LessThan6Mon  Type1           
+		   0.05,        0.95,         // None          LessThan6Mon  Type2           
+		   0.05,        0.95,         // None          LessThan6Mon  Type3           
+		   0.05,        0.95,         // None          Btw6MonAnd2Yr Type1           
+		   0.05,        0.95,         // None          Btw6MonAnd2Yr Type2           
+		   0.05,        0.95,         // None          Btw6MonAnd2Yr Type3           
+		   0.01,        0.99,         // None          Btw2And5Yr    Type1           
+		   0.01,        0.99,         // None          Btw2And5Yr    Type2           
+		   0.01,        0.99,         // None          Btw2And5Yr    Type3           
+		   0.01,        0.99,         // None          Above5Yr      Type1           
+		   0.01,        0.99,         // None          Above5Yr      Type2           
+		   0.01,        0.99);        // None          Above5Yr      Type3           ;
+	numcases = 10;
+	title = "Smelly urine (b29)";
+	whenchanged = 1648685228;
+	belief = (0.3298977, 0.6701023);
+	visual V1 {
+		center = (1344, 786);
+		height = 26;
+		};
+	};
+
+node Urin_LeucEst {
+	discrete = TRUE;
+	states = (High, Moderate, Low, NotDetected);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (CauseUTI, AgeGroup);
+	probs = 
+		// High         Moderate     Low          NotDetected   // CauseUTI     AgeGroup      
+		  (0.4,         0.4,         0.15,        0.05,         // EColi        LessThan6Mon  
+		   0.4,         0.4,         0.15,        0.05,         // EColi        Btw6MonAnd2Yr 
+		   0.4,         0.4,         0.15,        0.05,         // EColi        Btw2And5Yr    
+		   0.4,         0.4,         0.15,        0.05,         // EColi        Above5Yr      
+		   0.4,         0.4,         0.15,        0.05,         // OtherGramNeg LessThan6Mon  
+		   0.4,         0.4,         0.15,        0.05,         // OtherGramNeg Btw6MonAnd2Yr 
+		   0.4,         0.4,         0.15,        0.05,         // OtherGramNeg Btw2And5Yr    
+		   0.4,         0.4,         0.15,        0.05,         // OtherGramNeg Above5Yr      
+		   0.4,         0.4,         0.15,        0.05,         // GramPos      LessThan6Mon  
+		   0.4,         0.4,         0.15,        0.05,         // GramPos      Btw6MonAnd2Yr 
+		   0.4,         0.4,         0.15,        0.05,         // GramPos      Btw2And5Yr    
+		   0.4,         0.4,         0.15,        0.05,         // GramPos      Above5Yr      
+		   1.429387e-6, 1.42939e-6,  0.001430825, 0.9985663,    // None         LessThan6Mon  
+		   1.42939e-6,  1.42939e-6,  0.00143082,  0.9985663,    // None         Btw6MonAnd2Yr 
+		   1.42939e-6,  1.42939e-6,  0.00143082,  0.9985663,    // None         Btw2And5Yr    
+		   1.42939e-6,  1.42939e-6,  0.00143082,  0.9985663);   // None         Above5Yr      ;
+	numcases = 10;
+	title = "Dipstick - leuco esterase (b20)";
+	whenchanged = 1648692108;
+	belief = (0.2545269, 0.2545269, 0.09596777, 0.3949784);
+	visual V1 {
+		center = (960, 510);
+		height = 36;
+		};
+	};
+
+node Urin_Leuc {
+	discrete = TRUE;
+	states = (High, Moderate, Low);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (CauseUTI, AgeGroup);
+	probs = 
+		// High         Moderate     Low           // CauseUTI     AgeGroup      
+		  (0.75,        0.2,         0.05,         // EColi        LessThan6Mon  
+		   0.75,        0.2,         0.05,         // EColi        Btw6MonAnd2Yr 
+		   0.75,        0.2,         0.05,         // EColi        Btw2And5Yr    
+		   0.75,        0.2,         0.05,         // EColi        Above5Yr      
+		   0.75,        0.2,         0.05,         // OtherGramNeg LessThan6Mon  
+		   0.75,        0.2,         0.05,         // OtherGramNeg Btw6MonAnd2Yr 
+		   0.75,        0.2,         0.05,         // OtherGramNeg Btw2And5Yr    
+		   0.75,        0.2,         0.05,         // OtherGramNeg Above5Yr      
+		   0.75,        0.2,         0.05,         // GramPos      LessThan6Mon  
+		   0.75,        0.2,         0.05,         // GramPos      Btw6MonAnd2Yr 
+		   0.75,        0.2,         0.05,         // GramPos      Btw2And5Yr    
+		   0.75,        0.2,         0.05,         // GramPos      Above5Yr      
+		   1.429392e-6, 0.00143082,  0.9985678,    // None         LessThan6Mon  
+		   1.42939e-6,  0.00143082,  0.9985678,    // None         Btw6MonAnd2Yr 
+		   1.42939e-6,  0.00143082,  0.9985678,    // None         Btw2And5Yr    
+		   1.42939e-6,  0.00143082,  0.9985678);   // None         Above5Yr      ;
+	numcases = 10;
+	title = "Urine - leucocyte (b22)";
+	whenchanged = 1648682523;
+	belief = (0.4772376, 0.1277836, 0.3949789);
+	visual V1 {
+		center = (708, 444);
+		height = 20;
+		link 1 {
+			path = ((1007, 366), (785, 425));
+			};
+		};
+	};
+
+node EColi {
+	discrete = TRUE;
+	states = (Positive, Negative);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (CauseUTI, EcoliPresence, ContaminationRisk, OnAbxEDGroup3);
+	probs = 
+		// Positive     Negative      // CauseUTI     EcoliPresence ContaminationRisk OnAbxEDGroup3 
+		  (0.95,        0.05,         // EColi        High          High              No            
+		   0.5,         0.5,          // EColi        High          High              Narrow        
+		   0.4,         0.6,          // EColi        High          High              Broader       
+		   0.85,        0.15,         // EColi        High          Low               No            
+		   0.35,        0.65,         // EColi        High          Low               Narrow        
+		   0.25,        0.75,         // EColi        High          Low               Broader       
+		   0.85,        0.15,         // EColi        Low           High              No            
+		   0.35,        0.65,         // EColi        Low           High              Narrow        
+		   0.25,        0.75,         // EColi        Low           High              Broader       
+		   0.8,         0.2,          // EColi        Low           Low               No            
+		   0.3,         0.7,          // EColi        Low           Low               Narrow        
+		   0.2,         0.8,          // EColi        Low           Low               Broader       
+		   0.85,        0.15,         // OtherGramNeg High          High              No            
+		   0.35,        0.65,         // OtherGramNeg High          High              Narrow        
+		   0.25,        0.75,         // OtherGramNeg High          High              Broader       
+		   0.1,         0.9,          // OtherGramNeg High          Low               No            
+		   0.1,         0.9,          // OtherGramNeg High          Low               Narrow        
+		   0.1,         0.9,          // OtherGramNeg High          Low               Broader       
+		   0.05,        0.95,         // OtherGramNeg Low           High              No            
+		   0.05,        0.95,         // OtherGramNeg Low           High              Narrow        
+		   0.05,        0.95,         // OtherGramNeg Low           High              Broader       
+		   0.05,        0.95,         // OtherGramNeg Low           Low               No            
+		   0.05,        0.95,         // OtherGramNeg Low           Low               Narrow        
+		   0.05,        0.95,         // OtherGramNeg Low           Low               Broader       
+		   0.85,        0.15,         // GramPos      High          High              No            
+		   0.35,        0.65,         // GramPos      High          High              Narrow        
+		   0.25,        0.75,         // GramPos      High          High              Broader       
+		   0.1,         0.9,          // GramPos      High          Low               No            
+		   0.1,         0.9,          // GramPos      High          Low               Narrow        
+		   0.1,         0.9,          // GramPos      High          Low               Broader       
+		   0.05,        0.95,         // GramPos      Low           High              No            
+		   0.05,        0.95,         // GramPos      Low           High              Narrow        
+		   0.05,        0.95,         // GramPos      Low           High              Broader       
+		   0.05,        0.95,         // GramPos      Low           Low               No            
+		   0.05,        0.95,         // GramPos      Low           Low               Narrow        
+		   0.05,        0.95,         // GramPos      Low           Low               Broader       
+		   0.85,        0.15,         // None         High          High              No            
+		   0.35,        0.65,         // None         High          High              Narrow        
+		   0.25,        0.75,         // None         High          High              Broader       
+		   0.1,         0.9,          // None         High          Low               No            
+		   0.1,         0.9,          // None         High          Low               Narrow        
+		   0.1,         0.9,          // None         High          Low               Broader       
+		   0.05,        0.95,         // None         Low           High              No            
+		   0.05,        0.95,         // None         Low           High              Narrow        
+		   0.05,        0.95,         // None         Low           High              Broader       
+		   0.05,        0.95,         // None         Low           Low               No            
+		   0.05,        0.95,         // None         Low           Low               Narrow        
+		   0.05,        0.95);        // None         Low           Low               Broader       ;
+	numcases = 10;
+	title = "Growth of E.coli (b17)";
+	whenchanged = 1648682267;
+	belief = (0.308948, 0.691052);
+	visual V1 {
+		center = (390, 636);
+		height = 13;
+		};
+	};
+
+node OtherGramNeg {
+	discrete = TRUE;
+	states = (Positive, Negative);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (CauseUTI, OtherGramNegPresence, ContaminationRisk, OnAbxEDGroup3);
+	probs = 
+		// Positive     Negative      // CauseUTI     OtherGramNegPresence ContaminationRisk OnAbxEDGroup3 
+		  (0.85,        0.15,         // EColi        High                 High              No            
+		   0.35,        0.65,         // EColi        High                 High              Narrow        
+		   0.25,        0.75,         // EColi        High                 High              Broader       
+		   0.1,         0.9,          // EColi        High                 Low               No            
+		   0.1,         0.9,          // EColi        High                 Low               Narrow        
+		   0.1,         0.9,          // EColi        High                 Low               Broader       
+		   0.05,        0.95,         // EColi        Low                  High              No            
+		   0.05,        0.95,         // EColi        Low                  High              Narrow        
+		   0.05,        0.95,         // EColi        Low                  High              Broader       
+		   0.05,        0.95,         // EColi        Low                  Low               No            
+		   0.05,        0.95,         // EColi        Low                  Low               Narrow        
+		   0.05,        0.95,         // EColi        Low                  Low               Broader       
+		   0.95,        0.05,         // OtherGramNeg High                 High              No            
+		   0.5,         0.5,          // OtherGramNeg High                 High              Narrow        
+		   0.4,         0.6,          // OtherGramNeg High                 High              Broader       
+		   0.85,        0.15,         // OtherGramNeg High                 Low               No            
+		   0.35,        0.65,         // OtherGramNeg High                 Low               Narrow        
+		   0.25,        0.75,         // OtherGramNeg High                 Low               Broader       
+		   0.85,        0.15,         // OtherGramNeg Low                  High              No            
+		   0.35,        0.65,         // OtherGramNeg Low                  High              Narrow        
+		   0.25,        0.75,         // OtherGramNeg Low                  High              Broader       
+		   0.8,         0.2,          // OtherGramNeg Low                  Low               No            
+		   0.3,         0.7,          // OtherGramNeg Low                  Low               Narrow        
+		   0.2,         0.8,          // OtherGramNeg Low                  Low               Broader       
+		   0.85,        0.15,         // GramPos      High                 High              No            
+		   0.35,        0.65,         // GramPos      High                 High              Narrow        
+		   0.25,        0.75,         // GramPos      High                 High              Broader       
+		   0.1,         0.9,          // GramPos      High                 Low               No            
+		   0.1,         0.9,          // GramPos      High                 Low               Narrow        
+		   0.1,         0.9,          // GramPos      High                 Low               Broader       
+		   0.05,        0.95,         // GramPos      Low                  High              No            
+		   0.05,        0.95,         // GramPos      Low                  High              Narrow        
+		   0.05,        0.95,         // GramPos      Low                  High              Broader       
+		   0.05,        0.95,         // GramPos      Low                  Low               No            
+		   0.05,        0.95,         // GramPos      Low                  Low               Narrow        
+		   0.05,        0.95,         // GramPos      Low                  Low               Broader       
+		   0.85,        0.15,         // None         High                 High              No            
+		   0.35,        0.65,         // None         High                 High              Narrow        
+		   0.25,        0.75,         // None         High                 High              Broader       
+		   0.1,         0.9,          // None         High                 Low               No            
+		   0.1,         0.9,          // None         High                 Low               Narrow        
+		   0.1,         0.9,          // None         High                 Low               Broader       
+		   0.05,        0.95,         // None         Low                  High              No            
+		   0.05,        0.95,         // None         Low                  High              Narrow        
+		   0.05,        0.95,         // None         Low                  High              Broader       
+		   0.05,        0.95,         // None         Low                  Low               No            
+		   0.05,        0.95,         // None         Low                  Low               Narrow        
+		   0.05,        0.95);        // None         Low                  Low               Broader       ;
+	numcases = 10;
+	title = "Growth of other gram neg (b18)";
+	whenchanged = 1648682355;
+	belief = (0.2413665, 0.7586336);
+	visual V1 {
+		center = (600, 636);
+		height = 14;
+		};
+	};
+
+node GramPos {
+	discrete = TRUE;
+	states = (Positive, Negative);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (CauseUTI, GramPosPresence, ContaminationRisk, OnAbxEDGroup3);
+	probs = 
+		// Positive     Negative      // CauseUTI     GramPosPresence ContaminationRisk OnAbxEDGroup3 
+		  (0.85,        0.15,         // EColi        High            High              No            
+		   0.35,        0.65,         // EColi        High            High              Narrow        
+		   0.25,        0.75,         // EColi        High            High              Broader       
+		   0.1,         0.9,          // EColi        High            Low               No            
+		   0.1,         0.9,          // EColi        High            Low               Narrow        
+		   0.1,         0.9,          // EColi        High            Low               Broader       
+		   0.05,        0.95,         // EColi        Low             High              No            
+		   0.05,        0.95,         // EColi        Low             High              Narrow        
+		   0.05,        0.95,         // EColi        Low             High              Broader       
+		   0.05,        0.95,         // EColi        Low             Low               No            
+		   0.05,        0.95,         // EColi        Low             Low               Narrow        
+		   0.05,        0.95,         // EColi        Low             Low               Broader       
+		   0.85,        0.15,         // OtherGramNeg High            High              No            
+		   0.35,        0.65,         // OtherGramNeg High            High              Narrow        
+		   0.25,        0.75,         // OtherGramNeg High            High              Broader       
+		   0.1,         0.9,          // OtherGramNeg High            Low               No            
+		   0.1,         0.9,          // OtherGramNeg High            Low               Narrow        
+		   0.1,         0.9,          // OtherGramNeg High            Low               Broader       
+		   0.05,        0.95,         // OtherGramNeg Low             High              No            
+		   0.05,        0.95,         // OtherGramNeg Low             High              Narrow        
+		   0.05,        0.95,         // OtherGramNeg Low             High              Broader       
+		   0.05,        0.95,         // OtherGramNeg Low             Low               No            
+		   0.05,        0.95,         // OtherGramNeg Low             Low               Narrow        
+		   0.05,        0.95,         // OtherGramNeg Low             Low               Broader       
+		   0.95,        0.05,         // GramPos      High            High              No            
+		   0.5,         0.5,          // GramPos      High            High              Narrow        
+		   0.4,         0.6,          // GramPos      High            High              Broader       
+		   0.85,        0.15,         // GramPos      High            Low               No            
+		   0.35,        0.65,         // GramPos      High            Low               Narrow        
+		   0.25,        0.75,         // GramPos      High            Low               Broader       
+		   0.85,        0.15,         // GramPos      Low             High              No            
+		   0.35,        0.65,         // GramPos      Low             High              Narrow        
+		   0.25,        0.75,         // GramPos      Low             High              Broader       
+		   0.8,         0.2,          // GramPos      Low             Low               No            
+		   0.3,         0.7,          // GramPos      Low             Low               Narrow        
+		   0.2,         0.8,          // GramPos      Low             Low               Broader       
+		   0.85,        0.15,         // None         High            High              No            
+		   0.35,        0.65,         // None         High            High              Narrow        
+		   0.25,        0.75,         // None         High            High              Broader       
+		   0.1,         0.9,          // None         High            Low               No            
+		   0.1,         0.9,          // None         High            Low               Narrow        
+		   0.1,         0.9,          // None         High            Low               Broader       
+		   0.05,        0.95,         // None         Low             High              No            
+		   0.05,        0.95,         // None         Low             High              Narrow        
+		   0.05,        0.95,         // None         Low             High              Broader       
+		   0.05,        0.95,         // None         Low             Low               No            
+		   0.05,        0.95,         // None         Low             Low               Narrow        
+		   0.05,        0.95);        // None         Low             Low               Broader       ;
+	numcases = 10;
+	title = "Growth of gram pos (b19)";
+	whenchanged = 1648682368;
+	belief = (0.2345445, 0.7654555);
+	visual V1 {
+		center = (828, 636);
+		height = 12;
+		link 1 {
+			path = ((1063, 380), (850, 611));
+			};
+		};
+	};
+
+node Microscopy_bacts {
+	discrete = TRUE;
+	states = (Many, Moderate, Few, NotSeen);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (OnAbxEDGroup3, ContaminationRisk, CauseUTI, EcoliPresence, OtherGramNegPresence, GramPosPresence);
+	probs = 
+		// Many         Moderate     Few          NotSeen       // OnAbxEDGroup3 ContaminationRisk CauseUTI     EcoliPresence OtherGramNegPresence GramPosPresence 
+		  (0.5,         0.3,         0.1,         0.1,          // No            High              EColi        High          High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              EColi        High          High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              EColi        High          Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              EColi        High          Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              EColi        Low           High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              EColi        Low           High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              EColi        Low           Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              EColi        Low           Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              OtherGramNeg High          High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              OtherGramNeg High          High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              OtherGramNeg High          Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              OtherGramNeg High          Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              OtherGramNeg Low           High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              OtherGramNeg Low           High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              OtherGramNeg Low           Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              OtherGramNeg Low           Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              GramPos      High          High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              GramPos      High          High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              GramPos      High          Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              GramPos      High          Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              GramPos      Low           High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              GramPos      Low           High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            High              GramPos      Low           Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            High              GramPos      Low           Low                  Low             
+		   0.4,         0.3,         0.2,         0.1,          // No            High              None         High          High                 High            
+		   0.4,         0.3,         0.2,         0.1,          // No            High              None         High          High                 Low             
+		   0.4,         0.3,         0.2,         0.1,          // No            High              None         High          Low                  High            
+		   0.4,         0.3,         0.2,         0.1,          // No            High              None         High          Low                  Low             
+		   0.4,         0.3,         0.2,         0.1,          // No            High              None         Low           High                 High            
+		   0.4,         0.3,         0.2,         0.1,          // No            High              None         Low           High                 Low             
+		   0.4,         0.3,         0.2,         0.1,          // No            High              None         Low           Low                  High            
+		   0.1,         0.2,         0.3,         0.4,          // No            High              None         Low           Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               EColi        High          High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               EColi        High          High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               EColi        High          Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               EColi        High          Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               EColi        Low           High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               EColi        Low           High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               EColi        Low           Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               EColi        Low           Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               OtherGramNeg High          High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               OtherGramNeg High          High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               OtherGramNeg High          Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               OtherGramNeg High          Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               OtherGramNeg Low           High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               OtherGramNeg Low           High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               OtherGramNeg Low           Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               OtherGramNeg Low           Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               GramPos      High          High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               GramPos      High          High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               GramPos      High          Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               GramPos      High          Low                  Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               GramPos      Low           High                 High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               GramPos      Low           High                 Low             
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               GramPos      Low           Low                  High            
+		   0.5,         0.3,         0.1,         0.1,          // No            Low               GramPos      Low           Low                  Low             
+		   0.1,         0.2,         0.3,         0.4,          // No            Low               None         High          High                 High            
+		   0.1,         0.2,         0.3,         0.4,          // No            Low               None         High          High                 Low             
+		   0.1,         0.2,         0.3,         0.4,          // No            Low               None         High          Low                  High            
+		   0.1,         0.2,         0.3,         0.4,          // No            Low               None         High          Low                  Low             
+		   0.1,         0.2,         0.3,         0.4,          // No            Low               None         Low           High                 High            
+		   0.1,         0.2,         0.3,         0.4,          // No            Low               None         Low           High                 Low             
+		   0.1,         0.2,         0.3,         0.4,          // No            Low               None         Low           Low                  High            
+		   0.05,        0.15,        0.25,        0.55,         // No            Low               None         Low           Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              EColi        High          High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              EColi        High          High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              EColi        High          Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              EColi        High          Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              EColi        Low           High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              EColi        Low           High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              EColi        Low           Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              EColi        Low           Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              OtherGramNeg High          High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              OtherGramNeg High          High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              OtherGramNeg High          Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              OtherGramNeg High          Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              OtherGramNeg Low           High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              OtherGramNeg Low           High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              OtherGramNeg Low           Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              OtherGramNeg Low           Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              GramPos      High          High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              GramPos      High          High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              GramPos      High          Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              GramPos      High          Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              GramPos      Low           High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              GramPos      Low           High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              GramPos      Low           Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              GramPos      Low           Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              None         High          High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              None         High          High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              None         High          Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              None         High          Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              None         Low           High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              None         Low           High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        High              None         Low           Low                  High            
+		   0.05,        0.1,         0.25,        0.6,          // Narrow        High              None         Low           Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               EColi        High          High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               EColi        High          High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               EColi        High          Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               EColi        High          Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               EColi        Low           High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               EColi        Low           High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               EColi        Low           Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               EColi        Low           Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               OtherGramNeg High          High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               OtherGramNeg High          High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               OtherGramNeg High          Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               OtherGramNeg High          Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               OtherGramNeg Low           High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               OtherGramNeg Low           High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               OtherGramNeg Low           Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               OtherGramNeg Low           Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               GramPos      High          High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               GramPos      High          High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               GramPos      High          Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               GramPos      High          Low                  Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               GramPos      Low           High                 High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               GramPos      Low           High                 Low             
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               GramPos      Low           Low                  High            
+		   0.15,        0.15,        0.2,         0.5,          // Narrow        Low               GramPos      Low           Low                  Low             
+		   0.05,        0.1,         0.25,        0.6,          // Narrow        Low               None         High          High                 High            
+		   0.05,        0.1,         0.25,        0.6,          // Narrow        Low               None         High          High                 Low             
+		   0.05,        0.1,         0.25,        0.6,          // Narrow        Low               None         High          Low                  High            
+		   0.05,        0.1,         0.25,        0.6,          // Narrow        Low               None         High          Low                  Low             
+		   0.05,        0.1,         0.25,        0.6,          // Narrow        Low               None         Low           High                 High            
+		   0.05,        0.1,         0.25,        0.6,          // Narrow        Low               None         Low           High                 Low             
+		   0.05,        0.1,         0.25,        0.6,          // Narrow        Low               None         Low           Low                  High            
+		   0.01,        0.1,         0.15,        0.74,         // Narrow        Low               None         Low           Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              EColi        High          High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              EColi        High          High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              EColi        High          Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              EColi        High          Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              EColi        Low           High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              EColi        Low           High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              EColi        Low           Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              EColi        Low           Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              OtherGramNeg High          High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              OtherGramNeg High          High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              OtherGramNeg High          Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              OtherGramNeg High          Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              OtherGramNeg Low           High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              OtherGramNeg Low           High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              OtherGramNeg Low           Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              OtherGramNeg Low           Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              GramPos      High          High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              GramPos      High          High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              GramPos      High          Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              GramPos      High          Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              GramPos      Low           High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              GramPos      Low           High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              GramPos      Low           Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              GramPos      Low           Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              None         High          High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              None         High          High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              None         High          Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              None         High          Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              None         Low           High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              None         Low           High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       High              None         Low           Low                  High            
+		   0.01,        0.05,        0.15,        0.79,         // Broader       High              None         Low           Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               EColi        High          High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               EColi        High          High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               EColi        High          Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               EColi        High          Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               EColi        Low           High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               EColi        Low           High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               EColi        Low           Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               EColi        Low           Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               OtherGramNeg High          High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               OtherGramNeg High          High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               OtherGramNeg High          Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               OtherGramNeg High          Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               OtherGramNeg Low           High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               OtherGramNeg Low           High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               OtherGramNeg Low           Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               OtherGramNeg Low           Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               GramPos      High          High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               GramPos      High          High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               GramPos      High          Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               GramPos      High          Low                  Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               GramPos      Low           High                 High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               GramPos      Low           High                 Low             
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               GramPos      Low           Low                  High            
+		   0.1,         0.15,        0.15,        0.6,          // Broader       Low               GramPos      Low           Low                  Low             
+		   0.01,        0.05,        0.15,        0.79,         // Broader       Low               None         High          High                 High            
+		   0.01,        0.05,        0.15,        0.79,         // Broader       Low               None         High          High                 Low             
+		   0.01,        0.05,        0.15,        0.79,         // Broader       Low               None         High          Low                  High            
+		   0.01,        0.05,        0.15,        0.79,         // Broader       Low               None         High          Low                  Low             
+		   0.01,        0.05,        0.15,        0.79,         // Broader       Low               None         Low           High                 High            
+		   0.01,        0.05,        0.15,        0.79,         // Broader       Low               None         Low           High                 Low             
+		   0.01,        0.05,        0.15,        0.79,         // Broader       Low               None         Low           Low                  High            
+		   0.01,        0.01,        0.01,        0.97);        // Broader       Low               None         Low           Low                  Low             ;
+	numcases = 10;
+	title = "Bacts under microscopy (b16)";
+	whenchanged = 1648685710;
+	belief = (0.2060101, 0.1823694, 0.1672778, 0.4443428);
+	visual V1 {
+		center = (504, 444);
+		height = 10;
+		link 2 {
+			path = ((385, 428), (414, 432));
+			};
+		};
+	};
+
+node Urin_Nitrite {
+	discrete = TRUE;
+	states = (Detected, NotDetected);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (EcoliPresence, OtherGramNegPresence, CauseUTI);
+	parents = (EcoliPresence, OtherGramNegPresence, CauseUTI);
+	probs = 
+		// Detected     NotDetected   // EcoliPresence OtherGramNegPresence CauseUTI     
+		  (0.5,         0.5,          // High          High                 EColi        
+		   0.5,         0.5,          // High          High                 OtherGramNeg 
+		   0.2,         0.8,          // High          High                 GramPos      
+		   0.2,         0.8,          // High          High                 None         
+		   0.5,         0.5,          // High          Low                  EColi        
+		   0.5,         0.5,          // High          Low                  OtherGramNeg 
+		   0.2,         0.8,          // High          Low                  GramPos      
+		   0.2,         0.8,          // High          Low                  None         
+		   0.5,         0.5,          // Low           High                 EColi        
+		   0.5,         0.5,          // Low           High                 OtherGramNeg 
+		   0.2,         0.8,          // Low           High                 GramPos      
+		   0.05,        0.95,         // Low           High                 None         
+		   0.5,         0.5,          // Low           Low                  EColi        
+		   0.5,         0.5,          // Low           Low                  OtherGramNeg 
+		   0.01,        0.99,         // Low           Low                  GramPos      
+		   0.01,        0.99);        // Low           Low                  None         ;
+	numcases = 10;
+	title = "Dipstick - nitrite (b21)";
+	whenchanged = 1648683858;
+	belief = (0.307142, 0.692858);
+	visual V1 {
+		center = (780, 522);
+		height = 11;
+		};
+	};
+
+node UrinSym_haematuria {
+	discrete = TRUE;
+	states = (Yes, Unknown);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (CauseUTI, CurrPhenotype);
+	probs = 
+		// Yes          Unknown       // CauseUTI     CurrPhenotype 
+		  (0.5,         0.5,          // EColi        Type1         
+		   0.5,         0.5,          // EColi        Type2         
+		   0.5,         0.5,          // EColi        Type3         
+		   0.5,         0.5,          // OtherGramNeg Type1         
+		   0.5,         0.5,          // OtherGramNeg Type2         
+		   0.5,         0.5,          // OtherGramNeg Type3         
+		   0.5,         0.5,          // GramPos      Type1         
+		   0.5,         0.5,          // GramPos      Type2         
+		   0.5,         0.5,          // GramPos      Type3         
+		   0.001,       0.999,        // None         Type1         
+		   0.001,       0.999,        // None         Type2         
+		   0.001,       0.999);       // None         Type3         ;
+	numcases = 10;
+	title = "Haematuria (b28)";
+	whenchanged = 1648685155;
+	belief = (0.3185217, 0.6814783);
+	visual V1 {
+		center = (1290, 666);
+		height = 27;
+		};
+	};
+
+node Lethargy {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	inputs = (Severity, Cause, TemperatureLvl);
+	parents = (CurrPhenotype, CauseUTI, TemperatureLvl2);
+	probs = 
+		// Yes          No            // Severity Cause        TemperatureLvl 
+		  (0.5,         0.5,          // Type1    EColi        Abv385         
+		   0.5,         0.5,          // Type1    EColi        Btw375and385   
+		   0.5,         0.5,          // Type1    EColi        Btw365and375   
+		   0.5,         0.5,          // Type1    EColi        Below365       
+		   0.5,         0.5,          // Type1    OtherGramNeg Abv385         
+		   0.5,         0.5,          // Type1    OtherGramNeg Btw375and385   
+		   0.5,         0.5,          // Type1    OtherGramNeg Btw365and375   
+		   0.5,         0.5,          // Type1    OtherGramNeg Below365       
+		   0.5,         0.5,          // Type1    GramPos      Abv385         
+		   0.5,         0.5,          // Type1    GramPos      Btw375and385   
+		   0.5,         0.5,          // Type1    GramPos      Btw365and375   
+		   0.5,         0.5,          // Type1    GramPos      Below365       
+		   0.5,         0.5,          // Type1    None         Abv385         
+		   0.5,         0.5,          // Type1    None         Btw375and385   
+		   0.5,         0.5,          // Type1    None         Btw365and375   
+		   0.5,         0.5,          // Type1    None         Below365       
+		   0.5,         0.5,          // Type2    EColi        Abv385         
+		   0.5,         0.5,          // Type2    EColi        Btw375and385   
+		   0.5,         0.5,          // Type2    EColi        Btw365and375   
+		   0.5,         0.5,          // Type2    EColi        Below365       
+		   0.5,         0.5,          // Type2    OtherGramNeg Abv385         
+		   0.5,         0.5,          // Type2    OtherGramNeg Btw375and385   
+		   0.5,         0.5,          // Type2    OtherGramNeg Btw365and375   
+		   0.5,         0.5,          // Type2    OtherGramNeg Below365       
+		   0.5,         0.5,          // Type2    GramPos      Abv385         
+		   0.5,         0.5,          // Type2    GramPos      Btw375and385   
+		   0.5,         0.5,          // Type2    GramPos      Btw365and375   
+		   0.5,         0.5,          // Type2    GramPos      Below365       
+		   0.5,         0.5,          // Type2    None         Abv385         
+		   0.5,         0.5,          // Type2    None         Btw375and385   
+		   0.5,         0.5,          // Type2    None         Btw365and375   
+		   0.5,         0.5,          // Type2    None         Below365       
+		   0.5,         0.5,          // Type3    EColi        Abv385         
+		   0.5,         0.5,          // Type3    EColi        Btw375and385   
+		   0.5,         0.5,          // Type3    EColi        Btw365and375   
+		   0.5,         0.5,          // Type3    EColi        Below365       
+		   0.5,         0.5,          // Type3    OtherGramNeg Abv385         
+		   0.5,         0.5,          // Type3    OtherGramNeg Btw375and385   
+		   0.5,         0.5,          // Type3    OtherGramNeg Btw365and375   
+		   0.5,         0.5,          // Type3    OtherGramNeg Below365       
+		   0.5,         0.5,          // Type3    GramPos      Abv385         
+		   0.5,         0.5,          // Type3    GramPos      Btw375and385   
+		   0.5,         0.5,          // Type3    GramPos      Btw365and375   
+		   0.5,         0.5,          // Type3    GramPos      Below365       
+		   0.5,         0.5,          // Type3    None         Abv385         
+		   0.5,         0.5,          // Type3    None         Btw375and385   
+		   0.5,         0.5,          // Type3    None         Btw365and375   
+		   0.5,         0.5);         // Type3    None         Below365       ;
+	numcases = 10;
+	title = "Lethargy (b35)";
+	comment = "Further separate out age-specific indicators";
+	whenchanged = 1648685496;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (1500, 816);
+		height = 29;
+		link 1 {
+			path = ((1589, 422), (1505, 790));
+			};
+		};
+	};
+NodeSet Backgrounds {Nodes = (NeutLevel, PoorIntake, UrinSym_smelly, NauseaOrVomit, UrinSym_haematuria, CollMethod, RespSymp, TemperatureLvl2, Lethargy, Irritable, AbdoPain, FeverPR, OtherGramNeg, GramPos);};
+NodeSet Managements {Nodes = (CollMethod, OnAbxEDGroup3, CollMethod, OnAbxEDGroup3, EmpricAbxGroup3, EmpricAbxGroup3, EmpricAbxGroup3, EmpricAbxGroup3);};
+NodeSet Labs {Nodes = (OtherGramNeg, GramPos, NeutLevel, NeutLevel);};
+NodeSet Manage {Nodes = (RespSymp, FeverPR, UrinSym_haematuria, Irritable, AbdoPain, Lethargy, TemperatureLvl2, TemperatureLvl2, NauseaOrVomit, PoorIntake, UrinSym_smelly, TemperatureLvl2, TemperatureLvl2);};
+NodeSet Infect {Nodes = (CauseUTI, CauseUTI, CauseUTI, CurrPhenotype, Urin_Leuc, Urin_LeucEst, CRPLevel, WCCLevel, NeutLevel, UltraSound, PoorIntake, UrinSym_smelly, NauseaOrVomit, UrinSym_haematuria, TemperatureLvl2, Lethargy, Irritable, RespSymp, FeverPR, AbdoPain, UrinSym_PainOrDiscomf);};
+NodeSet Overlap {Nodes = (AgeGroup, Sex, PrevUriKidProbs, diarrhea, GramPosPresence, OtherGramNegPresence, EcoliPresence, OtherGramNeg, EColi, GramPos, Microscopy_bacts, Urin_Nitrite);};
+NodeSet Contam {Nodes = (Epithelials, ContaminationRisk);};
+ElimOrder = (UrinSym_haematuria, Urin_Nitrite, PoorIntake, Epithelials, Urin_Leuc, CRPLevel, Urin_LeucEst, EmpricAbxGroup3, UrinSym_PainOrDiscomf, NauseaOrVomit, UltraSound, UrinSym_smelly, EColi, OtherGramNeg, GramPos, Lethargy, CollMethod, AbdoPain, FeverPR, WCCLevel, NeutLevel, RespSymp, TemperatureLvl2, Irritable, CurrPhenotype, Microscopy_bacts, Sex, AgeGroup, PrevUriKidProbs, OnAbxEDGroup3, diarrhea, EcoliPresence, OtherGramNegPresence, GramPosPresence, CauseUTI, ContaminationRisk);
+};
