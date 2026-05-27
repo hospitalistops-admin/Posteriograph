@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
-import { learnt, priors } from "../data/models";
+import { priors } from "../data/models";
 import { effectiveEvidence, randomCase } from "../lib/cases";
+import { computeStateEmbeddings } from "../lib/composites";
 import { posteriorResult } from "../lib/inference";
+import { learnt } from "../data/models";
 import {
   initialOnboardingFlow,
   writeIntroDismissed,
@@ -25,6 +27,7 @@ export default function MobileApp() {
   const currentEvidence = useMemo(() => effectiveEvidence(evidence, false), [evidence]);
   const result = useMemo(() => posteriorResult(learnt, currentEvidence), [currentEvidence]);
   const priorPosterior = useMemo(() => posteriorResult(priors, currentEvidence), [currentEvidence]);
+  const embeddings = useMemo(() => computeStateEmbeddings(learnt, currentEvidence), [currentEvidence]);
 
   const inWorkbench = flow === "manual" || flow === "results";
 
@@ -97,6 +100,8 @@ export default function MobileApp() {
         <MobileResults
           result={result}
           priorProbabilities={priorPosterior.probabilities}
+          evidence={currentEvidence}
+          embeddings={embeddings}
           activeCase={activeCase}
           onEdit={() => setShowSheet(true)}
           onRandom={loadRandomCase}

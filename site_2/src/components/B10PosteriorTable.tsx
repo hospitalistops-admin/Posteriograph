@@ -1,16 +1,11 @@
 import { useMemo, useState, type CSSProperties, type PointerEvent } from "react";
 import { STATE_COLORS, formatPercent, stateLabel, targetStateLabel } from "../lib/cases";
-import { learnt } from "../data/models";
+import { buildB10PosteriorRows, type B10PosteriorRow } from "../lib/b10PosteriorRows";
 import {
   TARGET_STATES,
   formatDeltaPp,
-  fragilityBand,
-  fragilityVerdict,
-  trajectoryFor,
-  trajectoryStepsDetailed,
   uncertaintyBadge,
-  type TargetState,
-  type TrajectoryStep
+  type TargetState
 } from "../lib/b10Views";
 import type { EvidenceSet, PosteriorResult } from "../types";
 import { B10_EXPLANATIONS } from "./B10InfoTip";
@@ -22,17 +17,7 @@ interface Props {
   evidence: EvidenceSet;
 }
 
-interface RankedRow {
-  state: TargetState;
-  probability: number;
-  prior: number;
-  delta: number;
-  marginFromNext: number;
-  band: { low: number; high: number };
-  verdict: ReturnType<typeof fragilityVerdict>;
-  trajectory: { label: string; value: number }[];
-  steps: TrajectoryStep[];
-}
+type RankedRow = B10PosteriorRow;
 
 function nearestStepIndex(clientX: number, rect: DOMRect, stepCount: number): number {
   if (stepCount <= 1) return 0;
@@ -42,7 +27,7 @@ function nearestStepIndex(clientX: number, rect: DOMRect, stepCount: number): nu
 
 export function B10PosteriorTable({ result, priorProbabilities, evidence }: Props) {
   const [expandedState, setExpandedState] = useState<TargetState | null>(null);
-  const ranked = useMemo(() => buildRows(result, priorProbabilities, evidence), [
+  const ranked = useMemo(() => buildB10PosteriorRows(result, priorProbabilities, evidence), [
     result,
     priorProbabilities,
     evidence
@@ -467,34 +452,4 @@ function Sparkline({
       <path d={path} fill="none" stroke="rgba(148,163,184,0.55)" strokeWidth="0.8" />
     </svg>
   );
-}
-
-function buildRows(
-  result: PosteriorResult,
-  priorProbabilities: Record<string, number>,
-  evidence: EvidenceSet
-): RankedRow[] {
-  const sorted = [...TARGET_STATES]
-    .map((state) => ({
-      state,
-      probability: result.probabilities[state] ?? 0,
-      prior: priorProbabilities[state] ?? 0
-    }))
-    .sort((a, b) => b.probability - a.probability);
-
-  return sorted.map((item, index) => {
-    const next = sorted[index + 1];
-    const marginFromNext = next ? item.probability - next.probability : item.probability;
-    return {
-      state: item.state,
-      probability: item.probability,
-      prior: item.prior,
-      delta: item.probability - item.prior,
-      marginFromNext,
-      band: fragilityBand(item.probability, result.entropy, result.margin),
-      verdict: fragilityVerdict(index, item.probability, marginFromNext, result.entropy, result.margin),
-      trajectory: trajectoryFor(learnt, evidence, item.state),
-      steps: trajectoryStepsDetailed(learnt, evidence, item.state)
-    };
-  });
 }

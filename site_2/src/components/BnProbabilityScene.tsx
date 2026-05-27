@@ -15,26 +15,31 @@ interface MarkerObject {
 
 export type CameraPreset = "front" | "top" | "side" | "reset";
 
+export type SceneQuality = "full" | "mobile";
+
 interface Props {
   embeddings: StateEmbedding[];
   onNodeClick?: (embedding: StateEmbedding) => void;
   fullscreen?: boolean;
   cameraPreset?: CameraPreset;
   onClose?: () => void;
+  quality?: SceneQuality;
 }
 
 const X_SCALE = 9;
 const Y_SCALE = 8;
 const Z_SCALE = 9;
-const PARTICLE_COUNT = 170;
 
 export function BnProbabilityScene({
   embeddings,
   onNodeClick,
   fullscreen = false,
   cameraPreset = "reset",
-  onClose
+  onClose,
+  quality = "full"
 }: Props) {
+  const particleCount = quality === "mobile" ? 90 : 170;
+  const maxPixelRatio = quality === "mobile" ? 1.25 : 2;
   const mountRef = useRef<HTMLDivElement | null>(null);
   const embeddingsRef = useRef(embeddings);
   const onNodeClickRef = useRef(onNodeClick);
@@ -85,7 +90,7 @@ export function BnProbabilityScene({
     scene.fog = new THREE.Fog("#08080d", 18, 36);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxPixelRatio));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     container.appendChild(renderer.domElement);
 
@@ -128,7 +133,7 @@ export function BnProbabilityScene({
     let animationFrame = 0;
 
     embeddingsRef.current.forEach((embedding) => {
-      const marker = makeMarker(embedding);
+      const marker = makeMarker(embedding, particleCount);
       markersRef.current.set(embedding.state, marker);
       scene.add(marker.group);
     });
@@ -201,7 +206,7 @@ export function BnProbabilityScene({
         marker.points.material.color.set(embedding.color);
         marker.swirlGuide.material.color.set(embedding.color);
         marker.swirlGuide.material.opacity = 0.1 + embedding.decompensationRisk * 0.48;
-        animateParticleCloud(marker, embedding, seconds);
+        animateParticleCloud(marker, embedding, seconds, particleCount);
         marker.swirlGuide.rotation.y = seconds * swirlSpeed(embedding);
         marker.swirlGuide.rotation.z = Math.sin(seconds * 0.6 + marker.phases[0]) * 0.15;
         marker.hitTarget.scale.setScalar(cloudSpread(embedding) * 1.45);
@@ -223,7 +228,7 @@ export function BnProbabilityScene({
       renderer.dispose();
       container.removeChild(renderer.domElement);
     };
-  }, [fullscreen]);
+  }, [fullscreen, quality, particleCount, maxPixelRatio]);
 
   return (
     <section
@@ -317,15 +322,15 @@ function NodeMetric({ label, value }: { label: string; value: string }) {
   );
 }
 
-function makeMarker(embedding: StateEmbedding): MarkerObject {
+function makeMarker(embedding: StateEmbedding, particleCount: number): MarkerObject {
   const group = new THREE.Group();
   group.position.copy(embeddingToPosition(embedding));
 
   const seed = hashState(embedding.state);
-  const basePositions = new Float32Array(PARTICLE_COUNT * 3);
-  const phases = new Float32Array(PARTICLE_COUNT);
-  const positions = new Float32Array(PARTICLE_COUNT * 3);
-  for (let index = 0; index < PARTICLE_COUNT; index += 1) {
+  const basePositions = new Float32Array(particleCount * 3);
+  const phases = new Float32Array(particleCount);
+  const positions = new Float32Array(particleCount * 3);
+  for (let index = 0; index < particleCount; index += 1) {
     const radius = Math.cbrt(seedRandom(seed + index * 17)) * 0.58;
     const theta = seedRandom(seed + index * 31) * Math.PI * 2;
     const phi = Math.acos(2 * seedRandom(seed + index * 47) - 1);
@@ -371,7 +376,12 @@ function makeMarker(embedding: StateEmbedding): MarkerObject {
   const label = makeTextSprite(embedding.label, "#e0e0e0", new THREE.Vector3(0, 1.08, 0), 0.72);
   group.add(label);
 
-  animateParticleCloud({ group, points, hitTarget, swirlGuide, label, basePositions, phases }, embedding, 0);
+  animateParticleCloud(
+    { group, points, hitTarget, swirlGuide, label, basePositions, phases },
+    embedding,
+    0,
+    particleCount
+  );
 
   return { group, points, hitTarget, swirlGuide, label, basePositions, phases };
 }
@@ -432,11 +442,16 @@ function makeSwirlGuide(color: string): THREE.Line<THREE.BufferGeometry, THREE.L
   return line;
 }
 
-function animateParticleCloud(marker: MarkerObject, embedding: StateEmbedding, seconds: number) {
+function animateParticleCloud(
+  marker: MarkerObject,
+  embedding: StateEmbedding,
+  seconds: number,
+  particleCount: number
+) {
   const positions = marker.points.geometry.getAttribute("position") as THREE.BufferAttribute;
   const spread = cloudSpread(embedding);
   const speed = swirlSpeed(embedding);
-  for (let index = 0; index < PARTICLE_COUNT; index += 1) {
+  for (let index = 0; index < particleCount; index += 1) {
     const offset = index * 3;
     const phase = marker.phases[index];
     const localY = marker.basePositions[offset + 1];

@@ -1,43 +1,66 @@
-import { useMemo, useState } from "react";
-import { SimplexHud } from "../components/B10CardViews";
+import { useMemo, useRef, useState } from "react";
 import { MobileSiteFooter } from "../components/SiteFooter";
-import { TARGET_STATES, type TargetState } from "../lib/b10Views";
+import { buildB10PosteriorRows } from "../lib/b10PosteriorRows";
+import { uncertaintyBadge, type TargetState } from "../lib/b10Views";
 import { formatPercent, STATE_COLORS, targetStateLabel } from "../lib/cases";
-import type { PosteriorResult, RandomCase } from "../types";
+import type { EvidenceSet, PosteriorResult, RandomCase, StateEmbedding } from "../types";
+import { MobileEvidenceImpact } from "./MobileEvidenceImpact";
+import { MobileGeometryPanel } from "./MobileGeometryPanel";
+import { MobilePosteriorDistribution } from "./MobilePosteriorDistribution";
+import { MobileThreeDExplorer } from "./MobileThreeDExplorer";
+
+type SectionId = "posterior" | "evidence" | "geometry" | "3d";
 
 interface Props {
   result: PosteriorResult;
   priorProbabilities: Record<string, number>;
+  evidence: EvidenceSet;
+  embeddings: StateEmbedding[];
   activeCase: RandomCase | null;
   onEdit: () => void;
   onRandom: () => void;
   onReset: () => void;
 }
 
+const SECTIONS: { id: SectionId; label: string; target: string }[] = [
+  { id: "posterior", label: "Posterior", target: "m-section-posterior" },
+  { id: "evidence", label: "Evidence", target: "m-section-evidence" },
+  { id: "geometry", label: "Geometry", target: "m-section-geometry" },
+  { id: "3d", label: "3D", target: "m-section-3d" }
+];
+
 export function MobileResults({
   result,
   priorProbabilities,
+  evidence,
+  embeddings,
   activeCase,
   onEdit,
   onRandom,
   onReset
 }: Props) {
-  const [showSimplex, setShowSimplex] = useState(false);
-  const topState = (result.topState as TargetState) || "EColi";
-  const topProb = result.probabilities[topState] ?? 0;
+  const [activeSection, setActiveSection] = useState<SectionId>("posterior");
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const rows = useMemo(
-    () =>
-      TARGET_STATES.map((state) => {
-        const prob = result.probabilities[state] ?? 0;
-        const prior = priorProbabilities[state] ?? 0;
-        return { state, prob, prior, delta: prob - prior };
-      }).sort((a, b) => b.prob - a.prob),
-    [result.probabilities, priorProbabilities]
+    () => buildB10PosteriorRows(result, priorProbabilities, evidence),
+    [result, priorProbabilities, evidence]
   );
 
+  const topState = (rows[0]?.state ?? "EColi") as TargetState;
+  const topProb = result.probabilities[topState] ?? 0;
+  const badge = uncertaintyBadge(result.entropy, result.margin);
+
+  function scrollToSection(section: SectionId) {
+    setActiveSection(section);
+    const target = SECTIONS.find((s) => s.id === section)?.target;
+    if (!target) return;
+    const el = document.getElementById(target);
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
-    <div className="m-results">
+    <div className="m-results m-results-workbook" ref={scrollRef}>
       {activeCase ? (
         <div className="m-case-strip">
           <strong>{activeCase.title}</strong>
@@ -46,44 +69,43 @@ export function MobileResults({
       ) : null}
 
       <header className="m-hero">
-        <p className="m-eyebrow">top pathogen</p>
+        <p className="m-eyebrow">top pathogen · {badge.replace("rank ", "")}</p>
         <h2 className="m-hero-state">{targetStateLabel(topState)}</h2>
         <p className="m-hero-pct" style={{ color: STATE_COLORS[topState] }}>
           {formatPercent(topProb, 1)}
         </p>
+        <p className="m-hero-meta">
+          Margin over next {formatPercent(rows[0]?.marginFromNext ?? 0, 1)} · entropy{" "}
+          {result.entropy.toFixed(2)}
+        </p>
       </header>
 
-      <div className="m-card-row" role="list" aria-label="Posterior by pathogen">
-        {rows.map((row) => (
-          <article
-            key={row.state}
-            className="m-path-card"
-            role="listitem"
-            style={{ borderColor: STATE_COLORS[row.state] }}
+      <nav className="m-section-nav" aria-label="Result sections">
+        {SECTIONS.map((section) => (
+          <button
+            key={section.id}
+            type="button"
+            className={activeSection === section.id ? "m-section-tab active" : "m-section-tab"}
+            onClick={() => scrollToSection(section.id)}
           >
-            <span className="m-path-name">{targetStateLabel(row.state)}</span>
-            <strong className="m-path-pct" style={{ color: STATE_COLORS[row.state] }}>
-              {formatPercent(row.prob, 1)}
-            </strong>
-            <span className={row.delta >= 0 ? "m-delta pos" : "m-delta neg"}>
-              {row.delta >= 0 ? "+" : ""}
-              {formatPercent(row.delta, 1)} vs expert
-            </span>
-          </article>
+            {section.label}
+          </button>
         ))}
-      </div>
+      </nav>
 
-      <details className="m-more" open={showSimplex} onToggle={(e) => setShowSimplex((e.target as HTMLDetailsElement).open)}>
-        <summary>More details (2D map)</summary>
-        <div className="m-simplex-wrap">
-          <SimplexHud
-            probabilities={result.probabilities}
-            priorProbabilities={priorProbabilities}
-            highlightState={topState}
-            compact
-          />
-        </div>
-      </details>
+      <MobilePosteriorDistribution rows={rows} evidence={evidence} />
+      <MobileEvidenceImpact result={result} evidence={evidence} defaultFocus={topState} />
+      <MobileGeometryPanel
+        probabilities={result.probabilities}
+        priorProbabilities={priorProbabilities}
+        topState={topState}
+      />
+      <MobileThreeDExplorer
+        probabilities={result.probabilities}
+        priorProbabilities={priorProbabilities}
+        highlightState={topState}
+        embeddings={embeddings}
+      />
 
       <MobileSiteFooter />
 
