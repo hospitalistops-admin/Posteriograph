@@ -18,6 +18,27 @@ npm ci
 npm run dev
 ```
 
+### Model assistant (optional)
+
+The OpenAI API key lives only in the separate API proxy — never in the static site.
+
+```bash
+cd api
+cp .env.example .env   # add OPENAI_API_KEY
+npm ci
+npm run dev            # http://127.0.0.1:8787
+```
+
+In another terminal, run `site_2` as above. Use **How this works** and **Model assistant** from the landing page.
+
+For production on Google Cloud Run:
+
+1. Paste your OpenAI key into `api/.openai-key.secret` (gitignored).
+2. Run `./api/deploy-gcloud.sh` from the repo root.
+3. Add GitHub Actions secret `VITE_API_BASE_URL` = the printed Cloud Run URL, then re-run **Deploy GitHub Pages**.
+
+See [`api/README.md`](api/README.md) for details.
+
 Build (also regenerates model JSON from `reference/`):
 
 ```bash

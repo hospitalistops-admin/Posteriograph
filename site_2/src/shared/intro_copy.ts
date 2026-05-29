@@ -65,6 +65,11 @@ export const LANDING_HELP_SECTIONS = [
     body: "Manual opens an evidence editor grouped by clinical domain; you set findings step by step, then reveal the b10 output. Random case loads a curated scenario with evidence already set, jumping straight to the posterior views with minimal clutter."
   },
   {
+    id: "how-it-works",
+    title: "How this works / assistant",
+    body: "Open How this works from the landing page for derivation, mathematics, and Ramsay vs original work. Model assistant answers site questions via a server-side OpenAI proxy — your API key never ships in the browser bundle."
+  },
+  {
     id: "model-source",
     title: "Where is this model from?",
     body: "Structure and parameters come from the outstanding Ramsay JA et al. paper in BMC Medical Research Methodology (2022). It's one of the cleanest examples of clinical BN practice in the literature: expert-elicited DAG, learnt CPTs on a real prospective UTI cohort, and a clinically meaningful decision target. This site uses their learnt Applied BN v2.2 (CauseUTI target) from the authors' OSF release."

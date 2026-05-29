@@ -1209,6 +1209,128 @@
   }
 }
 
+.m-methods,
+.m-assistant {
+  display: grid;
+  gap: 12px;
+}
+
+.m-methods-head h2 {
+  margin: 8px 0 4px;
+  font-family: Orbitron, monospace;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.m-methods-card {
+  padding: 14px;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.m-methods-card h3 {
+  margin: 0 0 8px;
+  color: var(--accent-tertiary);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.m-methods-card ul {
+  margin: 8px 0 0;
+  padding-left: 16px;
+  font-size: 0.78rem;
+  color: var(--muted-foreground);
+}
+
+.m-methods-note {
+  margin-top: 8px;
+  font-size: 0.74rem;
+  color: var(--accent-secondary);
+}
+
+.m-formula-block pre {
+  margin: 6px 0;
+  padding: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.7rem;
+  overflow-x: auto;
+}
+
+.m-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--accent-tertiary);
+  font: inherit;
+  font-size: 0.78rem;
+  margin-bottom: 8px;
+}
+
+.m-assistant-warn {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 51, 102, 0.4);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.m-assistant-pre {
+  max-height: 200px;
+  overflow: auto;
+  padding: 10px;
+  border: 1px solid var(--border);
+  font-size: 0.65rem;
+  white-space: pre-wrap;
+}
+
+.m-assistant-chat {
+  display: grid;
+  gap: 8px;
+}
+
+.m-chat-user,
+.m-chat-bot {
+  padding: 10px;
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.m-chat-user {
+  border-color: rgba(0, 255, 136, 0.35);
+}
+
+.m-assistant-input {
+  display: grid;
+  gap: 8px;
+}
+
+.m-assistant-input textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  background: var(--input);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.m-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--background);
+  font: inherit;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .m-sheet {
     transition: none;

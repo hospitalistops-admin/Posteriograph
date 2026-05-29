@@ -8,8 +8,14 @@ export type OnboardingFlowState =
   | "intro-2"
   | "intro-3"
   | "landing"
+  | "methods"
+  | "assistant"
   | "manual"
   | "results";
+
+export function isInfoFlow(flow: OnboardingFlowState): boolean {
+  return flow === "methods" || flow === "assistant";
+}
 
 export function readIntroDismissed(): boolean {
   try {

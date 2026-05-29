@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "../site_2/src/types.ts",
+    "../site_2/src/data/models.ts",
+    "../site_2/src/lib/inference.ts",
+    "../site_2/src/lib/bnQuery.ts",
+    "../site_2/src/lib/b10Views.ts",
+    "../site_2/src/lib/cases.ts",
+    "../site_2/src/lib/composites.ts",
+    "../site_2/src/lib/b10PosteriorRows.ts"
+  ]
+}

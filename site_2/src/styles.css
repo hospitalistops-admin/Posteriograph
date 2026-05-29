@@ -287,6 +287,10 @@ h1 {
   margin-top: 20px;
 }
 
+.landing-grid-4 .choice-card {
+  min-height: 280px;
+}
+
 .choice-card {
   display: grid;
   min-height: 360px;
@@ -2470,6 +2474,174 @@ button:focus-visible {
   color: var(--accent-tertiary);
   font-size: 0.78rem;
   text-decoration: underline;
+}
+
+.methods-section,
+.assistant-section {
+  margin-top: 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.methods-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px 20px;
+}
+
+.methods-header h2 {
+  margin: 6px 0 4px;
+  font-family: Orbitron, monospace;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+}
+
+.methods-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.methods-card {
+  padding: 18px 20px;
+}
+
+.methods-card h3 {
+  margin: 0 0 10px;
+  color: var(--accent-tertiary);
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.methods-card ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: var(--muted-foreground);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.methods-note {
+  margin-top: 10px;
+  color: var(--accent-secondary);
+  font-size: 0.78rem;
+}
+
+.formula-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.formula-block pre,
+.formula-pre {
+  margin: 8px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--accent);
+  font-size: 0.78rem;
+  overflow-x: auto;
+}
+
+.methods-refs a {
+  color: var(--accent-tertiary);
+}
+
+.assistant-warning {
+  padding: 14px 16px;
+  border-color: rgba(255, 51, 102, 0.45);
+  color: var(--foreground);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.assistant-warning code {
+  color: var(--accent);
+}
+
+.assistant-quick,
+.assistant-chat {
+  padding: 16px 18px;
+}
+
+.assistant-quick-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.assistant-evidence-hint,
+.assistant-footnote {
+  margin: 10px 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.76rem;
+}
+
+.assistant-structured {
+  margin-top: 12px;
+  max-height: 280px;
+  overflow: auto;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 0.68rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.assistant-messages {
+  display: grid;
+  gap: 10px;
+  max-height: 360px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.assistant-empty {
+  color: var(--muted-foreground);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.chat-bubble {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.chat-bubble.user {
+  border-color: rgba(0, 255, 136, 0.35);
+  background: rgba(0, 255, 136, 0.06);
+}
+
+.chat-bubble.assistant {
+  border-color: rgba(0, 212, 255, 0.28);
+  background: rgba(0, 212, 255, 0.04);
+}
+
+.assistant-input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.assistant-input-row textarea {
+  width: 100%;
+  min-height: 72px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--input);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.82rem;
+  resize: vertical;
 }
 
 @media (prefers-reduced-motion: reduce) {

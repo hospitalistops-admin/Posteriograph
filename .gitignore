@@ -1,6 +1,10 @@
 site_2/node_modules/
 site_2/dist/
+_local/
 .DS_Store
 .env
 .env.*
+api/.env
+api/.openai-key.secret
+api/node_modules/
 *.log

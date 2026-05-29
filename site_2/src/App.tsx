@@ -10,11 +10,13 @@ import {
   Shuffle,
   X
 } from "lucide-react";
+import { AssistantSection } from "./components/AssistantSection";
 import { B10PosteriorTable } from "./components/B10PosteriorTable";
 import { B10SmallMultiples } from "./components/B10SmallMultiples";
 import { BnProbabilityScene, type CameraPreset } from "./components/BnProbabilityScene";
 import { IntroSlide } from "./components/IntroSlide";
 import { LandingInfoDropdown } from "./components/LandingInfoDropdown";
+import { MethodsSection } from "./components/MethodsSection";
 import { SiteFooter } from "./components/SiteFooter";
 import { WelcomeMenu } from "./components/WelcomeMenu";
 import { learnt, priors } from "./data/models";
@@ -30,6 +32,7 @@ import { posteriorResult } from "./lib/inference";
 import { INTRO_SLIDES } from "./shared/intro_copy";
 import {
   initialOnboardingFlow,
+  isInfoFlow,
   isOnboardingStep,
   nextIntroStep,
   prevIntroStep,
@@ -54,7 +57,9 @@ export default function App() {
   const activeGroup = CONTROL_GROUPS[activeGroupIndex] ?? CONTROL_GROUPS[0];
   const inResults = flow === "results";
   const inOnboarding = isOnboardingStep(flow);
-  const showFooter = flow === "landing" || flow === "manual" || flow === "results";
+  const inInfo = isInfoFlow(flow);
+  const showFooter =
+    flow === "landing" || flow === "manual" || flow === "results" || flow === "methods" || flow === "assistant";
   const introSlideIndex =
     flow === "intro-1" ? 0 : flow === "intro-2" ? 1 : flow === "intro-3" ? 2 : -1;
 
@@ -116,13 +121,14 @@ export default function App() {
         event.preventDefault();
         if (show3dOverlay) setShow3dOverlay(false);
         else if (showEditDrawer) setShowEditDrawer(false);
+        else if (inInfo) setFlow("landing");
         else if (flow !== "landing") resetAll();
       }
     }
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [flow, inResults, inOnboarding, show3dOverlay, showEditDrawer]);
+  }, [flow, inResults, inOnboarding, inInfo, show3dOverlay, showEditDrawer]);
 
   function skipOnboarding(persistDismiss: boolean) {
     if (persistDismiss) writeIntroDismissed(true);
@@ -207,6 +213,12 @@ export default function App() {
           <div className="top-actions">
             {flow === "landing" ? (
               <>
+                <button type="button" className="cyber-button ghost" onClick={() => setFlow("methods")}>
+                  how it works
+                </button>
+                <button type="button" className="cyber-button ghost" onClick={() => setFlow("assistant")}>
+                  ask assistant
+                </button>
                 <button type="button" className="cyber-button ghost" onClick={startManual}>
                   manual
                 </button>
@@ -215,6 +227,10 @@ export default function App() {
                   random case
                 </button>
               </>
+            ) : inInfo ? (
+              <button type="button" className="cyber-button ghost" onClick={() => setFlow("landing")}>
+                home
+              </button>
             ) : (
               <>
                 {inResults ? (
@@ -267,7 +283,19 @@ export default function App() {
       ) : null}
 
       {flow === "landing" ? (
-        <LandingChoice onManual={startManual} onRandom={() => loadRandomCase()} onReplayIntro={replayIntro} />
+        <LandingChoice
+          onManual={startManual}
+          onRandom={() => loadRandomCase()}
+          onReplayIntro={replayIntro}
+          onMethods={() => setFlow("methods")}
+          onAssistant={() => setFlow("assistant")}
+        />
+      ) : null}
+
+      {flow === "methods" ? <MethodsSection onBack={() => setFlow("landing")} /> : null}
+
+      {flow === "assistant" ? (
+        <AssistantSection evidence={currentEvidence} onBack={() => setFlow("landing")} />
       ) : null}
 
       {flow === "manual" || flow === "results" ? (
@@ -387,15 +415,19 @@ export default function App() {
 function LandingChoice({
   onManual,
   onRandom,
-  onReplayIntro
+  onReplayIntro,
+  onMethods,
+  onAssistant
 }: {
   onManual: () => void;
   onRandom: () => void;
   onReplayIntro: () => void;
+  onMethods: () => void;
+  onAssistant: () => void;
 }) {
   return (
     <section className="landing-section">
-      <div className="landing-grid">
+      <div className="landing-grid landing-grid-4">
         <button type="button" className="choice-card cyber-panel" onClick={onManual}>
           <span className="eyebrow">route 01</span>
           <strong>Select evidence manually</strong>
@@ -406,6 +438,16 @@ function LandingChoice({
           <span className="eyebrow">route 02</span>
           <strong>Initialize random case</strong>
           <p>Jump straight to four expandable neon cards — no control clutter.</p>
+        </button>
+        <button type="button" className="choice-card cyber-panel" onClick={onMethods}>
+          <span className="eyebrow">learn</span>
+          <strong>How this works</strong>
+          <p>Lineage, Ramsay vs original work, and the math behind each view.</p>
+        </button>
+        <button type="button" className="choice-card cyber-panel" onClick={onAssistant}>
+          <span className="eyebrow">ask</span>
+          <strong>Model assistant</strong>
+          <p>Q&amp;A about derivation and deterministic BN queries (API proxy).</p>
         </button>
       </div>
       <LandingInfoDropdown />

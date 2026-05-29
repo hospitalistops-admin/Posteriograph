@@ -6,9 +6,17 @@ interface Props {
   onManual: () => void;
   onRandom: () => void;
   onReplayIntro: () => void;
+  onMethods: () => void;
+  onAssistant: () => void;
 }
 
-export function MobileLanding({ onManual, onRandom, onReplayIntro }: Props) {
+export function MobileLanding({
+  onManual,
+  onRandom,
+  onReplayIntro,
+  onMethods,
+  onAssistant
+}: Props) {
   return (
     <section className="m-landing" aria-label="Choose route">
       <p className="m-eyebrow">select route</p>
@@ -23,6 +31,16 @@ export function MobileLanding({ onManual, onRandom, onReplayIntro }: Props) {
         <span className="m-route-label">route 02</span>
         <strong>Initialize random case</strong>
         <span className="m-route-desc">Load a curated scenario instantly.</span>
+      </button>
+      <button type="button" className="m-route-btn" onClick={onMethods}>
+        <span className="m-route-label">learn</span>
+        <strong>How this works</strong>
+        <span className="m-route-desc">Derivation, math, and Ramsay lineage.</span>
+      </button>
+      <button type="button" className="m-route-btn" onClick={onAssistant}>
+        <span className="m-route-label">ask</span>
+        <strong>Model assistant</strong>
+        <span className="m-route-desc">Q&amp;A and BN queries via secure API proxy.</span>
       </button>
       <details className="m-help">
         <summary>Help</summary>

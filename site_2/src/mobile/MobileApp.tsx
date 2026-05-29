@@ -10,9 +10,11 @@ import {
   type OnboardingFlowState
 } from "../shared/onboarding";
 import type { EvidenceSet, RandomCase } from "../types";
+import { MobileAssistant } from "./MobileAssistant";
 import { MobileEvidenceSheet } from "./MobileEvidenceSheet";
 import { MobileIntro } from "./MobileIntro";
 import { MobileLanding } from "./MobileLanding";
+import { MobileMethods } from "./MobileMethods";
 import { MobileResults } from "./MobileResults";
 import { MobileWelcome } from "./MobileWelcome";
 import "./mobile.css";
@@ -93,7 +95,19 @@ export default function MobileApp() {
       ) : null}
 
       {flow === "landing" ? (
-        <MobileLanding onManual={startManual} onRandom={loadRandomCase} onReplayIntro={replayIntro} />
+        <MobileLanding
+          onManual={startManual}
+          onRandom={loadRandomCase}
+          onReplayIntro={replayIntro}
+          onMethods={() => setFlow("methods")}
+          onAssistant={() => setFlow("assistant")}
+        />
+      ) : null}
+
+      {flow === "methods" ? <MobileMethods onBack={() => setFlow("landing")} /> : null}
+
+      {flow === "assistant" ? (
+        <MobileAssistant evidence={currentEvidence} onBack={() => setFlow("landing")} />
       ) : null}
 
       {inWorkbench ? (

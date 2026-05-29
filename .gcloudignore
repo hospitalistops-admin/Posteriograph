@@ -1,0 +1,8 @@
+.git
+_local
+**/node_modules
+site_2/dist
+api/.env
+api/.openai-key.secret
+*.log
+.DS_Store
